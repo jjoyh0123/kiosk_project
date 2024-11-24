@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DB 테이블 사용설명서</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+      h2 {
+        color: #333;
+        padding-top: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .col-key {
+        width: 6%;
+      }
+      .col-name {
+        width: 17%;
+      }
+      .col-type {
+        width: 12%;
+      }
+      .col-kr-name {
+        width: 19%;
+      }
+      .col-default {
+        width: 8%;
+      }
+      .col-desc {
+        width: 38%;
+      }
+      hr {
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>DB 테이블 사용설명서</h1>
+
+    <h2>축약어 정리</h2>
+    <p>PK: Primary Key</p>
+    <p>FK: Foreign Key</p>
+    <p>AI: AUTO_INCREMENT</p>
+    <p>NN: Not Null</p>
+
+    <hr style="border: solid 1px lightgray" />
+
+    <h2>admin ( 관리자 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>adminIdx</td>
+          <td>int</td>
+          <td>관리자 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>adminId</td>
+          <td>varchar(20)</td>
+          <td>관리자 아이디</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>adminPassWord</td>
+          <td>varchar(20)</td>
+          <td>관리자 비밀번호</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>adminGrade</td>
+          <td>varchar(20)</td>
+          <td>관리자 등급</td>
+          <td>NN</td>
+          <td>main: 주매니저, sub: 부매니저</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>user ( 사용자 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>userIdx</td>
+          <td>bigint</td>
+          <td>사용자 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>userContact</td>
+          <td>varchar(20)</td>
+          <td>사용자 연락처</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>userJoinDate</td>
+          <td>datetime</td>
+          <td>사용자 등록일</td>
+          <td>now()</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>userGrade</td>
+          <td>varchar(20)</td>
+          <td>사용자 등급</td>
+          <td></td>
+          <td>Silver, Gold, Platinum, Diamond.다이아가 제일 높음.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>userLog ( 사용자 기록 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>logIdx</td>
+          <td>int</td>
+          <td>사용자 아이디</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>userIdx</td>
+          <td>bigint</td>
+          <td>회원 인덱스</td>
+          <td>NN</td>
+          <td>사용자 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop1ProductIdx</td>
+          <td>bigint</td>
+          <td>top1메뉴 인덱스</td>
+          <td>null</td>
+          <td>상품 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop2ProductIdx</td>
+          <td>bigint</td>
+          <td>top2메뉴 인덱스</td>
+          <td>null</td>
+          <td>상품 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop3ProductIdx</td>
+          <td>bigint</td>
+          <td>top3메뉴 인덱스</td>
+          <td>null</td>
+          <td>상품 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logDate</td>
+          <td>date</td>
+          <td>기록 날짜</td>
+          <td>date</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logGrade</td>
+          <td>varchar(20)</td>
+          <td>기록 등급</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logOrderCount</td>
+          <td>smallint</td>
+          <td>기록 주문횟수</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logExpense</td>
+          <td>int</td>
+          <td>기록 소비금액</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logCouponUsage</td>
+          <td>tinyint</td>
+          <td>기록 쿠폰사용수</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>couponSetting ( 쿠폰세팅 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>couponSettingIdx</td>
+          <td>bigint</td>
+          <td>쿠폰세팅 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td>FK</td>
+          <td>productIdx</td>
+          <td>bigint</td>
+          <td>상품 인덱스</td>
+          <td>NN</td>
+          <td>상품 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponSettingGrade</td>
+          <td>varchar(10)</td>
+          <td>쿠폰세팅 등급</td>
+          <td>NN</td>
+          <td>Silver, Gold, Platinum, Diamon. 다이아가 제일 높음</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponSettingRate</td>
+          <td>int</td>
+          <td>쿠폰세팅 %할인율</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponSettingFixed</td>
+          <td>int</td>
+          <td>쿠폰세팅 고정할인금액</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponSettingStatus</td>
+          <td>boolean</td>
+          <td>쿠폰세팅 사용상태</td>
+          <td>false</td>
+          <td>매월 초에 false: 쿠폰 지급 안함, true: 쿠폰 지급 함</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>coupon ( 쿠폰 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>couponIdx</td>
+          <td>bigint</td>
+          <td>쿠폰 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td>FK</td>
+          <td>userIdx</td>
+          <td>bigint</td>
+          <td>사용자 인덱스</td>
+          <td>NN</td>
+          <td>사용자 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponName</td>
+          <td>varchar(100)</td>
+          <td>쿠폰 이름</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponRate</td>
+          <td>int</td>
+          <td>쿠폰 %할인율</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponFixed</td>
+          <td>int</td>
+          <td>쿠폰 고정할인금액</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponRegDate</td>
+          <td>datetime</td>
+          <td>쿠폰 발급일</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponExpDate</td>
+          <td>datetime</td>
+          <td>쿠폰 만료일</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>couponStatus</td>
+          <td>boolean</td>
+          <td>쿠폰 사용상태</td>
+          <td>false</td>
+          <td>false: 쿠폰 사용 안함, true: 쿠폰 사용 완료</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>product ( 상품 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>productIdx</td>
+          <td>bigint</td>
+          <td>상품 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productName</td>
+          <td>varchar(1000)</td>
+          <td>상품 이름</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productPrice</td>
+          <td>smallint</td>
+          <td>상품 가격</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productCategory</td>
+          <td>tinyint</td>
+          <td>상품 카테고리</td>
+          <td></td>
+          <td>1: 단품, 2: 세트, 3:스낵, 4: 음료</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productCalories</td>
+          <td>smallint</td>
+          <td>상품 칼로리</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productRecommendStatus</td>
+          <td>boolean</td>
+          <td>추천상품여부</td>
+          <td>false</td>
+          <td>true: 추천상품, false: 일반상품</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productSaleStatus</td>
+          <td>boolean</td>
+          <td>판매상태</td>
+          <td>true</td>
+          <td>true: 판매중, false: 미판매</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>productRegDate</td>
+          <td>datetime</td>
+          <td>상품 등록일</td>
+          <td>now()</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>option ( 옵션 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>optionIdx</td>
+          <td>bigint</td>
+          <td>옵션 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>optionName</td>
+          <td>varchar(50)</td>
+          <td>옵션 이름</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>optionPrice</td>
+          <td>smallint</td>
+          <td>옵션 가격</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>optionCategory</td>
+          <td>tinyint</td>
+          <td>옵션 카테고리</td>
+          <td>1</td>
+          <td>1: 스낵, 2: 음료</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>optionCalorie</td>
+          <td>smallint</td>
+          <td>옵션 칼로리</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>optionSaleStatus</td>
+          <td>tinyint</td>
+          <td>옵션 판매상태</td>
+          <td>true</td>
+          <td>true: 판매중, false: 미판매</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>order ( 주문 )</h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-key">키</th>
+          <th class="col-name">컬럼명</th>
+          <th class="col-type">데이터타입</th>
+          <th class="col-kr-name">컬럼한글명</th>
+          <th class="col-default">기본값</th>
+          <th class="col-desc">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PK</td>
+          <td>oderIdx</td>
+          <td>bigint</td>
+          <td>주문 인덱스</td>
+          <td>AI</td>
+          <td>고유 식별자, 자동 증가</td>
+        </tr>
+        <tr>
+          <td>FK1</td>
+          <td>userIdx</td>
+          <td>bigint</td>
+          <td>사용자 인덱스</td>
+          <td>NN</td>
+          <td>사용자 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td>FK2</td>
+          <td>productIdx</td>
+          <td>bigint</td>
+          <td>상품 인덱스</td>
+          <td>NN</td>
+          <td>상품 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td>FK3</td>
+          <td>couponIdx</td>
+          <td>bigint</td>
+          <td>쿠폰 인덱스</td>
+          <td>null</td>
+          <td>쿠폰 테이블의 외래 키, 쿠폰 사용시 입력</td>
+        </tr>
+        <tr>
+          <td>FK4</td>
+          <td>option1Idx</td>
+          <td>bigint</td>
+          <td>옵션1 인덱스</td>
+          <td>null</td>
+          <td>옵션 테이블의 외래 키, 세트 메뉴시 입력</td>
+        </tr>
+        <tr>
+          <td>FK5</td>
+          <td>option2Idx</td>
+          <td>bigint</td>
+          <td>옵션2 인덱스</td>
+          <td>null</td>
+          <td>옵션 테이블의 외래 키, 세트 메뉴시 입력</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderNumber</td>
+          <td>mediumInt</td>
+          <td>주문번호</td>
+          <td>0</td>
+          <td>주문번호, 매일 갱신, 멤버 변수에서 값 받음</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderProductCategory</td>
+          <td>smallint</td>
+          <td>상품 카테고리</td>
+          <td>1</td>
+          <td>상품 카테고리 1: 단품, 2: 세트, 3: 스낵, 4: 음료</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderCount</td>
+          <td>tinyint</td>
+          <td>주문수량</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderStatus</td>
+          <td>boolean</td>
+          <td>조리상태</td>
+          <td>false</td>
+          <td>false: 조리중, true: 조리완료</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderCalorie</td>
+          <td>smallint</td>
+          <td>칼로리</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderDate</td>
+          <td>datetime</td>
+          <td>주문일자</td>
+          <td>now()</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderPrice</td>
+          <td>smallint</td>
+          <td>주문가격</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 추가 테이블 -->
+
+    <!-- <h2>테이블명2</h2>
+    <table>
+      <tr>
+        <th class="col-key">키</th>
+        <th class="col-name">컬럼명</th>
+        <th class="col-type">데이터타입</th>
+        <th class="col-kr-name">컬럼한글명</th>
+        <th class="col-default">기본값</th>
+        <th class="col-desc">설명</th>
+      </tr>
+      <tr>
+        <td>FK</td>
+        <td>user_id</td>
+        <td>int</td>
+        <td>사용자 아이디</td>
+        <td>NULL</td>
+        <td>사용자 테이블의 외래 키, 사용자를 식별하는 데 사용</td>
+      </tr>
+    </table> -->
+
+    <hr style="border: solid 1px lightgray" />
+
+    <script>
+      document.addEventListener('tableInserted', function (e) {
+        var table = e.target;
+        var ths = table.getElementsByTagName('th');
+        ths.forEach(e, (i) => {
+          switch (i) {
+            case 0:
+              ths[i].className = 'col-key';
+              break;
+            case 0:
+              ths[i].className = 'col-name';
+              break;
+            case 0:
+              ths[i].className = 'col-type';
+              break;
+            case 0:
+              ths[i].className = 'col-kr-name';
+              break;
+            case 0:
+              ths[i].className = 'col-default';
+              break;
+            case 0:
+              ths[i].className = 'col-desc';
+              break;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
