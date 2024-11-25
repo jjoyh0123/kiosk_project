@@ -20,6 +20,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 public class MainFrame extends JFrame {
   JPanel mainPanel;
   JButton userLoginBtn, nonMemberOrderBtn;
@@ -28,16 +32,7 @@ public class MainFrame extends JFrame {
   SqlSessionFactory factory;
 
   public MainFrame() {
-
-    try {
-      Reader reader = Resources.getResourceAsReader("kiosk/config/config.xml");
-      factory = new SqlSessionFactoryBuilder().build(reader);
-      reader.close();
-      System.out.println("SqlSessionFactory 초기화 성공!");
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("SqlSessionFactory 초기화 실패");
-    }
+    dbConnect();
 
     /* 메인 패널에 배경이미지 추가 */
     mainPanel = new JPanel() {
@@ -85,6 +80,17 @@ public class MainFrame extends JFrame {
          new OrderDialog(MainFrame.this, factory);
       }
     });
+  }
+
+  private void dbConnect() {
+    try {
+      Reader r = Resources.getResourceAsReader("/kiosk/config/config.xml");
+      SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+      factory = builder.build(r);
+      r.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public static void main(String[] args) {
