@@ -106,7 +106,7 @@
           <td>varchar(20)</td>
           <td>관리자 등급</td>
           <td>NN</td>
-          <td>main: 주매니저, sub: 부매니저</td>
+          <td>primary: 주매니저, secondary: 부매니저</td>
         </tr>
       </tbody>
     </table>
@@ -295,7 +295,7 @@
         <tr>
           <td></td>
           <td>couponSettingGrade</td>
-          <td>varchar(10)</td>
+          <td>varchar(20)</td>
           <td>쿠폰세팅 등급</td>
           <td>NN</td>
           <td>Silver, Gold, Platinum, Diamon. 다이아가 제일 높음</td>
@@ -303,7 +303,7 @@
         <tr>
           <td></td>
           <td>couponSettingRate</td>
-          <td>int</td>
+          <td>smallint</td>
           <td>쿠폰세팅 %할인율</td>
           <td>0</td>
           <td></td>
@@ -311,7 +311,7 @@
         <tr>
           <td></td>
           <td>couponSettingFixed</td>
-          <td>int</td>
+          <td>smallint</td>
           <td>쿠폰세팅 고정할인금액</td>
           <td>0</td>
           <td></td>
@@ -367,7 +367,7 @@
         <tr>
           <td></td>
           <td>couponRate</td>
-          <td>int</td>
+          <td>smallint</td>
           <td>쿠폰 %할인율</td>
           <td>0</td>
           <td></td>
@@ -375,7 +375,7 @@
         <tr>
           <td></td>
           <td>couponFixed</td>
-          <td>int</td>
+          <td>smallint</td>
           <td>쿠폰 고정할인금액</td>
           <td>0</td>
           <td></td>
@@ -431,15 +431,23 @@
         <tr>
           <td></td>
           <td>productName</td>
-          <td>varchar(1000)</td>
+          <td>varchar(100)</td>
           <td>상품 이름</td>
           <td></td>
           <td></td>
         </tr>
         <tr>
           <td></td>
+          <td>productDescription</td>
+          <td>varchar(255)</td>
+          <td>상품 설명</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
           <td>productPrice</td>
-          <td>smallint</td>
+          <td>mediumint</td>
           <td>상품 가격</td>
           <td>0</td>
           <td></td>
@@ -450,7 +458,7 @@
           <td>tinyint</td>
           <td>상품 카테고리</td>
           <td></td>
-          <td>1: 단품, 2: 세트, 3:스낵, 4: 음료</td>
+          <td>1: 단품, 2: 세트, 3: 스낵, 4: 음료</td>
         </tr>
         <tr>
           <td></td>
@@ -519,7 +527,7 @@
         <tr>
           <td></td>
           <td>optionPrice</td>
-          <td>smallint</td>
+          <td>mediumint</td>
           <td>옵션 가격</td>
           <td>0</td>
           <td></td>
@@ -577,8 +585,8 @@
           <td>userIdx</td>
           <td>bigint</td>
           <td>사용자 인덱스</td>
-          <td>NN</td>
-          <td>사용자 테이블의 외래 키</td>
+          <td>null</td>
+          <td>사용자 테이블의 외래 키, 회원주문시 입력</td>
         </tr>
         <tr>
           <td>FK2</td>
@@ -615,7 +623,7 @@
         <tr>
           <td></td>
           <td>orderNumber</td>
-          <td>mediumInt</td>
+          <td>mediumint</td>
           <td>주문번호</td>
           <td>0</td>
           <td>주문번호, 매일 갱신, 멤버 변수에서 값 받음</td>
@@ -663,7 +671,7 @@
         <tr>
           <td></td>
           <td>orderPrice</td>
-          <td>smallint</td>
+          <td>mediumint</td>
           <td>주문가격</td>
           <td>0</td>
           <td></td>
