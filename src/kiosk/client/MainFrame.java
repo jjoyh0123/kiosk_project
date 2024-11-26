@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
 
   private void dbConnect() {
     try {
-      Reader r = Resources.getResourceAsReader("/kiosk/config/config.xml");
+      Reader r = Resources.getResourceAsReader("kiosk/config/config.xml");
       SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
       factory = builder.build(r);
       r.close();
