@@ -77,6 +77,7 @@ public class Admin extends JDialog {
         Admin.this.getContentPane().add(p1);
         Admin.this.revalidate();
         Admin.this.repaint();
+        
       }
     });
 
