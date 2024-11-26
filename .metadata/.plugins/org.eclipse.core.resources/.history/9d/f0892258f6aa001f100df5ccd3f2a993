@@ -1,0 +1,30 @@
+package kiosk.client;
+
+import java.awt.CardLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class AdminOrder extends JFrame {
+	
+	JPanel northPanel, centerPanel;
+	JButton refresh;
+	CardLayout card1, card2, card3, card4;
+	
+	public AdminOrder() {
+		northPanel = new JPanel();
+		refresh = new JButton();
+		northPanel.add(refresh);
+		
+		
+		this.setBounds(300, 350, 280, 500);
+		this.setVisible(true);
+		
+	}
+	
+	 public static void main(String[] args) {
+		    new AdminOrder();
+
+}
+}
