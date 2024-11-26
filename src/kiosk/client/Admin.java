@@ -1,5 +1,6 @@
 package kiosk.client;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 public class Admin extends JDialog {
   // MainFrame mainFrame;
@@ -17,6 +19,7 @@ public class Admin extends JDialog {
   JMenuItem menuManageMenuItem, orderManageMenuItem, settlementMenuItem,
       userManageMenuItem, couponManageMenuItem, behavioralAnalysisMenuItem,
       closeAdminMenuItem, exitMenuItem;
+  JPanel p1, p2;
 
   //public Admin(MainFrame mainFrame) {
   public Admin(AdminLogin adminLogin, MainFrame mainFrame) {
@@ -60,11 +63,20 @@ public class Admin extends JDialog {
     	behavioralAnalysisMenuItem.setEnabled(false);
     }
 
+    p1 = new JPanel();
+    p1.setBackground(Color.RED);
+    p2 = new JPanel();
+    p2.setBackground(Color.BLUE);
+
     /* 이벤트 리스너 ※주의: 모든 이벤트는 컴포넌트 호출 위에 작성해야 합니다. */
     // 메뉴 관리 메뉴
     menuManageMenuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        Admin.this.getContentPane().removeAll();
+        Admin.this.getContentPane().add(p1);
+        Admin.this.revalidate();
+        Admin.this.repaint();
       }
     });
 
@@ -79,6 +91,10 @@ public class Admin extends JDialog {
     settlementMenuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        Admin.this.getContentPane().removeAll();
+        Admin.this.getContentPane().add(p2);
+        Admin.this.revalidate();
+        Admin.this.repaint();
       }
     });
 
