@@ -12,7 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 public class Admin extends JDialog {
-  // MainFrame mainFrame;
+  MainFrame mainFrame;
   JButton exitBtn;
   JMenuBar menuBar;
   JMenu storeMenu, userMenu, systemMenu;
@@ -25,7 +25,7 @@ public class Admin extends JDialog {
   public Admin(AdminLogin adminLogin, MainFrame mainFrame) {
     //super(mainFrame, "관리자", true);
     super(adminLogin, "관리자", true);
-    // this.mainFrame = mainFrame;
+    this.mainFrame = mainFrame;
 
     storeMenu = new JMenu("매장");
     menuManageMenuItem = new JMenuItem("메뉴 관리");
@@ -85,6 +85,8 @@ public class Admin extends JDialog {
     orderManageMenuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+    	  
+    	  new AdminOrder(Admin.this.mainFrame);
       }
     });
 

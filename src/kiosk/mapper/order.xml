@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="order">
+
+	<resultMap type="kiosk.vo.OrderVO" id="orderMap">
+		<id column="orderIdx" property="orderIdx"/>
+	  	<result column="userIdx" property="userIdx"/>
+	  	<result column="productIdx" property="productIdx"/>
+	  	<result column="coupunIdx" property="coupunIdx"/>
+	  	<result column="option1Idx" property="option1Idx"/>
+	  	<result column="option2Idx" property="option2Idx"/>
+	  	<result column="orderNumber" property="orderNumber"/>
+	  	<result column="orderProductCategory" property="orderProductCategory"/>
+		<result column="orderCount" property="orderCount"/>
+		<result column="orderStatus" property="orderStatus"/>
+		<result column="orderCalorie" property="orderCalorie"/>
+		<result column="orderDate" property="orderDate"/>
+		<result column="orderPrice" property="orderPrice"/>
+	</resultMap>
+
+
+	<!-- 주문내역 불러오기 -->
+	<select id="orderList" resultMap="orderMap">
+		SELECT * From order WHERE DATE(orderDate) = CURDATE()
+		ORDER BY orderStatus ASC
+	</select>
+
+</mapper>
