@@ -3,8 +3,6 @@ package kiosk.client;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.io.IOException;
-import java.io.Reader;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,10 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import kiosk.vo.AdminVO;
 
@@ -29,10 +24,7 @@ public class AdminLogin extends JDialog {
     JTextField adminPassword;
     JButton loginBtn, cancelBtn;
     String password = "";
-    // boolean loginSuccess = false;
     AdminVO loggedInAdmin;
-
-    SqlSessionFactory factory;
 
     public AdminLogin(MainFrame parent) {
         super(parent, "Admin Login", true); // 모달 다이얼로그 설정
@@ -74,16 +66,6 @@ public class AdminLogin extends JDialog {
             numberPadPanel.add(button);
         }
 
-        // db connected
-        try {
-            Reader r = Resources.getResourceAsReader("kiosk/config/config.xml");
-            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-            factory = builder.build(r);
-            r.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         loginBtn.addActionListener(e -> handleLogin());
         cancelBtn.addActionListener(e -> dispose());
 
@@ -113,11 +95,11 @@ public class AdminLogin extends JDialog {
     }
 
     private void handleLogin() {
-        SqlSession ss = factory.openSession();
+        System.out.println(adminIdSelect.getSelectedItem());
+        SqlSession ss = parent.factory.openSession();
         loggedInAdmin = ss.selectOne("admin.idpw", adminIdSelect.getSelectedItem());
         if (loggedInAdmin != null && loggedInAdmin.getAdminPassWord().equals(adminPassword.getText())) {
             JOptionPane.showMessageDialog(this, "로그인 성공");
-            // loginSuccess = true;
             dispose(); // 창 닫기
 
             // 로그인 성공, 관리자 창 호출
@@ -126,10 +108,6 @@ public class AdminLogin extends JDialog {
             JOptionPane.showMessageDialog(this, "로그인 실패! 아이디와 비밀번호를 확인하세요");
         }
     }
-
-    // public boolean isLoginSuccessful() {
-    // return loginSuccess;
-    // }
 
     public AdminVO getLoggedInAdmin() {
         return loggedInAdmin;
