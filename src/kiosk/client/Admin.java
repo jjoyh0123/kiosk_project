@@ -18,8 +18,10 @@ public class Admin extends JDialog {
       userManageMenuItem, couponManageMenuItem, behavioralAnalysisMenuItem,
       closeAdminMenuItem, exitMenuItem;
 
-  public Admin(MainFrame mainFrame) {
-    super(mainFrame, "관리자", true);
+  //public Admin(MainFrame mainFrame) {
+  public Admin(AdminLogin adminLogin, MainFrame mainFrame) {
+    //super(mainFrame, "관리자", true);
+    super(adminLogin, "관리자", true);
     // this.mainFrame = mainFrame;
 
     storeMenu = new JMenu("매장");
@@ -50,6 +52,13 @@ public class Admin extends JDialog {
     menuBar.add(systemMenu);
 
     setJMenuBar(menuBar);
+    
+    if("Junior".equals(adminLogin.loggedInAdmin.getAdminName())) {
+    	// 주니어가 볼 수 없는 메뉴는 비활성화
+    	menuManageMenuItem.setEnabled(false);
+    	settlementMenuItem.setEnabled(false);
+    	behavioralAnalysisMenuItem.setEnabled(false);
+    }
 
     /* 이벤트 리스너 ※주의: 모든 이벤트는 컴포넌트 호출 위에 작성해야 합니다. */
     // 메뉴 관리 메뉴

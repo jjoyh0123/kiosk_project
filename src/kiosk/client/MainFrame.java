@@ -55,14 +55,15 @@ public class MainFrame extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         System.out.println("관리자모드 진입");
-        new Admin(MainFrame.this);
+        // new Admin(MainFrame.this);
+        new AdminLogin(MainFrame.this);
       }
     });
   }
 
   private void dbConnect() {
     try {
-      Reader r = Resources.getResourceAsReader("/kiosk/config/config.xml");
+      Reader r = Resources.getResourceAsReader("kiosk/config/config.xml");
       SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
       factory = builder.build(r);
       r.close();
