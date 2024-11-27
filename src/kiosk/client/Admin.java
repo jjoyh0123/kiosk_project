@@ -69,13 +69,12 @@ public class Admin extends JDialog {
         cardLayout = new CardLayout();
         contentPanel.setLayout(cardLayout);
 
-        p2 = new AdminDialog();
-
         // "메뉴 관리" 클릭 시 AdminDialog 내용을 표시하도록 설정
         menuManageMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Admin.this.getContentPane().removeAll();
+                p2 = new AdminDialog(mainFrame);
                 Admin.this.getContentPane().add(p2);
                 Admin.this.revalidate();
                 Admin.this.repaint();
@@ -138,11 +137,5 @@ public class Admin extends JDialog {
         this.setLocationRelativeTo(mainFrame);
         this.add(contentPanel);  // contentPanel을 JDialog에 추가
         this.setVisible(true);
-    }
-
-    // AdminDialog를 contentPanel에 추가하여 표시하는 메소드
-    private void showAdminDialog() {
-        AdminDialog adminDialog = new AdminDialog(); // AdminDialog 객체 생성
-        contentPanel.add(adminDialog, "AdminDialog"); // contentPanel
     }
 }

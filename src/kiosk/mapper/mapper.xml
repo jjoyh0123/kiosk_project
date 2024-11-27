@@ -5,13 +5,13 @@
 
 <mapper namespace="ProductMapper">
 
-    <select id="getProductById" parameterType="int" resultType="kiosk.config.productVO">
-        SELECT productName, productPrice, productCategory, productRecommendStatus, productSaleStatus
+    <select id="getProductById" parameterType="int" resultType="kiosk.vo.productVO">
+        SELECT productName, productPrice, productCategory, productRecommendStatus, productSaleStatus, productRegDate
         FROM product
         WHERE productIdx = #{productIdx}
     </select>
 
-    <update id="updateProductStatus" parameterType="kiosk.config.productVO">
+    <update id="updateProductStatus" parameterType="kiosk.vo.productVO">
         UPDATE product
         SET productRecommendStatus = #{productRecommendStatus},
             productSaleStatus = #{productSaleStatus}

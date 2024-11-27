@@ -23,13 +23,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import kiosk.config.productVO;
+import kiosk.vo.productVO;
 
 public class MainFrame extends JFrame {
   JPanel mainPanel;
   JButton adminBtn;
-  SqlSessionFactory factory;
-  List<productVO> list;
+  public SqlSessionFactory factory;
+  List<kiosk.vo.productVO> list;
   
   public MainFrame() {
     dbConnect();

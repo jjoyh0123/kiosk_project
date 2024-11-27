@@ -1,16 +1,24 @@
 
-package kiosk.config;
+package kiosk.vo;
 
 public class productVO {
-    private int idx;
-    private String productName;
-    private String productPrice;
-    private String productCategory;
-    private boolean productRecommendStatus;
-    private boolean productSaleStatus;
-    private String productImagePath;
+    int idx;
+    String productName;
+    String productPrice;
+    String productCategory;
+    boolean productRecommendStatus;
+    boolean productSaleStatus;
+     String productImagePath;
+    String productRegDate;
+    public String getProductRegDate() {
+		return productRegDate;
+	}
 
-    // Getters and Setters
+	public void setProductRegDate(String productRegDate) {
+		this.productRegDate = productRegDate;
+	}
+
+	// Getters and Setters
     public int getIdx() {
         return idx;
     }
