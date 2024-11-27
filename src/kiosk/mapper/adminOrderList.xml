@@ -28,13 +28,7 @@
 		From `order` o INNER JOIN coupon c ON o.userIdx = c.userIdx
 		INNER JOIN product p ON o.productIdx = p.productIdx
 		WHERE DATE(o.orderDate) = CURDATE()
-		ORDER BY o.orderStatus ASC
+		ORDER BY o.orderStatus ASC, o.orderNumber DESC
 	</select>
-	
-	<update id="updateOrderStatus" parameterType="kiosk.vo.OrderVO">
-    UPDATE `order`
-    SET orderStatus = #{orderStatus}
-    WHERE orderNumber = #{orderNumber}
-	</update>
 
 </mapper>
