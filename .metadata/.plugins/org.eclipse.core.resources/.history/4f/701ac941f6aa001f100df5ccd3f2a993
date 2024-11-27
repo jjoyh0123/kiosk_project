@@ -1,0 +1,8 @@
+package kiosk.client;
+
+import javax.swing.JFrame;
+
+public class AdminOrder extends JFrame {
+	
+
+}

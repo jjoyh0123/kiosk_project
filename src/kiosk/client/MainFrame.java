@@ -61,7 +61,8 @@ public class MainFrame extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         System.out.println("관리자모드 진입");
-        new Admin(MainFrame.this);
+        // new Admin(MainFrame.this);
+        new AdminLogin(MainFrame.this);
       }
     });
   }

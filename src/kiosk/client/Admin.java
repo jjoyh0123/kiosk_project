@@ -32,8 +32,10 @@ public class Admin extends JDialog {
     JPanel p1, p2;
     CardLayout cardLayout; // 중앙패널변경하기위한 카드레이아웃입니다
 
-    public Admin(MainFrame mainFrame) {
-        super(mainFrame, "관리자", true);
+    //public Admin(MainFrame mainFrame) {
+      public Admin(AdminLogin adminLogin, MainFrame mainFrame) {
+    //super(mainFrame, "관리자", true);
+    super(adminLogin, "관리자", true);
 
         // 메뉴 초기화
         storeMenu = new JMenu("매장");
@@ -63,12 +65,14 @@ public class Admin extends JDialog {
         menuBar.add(userMenu);
         menuBar.add(systemMenu);
 
-        setJMenuBar(menuBar);
+    setJMenuBar(menuBar);
 
         contentPanel = new JPanel();
         cardLayout = new CardLayout();
         contentPanel.setLayout(cardLayout);
 
+        /* 이벤트 리스너 ※주의: 모든 이벤트는 컴포넌트 호출 위에 작성해야 합니다. */
+        // 메뉴 관리 메뉴
         // "메뉴 관리" 클릭 시 AdminDialog 내용을 표시하도록 설정
         menuManageMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -78,7 +82,11 @@ public class Admin extends JDialog {
                 Admin.this.getContentPane().add(p2);
                 Admin.this.revalidate();
                 Admin.this.repaint();
-            }
+              Admin.this.getContentPane().removeAll();
+        Admin.this.getContentPane().add(p1);
+        Admin.this.revalidate();
+        Admin.this.repaint();
+      }
         });
 
         // 나머지 메뉴들에 대한 ActionListener 작성
@@ -89,13 +97,19 @@ public class Admin extends JDialog {
             }
         });
 
+    // 정산 메뉴
         settlementMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Admin.this.add(p2);
-            }
+              Admin.this.getContentPane().removeAll();
+        Admin.this.getContentPane().add(p2);
+        Admin.this.revalidate();
+        Admin.this.repaint();
+      }
         });
 
+    // 회원 관리 메뉴
         userManageMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,6 +117,7 @@ public class Admin extends JDialog {
             }
         });
 
+    // 쿠폰 관리 메뉴
         couponManageMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,6 +125,7 @@ public class Admin extends JDialog {
             }
         });
 
+    // 성향 분석 메뉴
         behavioralAnalysisMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,6 +133,8 @@ public class Admin extends JDialog {
             }
         });
 
+
+    // 닫기 메뉴
         closeAdminMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +142,7 @@ public class Admin extends JDialog {
             }
         });
 
+    // 종료 메뉴
         exitMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

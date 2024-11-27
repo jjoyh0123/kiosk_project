@@ -1,0 +1,70 @@
+package kiosk.client;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Feature2 extends JFrame {
+    
+    private JTextField password;
+    
+    
+
+    public Feature2() {
+        setTitle("Number Pad");
+        setSize(300, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // 넘버패드에서 패스워드 선택시 입력되는곳
+        password = new JTextField();
+        password.setHorizontalAlignment(JTextField.RIGHT);
+        password.setEditable(false);
+        add(password, BorderLayout.NORTH);
+
+        // 넘버패드 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(4, 3));
+
+        String[] buttons = {
+                "7", "8", "9",
+                "4", "5", "6",
+                "1", "2", "3",
+                "←", "0", "C"
+        };
+
+        for (String text : buttons) {
+            JButton button = new JButton(text);
+            button.addActionListener(new ButtonClickListener());
+            buttonPanel.add(button);
+        }
+
+        add(buttonPanel, BorderLayout.CENTER);
+    }
+
+    private class ButtonClickListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+
+            if ("C".equals(command)) {
+            	password.setText("");
+            } else if ("←".equals(command)) {
+                String currentText = password.getText();
+                if (currentText.length() > 0) {
+                	password.setText(currentText.substring(0, currentText.length() - 1));
+                }
+            } else {
+            	password.setText(password.getText() + command);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Feature2 numberPad = new Feature2();
+            numberPad.setVisible(true);
+        });
+    }
+}
