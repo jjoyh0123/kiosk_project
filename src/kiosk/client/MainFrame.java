@@ -1,4 +1,4 @@
-package kiosk.client;
+package kiosk.client;  
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.Reader;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -18,17 +19,22 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import kiosk.config.productVO;
 
 public class MainFrame extends JFrame {
   JPanel mainPanel;
   JButton adminBtn;
   SqlSessionFactory factory;
-
+  List<productVO> list;
+  
   public MainFrame() {
     dbConnect();
-
+ 
+   
     /* 메인 패널에 배경이미지 추가 */
     mainPanel = new JPanel() {
       @Override
@@ -62,7 +68,7 @@ public class MainFrame extends JFrame {
 
   private void dbConnect() {
     try {
-      Reader r = Resources.getResourceAsReader("/kiosk/config/config.xml");
+      Reader r = Resources.getResourceAsReader("kiosk/config/config.xml");
       SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
       factory = builder.build(r);
       r.close();
