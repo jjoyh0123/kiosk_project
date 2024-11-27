@@ -1,4 +1,4 @@
-package kiosk.client;
+package kiosk.adminOrderManagement;
 
 import java.awt.CardLayout;
 

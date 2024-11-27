@@ -3,15 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ProductMapper">
+<mapper namespace="adminMenuManagement">
 
-    <select id="getProductById" parameterType="int" resultType="kiosk.vo.productVO">
+    <select id="getProductById" parameterType="int" resultType="kiosk.adminVO.productVO">
         SELECT productName, productPrice, productCategory, productRecommendStatus, productSaleStatus, productRegDate
         FROM product
         WHERE productIdx = #{productIdx}
     </select>
 
-    <update id="updateProductStatus" parameterType="kiosk.vo.productVO">
+    <update id="updateProductStatus" parameterType="kiosk.adminVO.productVO">
         UPDATE product
         SET productRecommendStatus = #{productRecommendStatus},
             productSaleStatus = #{productSaleStatus}

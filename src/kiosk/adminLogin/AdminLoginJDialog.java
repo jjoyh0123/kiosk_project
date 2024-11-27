@@ -1,4 +1,4 @@
-package kiosk.client;
+package kiosk.adminLogin;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,18 +15,20 @@ import javax.swing.JTextField;
 
 import org.apache.ibatis.session.SqlSession;
 
-import kiosk.vo.AdminVO;
+import kiosk.admin.Admin;
+import kiosk.adminVO.AdminVO;
+import kiosk.client.MainFrame;
 
-public class AdminLogin extends JDialog {
+public class AdminLoginJDialog extends JDialog {
     MainFrame parent;
     JPanel idPasswordPanel, loginCancelPanel, numberPadPanel;
     JComboBox<String> adminIdSelect;
     JTextField adminPassword;
     JButton loginBtn, cancelBtn;
     String password = "";
-    AdminVO loggedInAdmin;
+    public AdminVO loggedInAdmin;
 
-    public AdminLogin(MainFrame parent) {
+    public AdminLoginJDialog(MainFrame parent) {
         super(parent, "Admin Login", true); // 모달 다이얼로그 설정
         this.parent = parent;
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -97,13 +99,13 @@ public class AdminLogin extends JDialog {
     private void handleLogin() {
         System.out.println(adminIdSelect.getSelectedItem());
         SqlSession ss = parent.factory.openSession();
-        loggedInAdmin = ss.selectOne("admin.idpw", adminIdSelect.getSelectedItem());
+        loggedInAdmin = ss.selectOne("adminLogin.idpw", adminIdSelect.getSelectedItem());
         if (loggedInAdmin != null && loggedInAdmin.getAdminPassWord().equals(adminPassword.getText())) {
             JOptionPane.showMessageDialog(this, "로그인 성공");
             dispose(); // 창 닫기
 
             // 로그인 성공, 관리자 창 호출
-            new Admin(AdminLogin.this, parent);
+            new Admin(AdminLoginJDialog.this, parent);
         } else {
             JOptionPane.showMessageDialog(this, "로그인 실패! 아이디와 비밀번호를 확인하세요");
         }
@@ -111,6 +113,5 @@ public class AdminLogin extends JDialog {
 
     public AdminVO getLoggedInAdmin() {
         return loggedInAdmin;
-
     }
 }

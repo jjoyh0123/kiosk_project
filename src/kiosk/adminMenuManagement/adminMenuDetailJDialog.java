@@ -1,5 +1,12 @@
-package kiosk.adminMenu;
+package kiosk.adminMenuManagement;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Window;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -7,31 +14,25 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import javax.swing.BorderFactory;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Window;
+
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 
+import kiosk.adminVO.productVO;
 import kiosk.client.MainFrame;
-import kiosk.vo.productVO;
 
-public class adminMenuJdialog extends JDialog {
+public class adminMenuDetailJDialog extends JDialog {
     boolean productRecommendStatus;
     boolean productSaleStatus;
     JCheckBox recommendCheckBox;
     JCheckBox saleCheckBox;
     int productIdx;
-    
+
     MainFrame mainFrame;
 
-    public adminMenuJdialog(MainFrame mainFrame, int productIdx, String productName, String imagePath, Window parent,
-                            String productPrice, String productCategory, boolean productRecommendStatus,
-                            boolean productSaleStatus, String productRegDate) {
+    public adminMenuDetailJDialog(MainFrame mainFrame, int productIdx, String productName, String imagePath,
+            Window parent, String productPrice, String productCategory, boolean productRecommendStatus,
+            boolean productSaleStatus, String productRegDate) {
         super(parent, "상품 상세", ModalityType.APPLICATION_MODAL);
         this.mainFrame = mainFrame;
         this.productIdx = productIdx;
@@ -62,7 +63,7 @@ public class adminMenuJdialog extends JDialog {
 
         // 카테고리
         JLabel categoryLabel = new JLabel("카테고리: ");
-        String categoryWithNumber = productCategory ;
+        String categoryWithNumber = productCategory;
         JTextField categoryTextField = new JTextField(categoryWithNumber);
         categoryTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         categoryTextField.setBorder(BorderFactory.createEmptyBorder());
@@ -87,7 +88,7 @@ public class adminMenuJdialog extends JDialog {
 
         saveButton.addActionListener(e -> {
             updateProductStatus();
-            JOptionPane.showMessageDialog(adminMenuJdialog.this, "저장되었습니다!");
+            JOptionPane.showMessageDialog(adminMenuDetailJDialog.this, "저장되었습니다!");
             dispose();
         });
 
@@ -137,7 +138,7 @@ public class adminMenuJdialog extends JDialog {
             product.setProductRecommendStatus(recommendCheckBox.isSelected());
             product.setProductSaleStatus(saleCheckBox.isSelected());
 
-            int affectedRows = session.update("ProductMapper.updateProductStatus", product);
+            int affectedRows = session.update("adminMenuManagement.updateProductStatus", product);
             session.commit();
 
             if (affectedRows > 0) {

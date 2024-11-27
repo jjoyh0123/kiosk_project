@@ -1,4 +1,4 @@
-package kiosk.client;  
+package kiosk.client;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -19,22 +19,20 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import kiosk.vo.productVO;
+import kiosk.adminLogin.AdminLoginJDialog;
 
 public class MainFrame extends JFrame {
   JPanel mainPanel;
   JButton adminBtn;
   public SqlSessionFactory factory;
-  List<kiosk.vo.productVO> list;
-  
+  List<kiosk.adminVO.productVO> list;
+
   public MainFrame() {
     dbConnect();
- 
-   
+
     /* 메인 패널에 배경이미지 추가 */
     mainPanel = new JPanel() {
       @Override
@@ -62,7 +60,7 @@ public class MainFrame extends JFrame {
       public void actionPerformed(ActionEvent e) {
         System.out.println("관리자모드 진입");
         // new Admin(MainFrame.this);
-        new AdminLogin(MainFrame.this);
+        new AdminLoginJDialog(MainFrame.this);
       }
     });
   }

@@ -1,5 +1,5 @@
 
-package kiosk.vo;
+package kiosk.adminVO;
 
 public class productVO {
     int idx;
@@ -8,17 +8,18 @@ public class productVO {
     String productCategory;
     boolean productRecommendStatus;
     boolean productSaleStatus;
-     String productImagePath;
+    String productImagePath;
     String productRegDate;
+
     public String getProductRegDate() {
-		return productRegDate;
-	}
+        return productRegDate;
+    }
 
-	public void setProductRegDate(String productRegDate) {
-		this.productRegDate = productRegDate;
-	}
+    public void setProductRegDate(String productRegDate) {
+        this.productRegDate = productRegDate;
+    }
 
-	// Getters and Setters
+    // Getters and Setters
     public int getIdx() {
         return idx;
     }

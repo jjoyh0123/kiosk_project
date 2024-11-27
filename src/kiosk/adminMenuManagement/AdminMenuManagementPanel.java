@@ -1,34 +1,31 @@
-package kiosk.adminMenu;
+package kiosk.adminMenuManagement;
 
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import kiosk.client.MainFrame;
-import kiosk.vo.productVO;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class AdminDialog extends JPanel {
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import org.apache.ibatis.session.SqlSession;
+
+import kiosk.adminVO.productVO;
+import kiosk.client.MainFrame;
+
+public class AdminMenuManagementPanel extends JPanel {
     JPanel centerPanel; // centerPanel을 클래스 레벨에서 선언하여 참조
     MainFrame mainFrame;
- 
-    public AdminDialog(MainFrame mainFrame) {
+
+    public AdminMenuManagementPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         // 기본 레이아웃 설정
         setLayout(new BorderLayout());
@@ -40,10 +37,10 @@ public class AdminDialog extends JPanel {
         JButton snackButton = new JButton("스낵");
         JButton drinkButton = new JButton("음료");
         JPanel menuNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
+
         JLabel menulable = new JLabel("메뉴카테고리");
         menulable.setFont(new Font("메뉴카테고리", Font.BOLD, 20));
-        menulable.setPreferredSize(new Dimension(180, 20)); 
+        menulable.setPreferredSize(new Dimension(180, 20));
         menuNorthPanel.add(menulable);
 
         // 버튼들을 패널에 추가
@@ -66,7 +63,7 @@ public class AdminDialog extends JPanel {
         centerPanel.add(setPanel, "세트");
         centerPanel.add(snackPanel, "스낵");
         centerPanel.add(drinkPanel, "음료");
-        
+
         // 버튼 클릭 시 해당 카테고리로 전환
         singleButton.addActionListener(e -> showCategory("단품"));
         setButton.addActionListener(e -> showCategory("세트"));
@@ -76,7 +73,6 @@ public class AdminDialog extends JPanel {
         // 전체 패널에 NORTH와 CENTER 패널 추가
         JPanel combinedNorthPanel = new JPanel(new BorderLayout());
 
-        
         combinedNorthPanel.add(menuNorthPanel, BorderLayout.NORTH);
         combinedNorthPanel.add(northPanel, BorderLayout.SOUTH);
         add(combinedNorthPanel, BorderLayout.NORTH);
@@ -85,14 +81,10 @@ public class AdminDialog extends JPanel {
 
     private JPanel createCategoryPanel(String category, int startImage, int endImage) {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(0, 3, 5, 5)); 
+        panel.setLayout(new GridLayout(0, 3, 5, 5));
 
-        String[] itemNames = {
-            "시추안 크리스프 버거", "쉑마이스터 버거", "쉑버거", "스모크쉑", "슈룸 버거",
-            "쉑 스택", "햄버거", "시추안 크리스프 프라이", "쉑버거", "시추안 크리스프 프라이",
-            "프라이", "치즈 프라이", "유자 바질 레모네이드", "레몬에이드", "아이스티",
-            "피프티/피프티", "탄산음료"
-        };
+        String[] itemNames = { "시추안 크리스프 버거", "쉑마이스터 버거", "쉑버거", "스모크쉑", "슈룸 버거", "쉑 스택", "햄버거", "시추안 크리스프 프라이", "쉑버거",
+                "시추안 크리스프 프라이", "프라이", "치즈 프라이", "유자 바질 레모네이드", "레몬에이드", "아이스티", "피프티/피프티", "탄산음료" };
 
         for (int i = startImage - 1; i < endImage; i++) {
             String imagePath = "/kiosk/static/product" + (i + 1) + ".jpg";
@@ -115,7 +107,7 @@ public class AdminDialog extends JPanel {
                     showProductDetails(index);
                 }
             });
-            
+
             panel.add(imagePanel);
         }
 
@@ -125,7 +117,7 @@ public class AdminDialog extends JPanel {
         for (int i = 0; i < emptyCells; i++) {
             panel.add(new JPanel());
         }
-        
+
         return panel;
     }
 
@@ -138,12 +130,12 @@ public class AdminDialog extends JPanel {
         SqlSession session = null;
         try {
             session = mainFrame.factory.openSession();
-            productVO product = session.selectOne("ProductMapper.getProductById", productIdx);
+            productVO product = session.selectOne("adminMenuManagement.getProductById", productIdx);
             if (product != null) {
                 String productRegDate = product.getProductRegDate(); // 등록일
                 String productCategory = product.getProductCategory();
                 String categoryName;
-                
+
                 switch (productCategory) {
                 case "1":
                     categoryName = "단품";
@@ -164,17 +156,10 @@ public class AdminDialog extends JPanel {
 
                 String categoryTest = categoryName + "(" + productCategory + ")";
 
-                adminMenuJdialog detailsFrame = new adminMenuJdialog(
-                    mainFrame,
-                    productIdx,
-                    product.getProductName(),
-                    "/kiosk/static/product" + productIdx + ".jpg",
-                    SwingUtilities.getWindowAncestor(this),
-                    product.getProductPrice(),
-                    categoryTest,
-                    product.isProductRecommendStatus(),
-                    product.isProductSaleStatus(),
-                    productRegDate // 등록일 추가
+                adminMenuDetailJDialog detailsFrame = new adminMenuDetailJDialog(mainFrame, productIdx,
+                        product.getProductName(), "/kiosk/static/product" + productIdx + ".jpg",
+                        SwingUtilities.getWindowAncestor(this), product.getProductPrice(), categoryTest,
+                        product.isProductRecommendStatus(), product.isProductSaleStatus(), productRegDate // 등록일 추가
                 );
                 detailsFrame.setVisible(true);
                 detailsFrame.setLocationRelativeTo(null);
