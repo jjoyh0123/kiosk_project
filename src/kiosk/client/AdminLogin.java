@@ -97,7 +97,7 @@ public class AdminLogin extends JDialog {
     private void handleLogin() {
         System.out.println(adminIdSelect.getSelectedItem());
         SqlSession ss = parent.factory.openSession();
-        loggedInAdmin = ss.selectOne("admin.idpw", adminIdSelect.getSelectedItem());
+        loggedInAdmin = ss.selectOne("adminLogin.idpw", adminIdSelect.getSelectedItem());
         if (loggedInAdmin != null && loggedInAdmin.getAdminPassWord().equals(adminPassword.getText())) {
             JOptionPane.showMessageDialog(this, "로그인 성공");
             dispose(); // 창 닫기

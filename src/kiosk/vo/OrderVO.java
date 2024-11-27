@@ -9,7 +9,15 @@ public class OrderVO {
 	
 	Timestamp orderDate;
 	boolean orderStatus;
+	String couponName;
 	
+	
+	public String getCouponName() {
+		return couponName;
+	}
+	public void setCouponName(String couponName) {
+		this.couponName = couponName;
+	}
 	public int getOrderIdx() {
 		return orderIdx;
 	}

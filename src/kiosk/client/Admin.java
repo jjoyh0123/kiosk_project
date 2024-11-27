@@ -86,7 +86,7 @@ public class Admin extends JDialog {
       @Override
       public void actionPerformed(ActionEvent e) {
     	  
-    	  new AdminOrder(Admin.this.mainFrame);
+    	  new AdminOrderList(Admin.this.mainFrame);
       }
     });
 

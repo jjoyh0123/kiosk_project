@@ -50,12 +50,12 @@ public class MainFrame extends JFrame {
     InputMap inputMap = contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
     ActionMap actionMap = contentPane.getActionMap();
 
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceAction");
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "spaceAction");
     actionMap.put("spaceAction", new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
         System.out.println("관리자모드 진입");
-        // new Admin(MainFrame.this);
+        
         new AdminLogin(MainFrame.this);
       }
     });
