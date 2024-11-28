@@ -15,33 +15,28 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import kiosk.vo.OrderVO;
 
 public class AdminOrderList extends JPanel {
-    MainFrame parent;
-    JPanel cookingOrderPanel;
-    JPanel completedOrderPanel;
-    JPanel topPanel;
+	Admin parent;
+	MainFrame mainFrame;
+    JPanel topPanel, orderPanel;
     JButton refreshBtn;
     List<OrderVO> orderList;
 
-    public AdminOrderList(MainFrame parent) {
-        //super(parent, "AdminOrderList", true);
+    public AdminOrderList(Admin parent) {
         this.parent = parent;
-        this.setLayout(new BorderLayout());
-
-        
+        this.mainFrame = parent.mainFrame;
+        this.parent.add(this);
         
         // 상단 새로고침 버튼
         topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         refreshBtn = new JButton("새로고침");
         topPanel.add(refreshBtn);
-        this.add(topPanel, BorderLayout.NORTH);
+        this.add(topPanel,BorderLayout.NORTH);
+        
+        
+        orderPanel = new JPanel(new GridLayout(0,1));
+        this.add(orderPanel);
 
-        // 주문 패널 초기화
-        cookingOrderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        completedOrderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        add(cookingOrderPanel, BorderLayout.CENTER);
-        add(completedOrderPanel, BorderLayout.SOUTH);
-
-        try (SqlSession session = parent.factory.openSession()) {
+        try (SqlSession session = mainFrame.factory.openSession()) {
             orderList = session.selectList("adminOrderList.orderList");
             System.out.println(orderList);
             updateOrderPanels();
@@ -54,7 +49,7 @@ public class AdminOrderList extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("새로고침 버튼 클릭!");
-                try (SqlSession session = parent.factory.openSession()) {
+                try (SqlSession session = mainFrame.factory.openSession()) {
                     orderList = session.selectList("adminOrderList.orderList");
                     System.out.println(orderList);
                     updateOrderPanels();
@@ -63,50 +58,46 @@ public class AdminOrderList extends JPanel {
                 }
             }
         });
-
-        // 다이얼로그 기본 설정
-        setBounds(300, 300, 400, 600);
-        //setUndecorated(true);
-        //setLocationRelativeTo(parent);
-        setVisible(true);
+      
     }
 
     // 주문 패널 업데이트 메서드
     private void updateOrderPanels() {
-        cookingOrderPanel.removeAll();
-        completedOrderPanel.removeAll();
+    	orderPanel.removeAll();
+    	
         System.out.println(orderList.size());
         if(orderList != null) {
             for (OrderVO order : orderList) {
                 JPanel orderCard = createOrderCard(order); // 카드 형식으로 주문 표시
-                System.out.println(order.getOrderStatus());
-                if ("0".equals(order.getOrderStatus())) {
-                    JButton completeBtn = new JButton("조리중");
-                    completeBtn.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            try (SqlSession session = parent.factory.openSession()) {
-                                order.setOrderStatus("조리완료");
-                                session.update("kiosk.mapper.updateOrderStatus", order); // 상태 업데이트
-                                session.commit();
-                                updateOrderPanels(); // 패널 새로 고침
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
+                System.out.println(order.isOrderStatus() + "");
+                
+                JButton completeBtn = new JButton(getOrderStatusText(order.isOrderStatus()));
+                completeBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try (SqlSession session = mainFrame.factory.openSession()) {
+                            order.setOrderStatus(!order.isOrderStatus());
+                            session.update("adminOrderList.updateOrderStatus", order); // 상태 업데이트
+                            session.commit();
+                            
+                            orderList = session.selectList("adminOrderList.orderList");
+                            updateOrderPanels(); // 패널 새로 고침
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-                    });
-                    orderCard.add(completeBtn, BorderLayout.SOUTH); // 버튼을 카드 하단에 추가
-                    cookingOrderPanel.add(orderCard);
-                } else if ("1".equals(order.getOrderStatus())) {
-                    completedOrderPanel.add(orderCard);
-                }
+                    }
+                });
+                orderCard.add(completeBtn, BorderLayout.SOUTH); // 버튼을 카드 하단에 추가
+                orderPanel.add(orderCard, BorderLayout.SOUTH);
             }
         }
-
-        cookingOrderPanel.revalidate();
-        cookingOrderPanel.repaint();
-        completedOrderPanel.revalidate();
-        completedOrderPanel.repaint();
+        
+        orderPanel.revalidate();
+        orderPanel.repaint();
+    }
+    
+    private String getOrderStatusText(boolean orderStatus) {
+    	return (orderStatus) ? "조리완료" : "조리중";
     }
 
     // 카드 형식으로 주문을 표시하는 메서드
@@ -129,7 +120,7 @@ public class AdminOrderList extends JPanel {
 
         // 카드 하단: 조리 상태
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.add(new JLabel("상태: " + order.getOrderStatus()));
+        bottomPanel.add(new JLabel("상태: " + order.isOrderStatus()));
         cardPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         return cardPanel;
@@ -137,7 +128,7 @@ public class AdminOrderList extends JPanel {
 
     // 길이가 긴 텍스트는 ...으로 표시
     private String truncateText(String text, int maxLength) {
-        if (text.length() > maxLength) {
+        if (text != null && text.length() > maxLength) {
             return text.substring(0, maxLength) + "...";
         }
         return text;

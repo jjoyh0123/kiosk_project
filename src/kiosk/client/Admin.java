@@ -84,7 +84,7 @@ public class Admin extends JDialog {
       @Override
       public void actionPerformed(ActionEvent e) {
     	  
-    	  new AdminOrderList(Admin.this.mainFrame);
+    	  new AdminOrderList(Admin.this);
       }
     });
 
@@ -200,7 +200,7 @@ public class Admin extends JDialog {
       @Override
       public void actionPerformed(ActionEvent e) {
     	  
-    	  new AdminOrderList(Admin.this.mainFrame);
+    	  new AdminOrderList(Admin.this);
       }
     });
 

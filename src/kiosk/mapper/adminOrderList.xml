@@ -12,7 +12,6 @@
 	  	<result column="productName" property="productName"/>
 	  	<result column="couponName" property="couponName"/>
 	  	<result column="orderStatus" property="orderStatus"/>
-		
 	</resultMap>
 
 
@@ -33,5 +32,11 @@
     GROUP BY p.productName, o.orderIdx, o.orderNumber, o.orderPrice, c.couponName, o.orderStatus
     ORDER BY o.orderStatus ASC, o.orderNumber DESC;
 	</select>
+	
+	<update id="updateOrderStatus" parameterType="kiosk.vo.OrderVO">
+	UPDATE `order`
+	SET orderStatus = #{orderStatus}
+	WHERE orderIdx = #{orderIdx}
+	</update>
 
 </mapper>
