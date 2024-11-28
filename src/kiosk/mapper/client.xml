@@ -5,10 +5,45 @@
 <mapper namespace="client">
 
     <!-- 전화번호와 맞는 유저 한명의 정보 가져오기 -->
-    <select id="getMatchedUserInfo" parameterType="String" resultType="kiosk.vo.UserVO">
+    <select id="getMatchedUserInfo" parameterType="String" resultType="kiosk.clientVO.UserVO">
         SELECT *
         FROM user
         WHERE userContact = #{userContact}
+    </select>
+
+    <select id="getProductData" parameterType="Int" resultType="kiosk.clientVO.ProductVO">
+        SELECT *
+        FROM product
+        WHERE productCategory = #{productCategory}
+    </select>
+
+    <select id="getOptionData" parameterType="Int" resultType="kiosk.clientVO.OptionVO">
+        SELECT *
+        FROM `option`
+        WHERE optionCategory = #{optionCategory}
+    </select>
+
+    <select id="getCouponData" parameterType="Int" resultType="kiosk.clientVO.CouponVO">
+        SELECT *
+        FROM coupon
+        WHERE userIdx = #{userIdx}
+    </select>
+
+    <select id="getCouponsByUserIdxAndProductIdx" parameterType="map" resultType="kiosk.clientVO.CouponVO">
+        SELECT c.*
+        FROM coupon AS c
+        JOIN couponSetting AS cs ON c.couponName = cs.couponSettingName
+        WHERE 1=1
+        <if test="productIdxList != null and productIdxList.size() > 0">
+            AND cs.productIdx IN
+            <foreach item="item" collection="productIdxList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="userIdx != null">
+            AND c.userIdx = #{userIdx}
+        </if>
+        AND c.couponStatus = false;
     </select>
 
 </mapper>

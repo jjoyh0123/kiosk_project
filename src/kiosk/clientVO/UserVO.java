@@ -1,6 +1,8 @@
-package kiosk.vo;
+package kiosk.clientVO;
 
 public class UserVO {
+
+    int userIdx;
 
     String userContact, userJoinDate, userGrade;
 
@@ -26,5 +28,13 @@ public class UserVO {
 
     public void setUserGrade(String userGrade) {
         this.userGrade = userGrade;
+    }
+
+    public int getUserIdx() {
+        return userIdx;
+    }
+
+    public void setUserIdx(int userIdx) {
+        this.userIdx = userIdx;
     }
 }

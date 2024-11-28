@@ -1,28 +1,32 @@
 package kiosk.client;
 
-import kiosk.vo.UserVO;
+import kiosk.clientVO.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.awt.*;
 import javax.swing.*;
 
-public class OrderDialog extends JDialog {
+public class MemberDialog extends JDialog {
 
     private JTextField displayField;
     private JButton cancelBtn, loginBtn;
     private SqlSessionFactory factory;
 
     private String phoneNumber; // 입력된 전화번호 저장
+    private String rawPhoneNumber = ""; // 원본 전화번호를 저장
 
-    public OrderDialog(MainFrame mainFrame, SqlSessionFactory factory) {
+    private MainFrame mainFrame;
+
+    public MemberDialog(MainFrame mainFrame, SqlSessionFactory factory) {
         super(mainFrame, "휴대폰 번호 입력", true);
 
         // 전달받은 factory 저장
         this.factory = factory;
+        this.mainFrame = mainFrame;
 
         // 다이얼로그 기본 설정
-        this.setSize(500, 900);
+        this.setSize(400, 700);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setUndecorated(true);
@@ -53,7 +57,10 @@ public class OrderDialog extends JDialog {
 
         JButton clearAllButton = new JButton("전체 지우기");
         clearAllButton.setFont(new Font("Arial", Font.BOLD, 18));
-        clearAllButton.addActionListener(e -> displayField.setText(""));
+        clearAllButton.addActionListener(e -> {
+            rawPhoneNumber = ""; // 원본 데이터 초기화
+            displayField.setText(""); // 텍스트 필드 초기화
+        });
         buttonPanel.add(clearAllButton);
 
         JButton zeroButton = new JButton("0");
@@ -76,9 +83,8 @@ public class OrderDialog extends JDialog {
 
         loginBtn.setFont(new Font("Arial", Font.BOLD, 18));
         loginBtn.addActionListener(e -> {
-            if (validateAndSetPhoneNumber()) { // 유효성 검사
-                getUserContact(); // DB 조회
-
+            if (validateAndSetPhoneNumber()) {
+                getUserContact();
             }
         });
 
@@ -96,41 +102,42 @@ public class OrderDialog extends JDialog {
 
     // 입력된 전화번호 추가
     private void appendToDisplay(String text) {
-        String currentText = displayField.getText().replace(" - ", "");
-        if (currentText.length() < 11) {
-            currentText += text;
-            displayField.setText(formatPhoneNumber(currentText));
+        if (rawPhoneNumber.length() < 11) { // 최대 길이 제한
+            rawPhoneNumber += text;
+            displayField.setText(formatMaskedPhoneNumber(rawPhoneNumber)); // 마스킹된 번호로 표시
         }
     }
 
     // 마지막 문자 삭제
     private void backspaceDisplay() {
-        String currentText = displayField.getText().replace(" - ", "");
-        if (!currentText.isEmpty()) {
-            displayField.setText(formatPhoneNumber(currentText.substring(0, currentText.length() - 1)));
+        if (!rawPhoneNumber.isEmpty()) {
+            rawPhoneNumber = rawPhoneNumber.substring(0, rawPhoneNumber.length() - 1); // 마지막 문자 삭제
+            displayField.setText(formatMaskedPhoneNumber(rawPhoneNumber)); // 마스킹된 번호로 표시
         }
     }
 
     // 전화번호 유효성 검사 및 설정
     private boolean validateAndSetPhoneNumber() {
-        String rawNumber = displayField.getText().replace(" - ", "");
+        String rawNumber = rawPhoneNumber; // 원본 데이터로 검사
         if (rawNumber.matches("\\d{10,11}")) {
-            this.phoneNumber = rawNumber;
+            this.phoneNumber = rawNumber; // 유효한 경우 전화번호 저장
             return true;
         } else {
             JOptionPane.showMessageDialog(this, "유효하지 않은 휴대폰 번호입니다. 다시 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+            rawPhoneNumber = ""; // 원본 데이터도 초기화
+            displayField.setText(""); // 텍스트 필드도 초기화
             return false;
         }
     }
 
-    // 전화번호 포맷팅
-    private String formatPhoneNumber(String phoneNumber) {
+    // 전화번호 포맷팅 메서드 (마스킹)
+    private String formatMaskedPhoneNumber(String phoneNumber) {
         if (phoneNumber.length() <= 3) {
-            return phoneNumber;
+            return phoneNumber; // 첫 세 자리는 그대로
         } else if (phoneNumber.length() <= 7) {
-            return phoneNumber.substring(0, 3) + " - " + phoneNumber.substring(3);
+            return phoneNumber.substring(0, 3) + " - " + "****".substring(0, phoneNumber.length() - 3);
         } else {
-            return phoneNumber.substring(0, 3) + " - " + phoneNumber.substring(3, 7) + " - " + phoneNumber.substring(7);
+            return phoneNumber.substring(0, 3) + " - **** - " + phoneNumber.substring(7);
         }
     }
 
@@ -142,15 +149,34 @@ public class OrderDialog extends JDialog {
     // DB에서 사용자 정보 조회
     private void getUserContact() {
         try (SqlSession ss = factory.openSession()) {
-            UserVO userVO = ss.selectOne("client.getMatchedUserInfo", phoneNumber);
-            if (userVO != null) {
-                System.out.println("유저 연락처: " + userVO.getUserContact());
+            mainFrame.userVO = ss.selectOne("client.getMatchedUserInfo", phoneNumber);
+            if (mainFrame.userVO != null) {
+                String maskedNumber = maskPhoneNumber(mainFrame.userVO.getUserContact());
+                JOptionPane.showMessageDialog(this,
+                        "로그인 성공! 주문 화면으로 이동합니다.\n휴대폰 번호: " + maskedNumber,
+                        "성공",
+                        JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                mainFrame.switchToOrderScreen();
             } else {
-                System.out.println("해당 유저 정보를 찾을 수 없습니다.");
+                JOptionPane.showMessageDialog(this, "존재하지 않는 휴대전화 번호입니다. 다시 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+                rawPhoneNumber = ""; // 번호 초기화
+                displayField.setText("");
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("데이터베이스 조회 실패");
+        }
+    }
+
+    // 휴대폰 번호 마스킹 처리 메서드
+    private String maskPhoneNumber(String phoneNumber) {
+        if (phoneNumber.length() == 10) {
+            return phoneNumber.substring(0, 3) + " - **** - " + phoneNumber.substring(6);
+        } else if (phoneNumber.length() == 11) {
+            return phoneNumber.substring(0, 3) + " - **** - " + phoneNumber.substring(7);
+        } else {
+            return phoneNumber;
         }
     }
 }
