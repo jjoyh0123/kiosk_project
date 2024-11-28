@@ -1,99 +1,76 @@
 package kiosk.vo;
 
-import java.sql.Timestamp;
 
 public class OrderVO {
-	int orderIdx, userIdx, productIdx, couponIdx, 
-	option1Idx, option2Idx, orderNumber, orderProductCategory,
-	orderCount, orderCalorie, orderPrice;
+	// 주문번호, 총 가격, 해당 주문건의 품목, 사용가능한 쿠폰명, 조리상태
+	int orderIdx, orderNumber, orderPrice, productIdx, couponIdx;
+	String productName, couponName, orderStatus;
 	
-	Timestamp orderDate;
-	boolean orderStatus;
-	String couponName;
-	
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public int getOrderIdx() {
+		return orderIdx;
+	}
+
+	public void setOrderIdx(int orderIdx) {
+		this.orderIdx = orderIdx;
+	}
+
 	
 	public String getCouponName() {
 		return couponName;
 	}
+
 	public void setCouponName(String couponName) {
 		this.couponName = couponName;
 	}
-	public int getOrderIdx() {
-		return orderIdx;
+
+	public String getProductName() {
+		return productName;
 	}
-	public void setOrderIdx(int orderIdx) {
-		this.orderIdx = orderIdx;
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
-	public int getUserIdx() {
-		return userIdx;
-	}
-	public void setUserIdx(int userIdx) {
-		this.userIdx = userIdx;
-	}
-	public int getProductIdx() {
-		return productIdx;
-	}
-	public void setProductIdx(int productIdx) {
-		this.productIdx = productIdx;
-	}
-	public int getCouponIdx() {
-		return couponIdx;
-	}
-	public void setCouponIdx(int couponIdx) {
-		this.couponIdx = couponIdx;
-	}
-	public int getOption1Idx() {
-		return option1Idx;
-	}
-	public void setOption1Idx(int option1Idx) {
-		this.option1Idx = option1Idx;
-	}
-	public int getOption2Idx() {
-		return option2Idx;
-	}
-	public void setOption2Idx(int option2Idx) {
-		this.option2Idx = option2Idx;
-	}
+
 	public int getOrderNumber() {
 		return orderNumber;
 	}
+
 	public void setOrderNumber(int orderNumber) {
 		this.orderNumber = orderNumber;
 	}
-	public int getOrderProductCategory() {
-		return orderProductCategory;
-	}
-	public void setOrderProductCategory(int orderProductCategory) {
-		this.orderProductCategory = orderProductCategory;
-	}
-	public int getOrderCount() {
-		return orderCount;
-	}
-	public void setOrderCount(int orderCount) {
-		this.orderCount = orderCount;
-	}
-	public int getOrderCalorie() {
-		return orderCalorie;
-	}
-	public void setOrderCalorie(int orderCalorie) {
-		this.orderCalorie = orderCalorie;
-	}
+
 	public int getOrderPrice() {
 		return orderPrice;
 	}
+
 	public void setOrderPrice(int orderPrice) {
 		this.orderPrice = orderPrice;
 	}
-	public Timestamp getOrderDate() {
-		return orderDate;
+
+	public int getProductIdx() {
+		return productIdx;
 	}
-	public void setOrderDate(Timestamp orderDate) {
-		this.orderDate = orderDate;
+
+	public void setProductIdx(int productIdx) {
+		this.productIdx = productIdx;
 	}
-	public boolean isOrderStatus() {
-		return orderStatus;
+
+	public int getCouponIdx() {
+		return couponIdx;
 	}
-	public void setOrderStatus(boolean orderStatus) {
-		this.orderStatus = orderStatus;
+
+	public void setCouponIdx(int couponIdx) {
+		this.couponIdx = couponIdx;
 	}
+
 }
+	
+	
