@@ -1,14 +1,11 @@
 package kiosk.vo;
 
-
 public class OrderVO {
 	// 주문번호, 총 가격, 해당 주문건의 품목, 사용가능한 쿠폰명, 조리상태
 	int orderIdx, orderNumber, orderPrice, productIdx, couponIdx;
 	String productName, couponName;
 	boolean orderStatus;
-	
-	
-	
+
 	public boolean isOrderStatus() {
 		return orderStatus;
 	}
@@ -25,7 +22,6 @@ public class OrderVO {
 		this.orderIdx = orderIdx;
 	}
 
-	
 	public String getCouponName() {
 		return couponName;
 	}
@@ -75,5 +71,3 @@ public class OrderVO {
 	}
 
 }
-	
-	
