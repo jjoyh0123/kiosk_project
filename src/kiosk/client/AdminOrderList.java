@@ -20,20 +20,28 @@ public class AdminOrderList extends JPanel {
 	JPanel topPanel, orderPanel;
 	JButton refreshBtn;
 	List<OrderVO> orderList;
+	JScrollPane scrollPane;
 
 	public AdminOrderList(Admin parent) {
+		
+		this.setLayout(new BorderLayout());
+
 		this.parent = parent;
 		this.mainFrame = parent.mainFrame;
 		this.parent.add(this);
 
 		// 상단 새로고침 버튼
+
 		topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		refreshBtn = new JButton("새로고침");
 		topPanel.add(refreshBtn);
 		this.add(topPanel, BorderLayout.NORTH);
 
 		orderPanel = new JPanel(new GridLayout(0, 1));
-		this.add(orderPanel);
+		scrollPane = new JScrollPane(orderPanel);
+		this.add(scrollPane, BorderLayout.CENTER);
+		
+		
 
 		try (SqlSession session = mainFrame.factory.openSession()) {
 			orderList = session.selectList("adminOrderList.orderList");
@@ -43,6 +51,8 @@ public class AdminOrderList extends JPanel {
 			ex.printStackTrace();
 		}
 
+		updateUI();
+		
 		// 새로고침 버튼 액션
 		refreshBtn.addActionListener(new ActionListener() {
 			@Override
@@ -68,7 +78,7 @@ public class AdminOrderList extends JPanel {
 		if (orderList != null) {
 			for (OrderVO order : orderList) {
 				JPanel orderCard = createOrderCard(order); // 카드 형식으로 주문 표시
-				System.out.println(order.isOrderStatus() + "");
+				System.out.println(order.isOrderStatus());
 
 				JButton completeBtn = new JButton(getOrderStatusText(order.isOrderStatus()));
 				completeBtn.addActionListener(new ActionListener() {
@@ -79,6 +89,8 @@ public class AdminOrderList extends JPanel {
 							session.update("adminOrderList.updateOrderStatus", order); // 상태 업데이트
 							session.commit();
 
+							completeBtn.setEnabled(false);
+
 							orderList = session.selectList("adminOrderList.orderList");
 							updateOrderPanels(); // 패널 새로 고침
 						} catch (Exception ex) {
@@ -86,8 +98,13 @@ public class AdminOrderList extends JPanel {
 						}
 					}
 				});
-				orderCard.add(completeBtn, BorderLayout.SOUTH); // 버튼을 카드 하단에 추가
-				orderPanel.add(orderCard, BorderLayout.SOUTH);
+
+				if (order.isOrderStatus()) {
+					completeBtn.setEnabled(false); // 이미 조리완료된 주문은 버튼 비활성화
+				}
+
+				orderCard.add(completeBtn, BorderLayout.EAST); // 버튼을 카드 하단에 추가
+				orderPanel.add(orderCard, BorderLayout.EAST);
 			}
 		}
 
@@ -107,22 +124,24 @@ public class AdminOrderList extends JPanel {
 
 		// 카드 상단: 주문 번호와 총 가격
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(new JLabel("주문번호: " + order.getOrderNumber()));
-		topPanel.add(new JLabel("총 가격: " + order.getOrderPrice()));
+		topPanel.add(new JLabel("주문번호. " + order.getOrderNumber()));
+		topPanel.add(new JLabel("주문날짜: " + order.getOrderDate()));
+		topPanel.add(new JLabel("총 가격: " + order.getTotalOrderPrice()));
 		cardPanel.add(topPanel, BorderLayout.NORTH);
 
 		// 카드 중앙: 품목 및 사용 쿠폰명 (길이가 길면 ...으로 처리)
 		JPanel middlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		middlePanel.add(new JLabel("품목: " + truncateText(order.getProductName(), 20)));
-		middlePanel.add(new JLabel("쿠폰명: " + truncateText(order.getCouponName(), 15)));
+		middlePanel.add(new JLabel("품목: " + truncateText(order.getProducts(), 20)));
+		
 		cardPanel.add(middlePanel, BorderLayout.CENTER);
 
 		// 카드 하단: 조리 상태
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		bottomPanel.add(new JLabel("상태: " + order.isOrderStatus()));
+		bottomPanel.add(new JLabel("쿠폰: " + truncateText(order.getAppliedCoupon(), 15)));
+		//bottomPanel.add(new JLabel("조리상태: " + order.isOrderStatus()));
 		cardPanel.add(bottomPanel, BorderLayout.SOUTH);
-
 		return cardPanel;
+
 	}
 
 	// 길이가 긴 텍스트는 ...으로 표시

@@ -1,73 +1,52 @@
 package kiosk.vo;
 
+import java.sql.Date;
+import java.util.List;
+
 public class OrderVO {
-	// 주문번호, 총 가격, 해당 주문건의 품목, 사용가능한 쿠폰명, 조리상태
-	int orderIdx, orderNumber, orderPrice, productIdx, couponIdx;
-	String productName, couponName;
+
+	int orderNumber, totalOrderPrice;
 	boolean orderStatus;
-
-	public boolean isOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(boolean orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public int getOrderIdx() {
-		return orderIdx;
-	}
-
-	public void setOrderIdx(int orderIdx) {
-		this.orderIdx = orderIdx;
-	}
-
-	public String getCouponName() {
-		return couponName;
-	}
-
-	public void setCouponName(String couponName) {
-		this.couponName = couponName;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
+	String products, appliedCoupon;
+	Date orderDate;
 	public int getOrderNumber() {
 		return orderNumber;
 	}
-
 	public void setOrderNumber(int orderNumber) {
 		this.orderNumber = orderNumber;
 	}
-
-	public int getOrderPrice() {
-		return orderPrice;
+	public int getTotalOrderPrice() {
+		return totalOrderPrice;
 	}
-
-	public void setOrderPrice(int orderPrice) {
-		this.orderPrice = orderPrice;
+	public void setTotalOrderPrice(int totalOrderPrice) {
+		this.totalOrderPrice = totalOrderPrice;
 	}
-
-	public int getProductIdx() {
-		return productIdx;
+	public boolean isOrderStatus() {
+		return orderStatus;
 	}
-
-	public void setProductIdx(int productIdx) {
-		this.productIdx = productIdx;
+	public void setOrderStatus(boolean orderStatus) {
+		this.orderStatus = orderStatus;
 	}
-
-	public int getCouponIdx() {
-		return couponIdx;
+	public String getProducts() {
+		return products;
 	}
-
-	public void setCouponIdx(int couponIdx) {
-		this.couponIdx = couponIdx;
+	public void setProducts(String products) {
+		this.products = products;
+	}
+	public String getAppliedCoupon() {
+		return appliedCoupon;
+	}
+	public void setAppliedCoupon(String appliedCoupon) {
+		this.appliedCoupon = appliedCoupon;
+	}
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
 	}
 
 }
+	
+	
+	

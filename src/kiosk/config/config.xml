@@ -18,6 +18,5 @@
 	<mappers>
 		<mapper resource="kiosk/mapper/adminLogin.xml" />
 		<mapper resource="kiosk/mapper/adminOrderList.xml" />
-		<mapper resource="kiosk/mapper/adminCouponSetting.xml" />
 	</mappers>
 </configuration>

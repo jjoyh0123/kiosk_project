@@ -5,39 +5,28 @@
 
 <mapper namespace="adminOrderList">
 
-	<resultMap type="kiosk.vo.OrderVO" id="orderMap">
-		<id column="orderIdx" property="orderIdx" />
-		<result column="orderNumber" property="orderNumber" />
-		<result column="orderPrice" property="orderPrice" />
-		<result column="productName" property="productName" />
-		<result column="couponName" property="couponName" />
-		<result column="orderStatus" property="orderStatus" />
-	</resultMap>
-
-
-	<!-- 주문내역 불러오기 -->
-	<select id="orderList" resultMap="orderMap">
-		SELECT
-		p.productName,
-		SUM(o.orderPrice) AS totalPrice,  <!-- 상품별 주문 금액의 총합 -->
-		o.orderIdx,
-		o.orderNumber,
-		o.orderPrice,
-		c.couponName,
-		o.orderStatus
-		FROM `order` AS o
+<!-- 주문내역 불러오기 -->
+	<select id="orderList" resultType="kiosk.vo.OrderVO">
+		SELECT o.orderNumber,
+		GROUP_CONCAT(DISTINCT CONCAT(p.productName, ' ', o.orderCount , '개') ORDER BY o.productIdx
+		SEPARATOR ', ') AS products,
+		SUM(o.orderCouponApplyPrice) AS totalOrderPrice,
+		MAX(c.couponName) AS appliedCoupon,
+		MIN(o.orderDate) AS orderDate,
+		MIN(o.orderStatus) AS orderStatus
+		FROM `order` o
 		LEFT JOIN product p ON o.productIdx = p.productIdx
 		LEFT JOIN coupon c ON o.couponIdx = c.couponIdx
-		WHERE DATE(o.orderDate) = CURDATE()
-		GROUP BY p.productName, o.orderIdx, o.orderNumber, o.orderPrice, c.couponName, o.orderStatus
-		ORDER BY o.orderStatus ASC, o.orderNumber DESC;
+		WHERE orderDate = CURDATE()
+		GROUP BY o.orderNumber
+		ORDER BY orderStatus ASC, orderDate DESC
 	</select>
 
 	<update id="updateOrderStatus" parameterType="kiosk.vo.OrderVO">
 		UPDATE `order`
 		SET
 		orderStatus = #{orderStatus}
-		WHERE orderIdx = #{orderIdx}
+		WHERE orderNumber = #{orderNumber}
 	</update>
 
 </mapper>
