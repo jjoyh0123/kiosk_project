@@ -15,6 +15,7 @@
     </environment>
   </environments>
   <mappers>
-    <mapper resource="kiosk/mapper/admin.xml" />
+    <mapper resource="kiosk/mapper/adminLogin.xml" />
+    <mapper resource="kiosk/mapper/adminMenuManagement.xml" />
   </mappers>
 </configuration>

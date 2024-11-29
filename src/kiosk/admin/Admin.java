@@ -1,17 +1,12 @@
 package kiosk.admin;
 
-import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JDialog;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-
 import kiosk.adminLogin.AdminLoginJDialog;
 import kiosk.adminMenuManagement.AdminMenuManagementPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Admin extends JDialog {
   JMenuBar menuBar;
@@ -22,7 +17,7 @@ public class Admin extends JDialog {
   JPanel contentPanel;
   CardLayout cardLayout; // 중앙패널변경하기위한 카드레이아웃입니다
 
-  public Admin(AdminLoginJDialog adminLogin, kiosk.client.MainFrame mainFrame) {
+  public Admin(kiosk.client.MainFrame mainFrame, AdminLoginJDialog adminLogin) {
     super(adminLogin, "관리자", true);
 
     // 메뉴 초기화
@@ -56,7 +51,7 @@ public class Admin extends JDialog {
     setJMenuBar(menuBar);
 
     // 주니어가 볼 수 없는 메뉴는 비활성화
-    if ("Junior".equals(adminLogin.loggedInAdmin.getAdminName())) {
+    if (adminLogin != null && "Junior".equals(adminLogin.loggedInAdmin.getAdminName())) {
       menuManageMenuItem.setEnabled(false);
       settlementMenuItem.setEnabled(false);
       behavioralAnalysisMenuItem.setEnabled(false);
@@ -140,7 +135,7 @@ public class Admin extends JDialog {
     this.setUndecorated(true);
     this.setSize(500, 800);
     this.setLocationRelativeTo(mainFrame);
-    this.add(contentPanel); // contentPanel을 JDialog에 추가
+    this.add(contentPanel); // contentPanel 을 JDialog 에 추가
     this.setVisible(true);
   }
 }
