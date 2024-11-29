@@ -1,13 +1,18 @@
 package kiosk.admin;
 
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+
 import kiosk.adminLogin.AdminLoginJDialog;
 import kiosk.adminMenuManagement.AdminMenuManagementPanel;
 import kiosk.adminOrderManagement.AdminOrderList;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Admin extends JDialog {
   JMenuBar menuBar;

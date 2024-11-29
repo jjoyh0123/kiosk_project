@@ -1,12 +1,23 @@
 package kiosk.adminLogin;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.apache.ibatis.session.SqlSession;
+
 import kiosk.admin.Admin;
 import kiosk.adminVO.AdminVO;
 import kiosk.client.MainFrame;
-import org.apache.ibatis.session.SqlSession;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class AdminLoginJDialog extends JDialog {
   MainFrame parent;
@@ -28,7 +39,7 @@ public class AdminLoginJDialog extends JDialog {
     idPasswordPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
     // 관리자 아이디 선택
-    adminIdSelect = new JComboBox<>(new String[]{"선택하세요", "Senior", "Junior"});
+    adminIdSelect = new JComboBox<>(new String[] { "선택하세요", "Senior", "Junior" });
     adminIdSelect.setSelectedIndex(0);
     idPasswordPanel.add(new JLabel("ID"));
     idPasswordPanel.add(adminIdSelect);
@@ -49,7 +60,7 @@ public class AdminLoginJDialog extends JDialog {
     // 3. 넘버패드 패널
     numberPadPanel = new JPanel(new GridLayout(4, 3, 5, 5));
     numberPadPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    String[] buttons = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "←", "0", "C"};
+    String[] buttons = { "7", "8", "9", "4", "5", "6", "1", "2", "3", "←", "0", "C" };
 
     for (String text : buttons) {
       JButton button = new JButton(text);
