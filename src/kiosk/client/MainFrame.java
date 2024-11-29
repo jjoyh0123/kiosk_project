@@ -1,30 +1,22 @@
 package kiosk.client;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.io.Reader;
-
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-
+import kiosk.admin.Admin;
+import kiosk.adminLogin.AdminLoginJDialog;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.io.Reader;
+import java.util.List;
+
 public class MainFrame extends JFrame {
   JPanel mainPanel;
-  JButton adminBtn;
-  SqlSessionFactory factory;
+  public SqlSessionFactory factory;
+  List<kiosk.adminVO.productVO> list;
 
   public MainFrame() {
     dbConnect();
@@ -54,8 +46,8 @@ public class MainFrame extends JFrame {
     actionMap.put("upAction", new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("관리자모드 진입");
-        new AdminLogin(MainFrame.this);
+        System.out.println("관리자 로그인 진입");
+        new AdminLoginJDialog(MainFrame.this);
       }
     });
 
@@ -63,8 +55,8 @@ public class MainFrame extends JFrame {
     actionMap.put("downAction", new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("관리자모드 진입");
-        new Admin(MainFrame.this);
+        System.out.println("관리자 모드 진입");
+        new Admin(MainFrame.this, null);
       }
     });
   }

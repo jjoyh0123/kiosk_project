@@ -1,34 +1,40 @@
-package kiosk.client;
+package kiosk.adminOrderManagement;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Reader;
 import java.util.List;
-import javax.swing.*;
 
-import org.apache.ibatis.io.Resources;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import kiosk.client.MainFrame;
 import kiosk.vo.OrderVO;
 
 public class AdminOrderList extends JPanel {
-	Admin parent;
+	// Admin parent;
 	MainFrame mainFrame;
 	JPanel topPanel, orderPanel;
 	JButton refreshBtn;
 	List<OrderVO> orderList;
 	JScrollPane scrollPane;
 
-	public AdminOrderList(Admin parent) {
-		
+	public AdminOrderList(MainFrame mainFrame) {
 		this.setLayout(new BorderLayout());
 
-		this.parent = parent;
-		this.mainFrame = parent.mainFrame;
-		this.parent.add(this);
+		this.mainFrame = mainFrame;
+
+		// this.parent = parent;
+		// this.mainFrame = parent.mainFrame;
+		// this.parent.add(this);
 
 		// 상단 새로고침 버튼
 
@@ -40,8 +46,6 @@ public class AdminOrderList extends JPanel {
 		orderPanel = new JPanel(new GridLayout(0, 1));
 		scrollPane = new JScrollPane(orderPanel);
 		this.add(scrollPane, BorderLayout.CENTER);
-		
-		
 
 		try (SqlSession session = mainFrame.factory.openSession()) {
 			orderList = session.selectList("adminOrderList.orderList");
@@ -52,7 +56,7 @@ public class AdminOrderList extends JPanel {
 		}
 
 		updateUI();
-		
+
 		// 새로고침 버튼 액션
 		refreshBtn.addActionListener(new ActionListener() {
 			@Override
@@ -132,13 +136,13 @@ public class AdminOrderList extends JPanel {
 		// 카드 중앙: 품목 및 사용 쿠폰명 (길이가 길면 ...으로 처리)
 		JPanel middlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		middlePanel.add(new JLabel("품목: " + truncateText(order.getProducts(), 20)));
-		
+
 		cardPanel.add(middlePanel, BorderLayout.CENTER);
 
 		// 카드 하단: 조리 상태
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		bottomPanel.add(new JLabel("쿠폰: " + truncateText(order.getAppliedCoupon(), 15)));
-		//bottomPanel.add(new JLabel("조리상태: " + order.isOrderStatus()));
+		// bottomPanel.add(new JLabel("조리상태: " + order.isOrderStatus()));
 		cardPanel.add(bottomPanel, BorderLayout.SOUTH);
 		return cardPanel;
 
