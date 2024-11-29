@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import org.apache.ibatis.session.SqlSession;
 
 import kiosk.client.MainFrame;
-import kiosk.vo.OrderVO;
+import kiosk.adminVO.OrderVO;
 
 public class AdminOrderList extends JPanel {
 	// Admin parent;
