@@ -2,7 +2,10 @@ package kiosk.clientVO;
 
 public class CartItem {
 
-    int orderIdx, userIdx, productIdx, couponIdx, option1Idx, option2Idx, orderNumber, orderProductCategory, orderCount;
+    int orderIdx, userIdx, productIdx;
+    Integer couponIdx;
+    Integer option1Idx, option2Idx;
+    int orderNumber, orderProductCategory, orderCount;
     boolean orderStatus;
     int orderCalorie, orderPrice, orderCouponApplyPrice;
 
@@ -41,27 +44,27 @@ public class CartItem {
         this.productIdx = productIdx;
     }
 
-    public int getCouponIdx() {
+    public Integer getCouponIdx() {
         return couponIdx;
     }
 
-    public void setCouponIdx(int couponIdx) {
+    public void setCouponIdx(Integer couponIdx) {
         this.couponIdx = couponIdx;
     }
 
-    public int getOption1Idx() {
+    public Integer getOption1Idx() {
         return option1Idx;
     }
 
-    public void setOption1Idx(int option1Idx) {
+    public void setOption1Idx(Integer option1Idx) {
         this.option1Idx = option1Idx;
     }
 
-    public int getOption2Idx() {
+    public Integer getOption2Idx() {
         return option2Idx;
     }
 
-    public void setOption2Idx(int option2Idx) {
+    public void setOption2Idx(Integer option2Idx) {
         this.option2Idx = option2Idx;
     }
 

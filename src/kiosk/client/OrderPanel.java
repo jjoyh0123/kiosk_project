@@ -3,7 +3,6 @@ package kiosk.client;
 import kiosk.clientVO.CartItem;
 import kiosk.clientVO.OptionVO;
 import kiosk.clientVO.ProductVO;
-import kiosk.clientVO.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -74,10 +73,15 @@ public class OrderPanel extends JPanel {
         cartLabel.setFont(new Font("Arial", Font.BOLD, 15));
         cartLabel.setPreferredSize(new Dimension(150, 50));
         payButton.setFont(new Font("Arial", Font.BOLD, 18));
-        payButton.setPreferredSize(new Dimension(150, 50));
+        payButton.setPreferredSize(new Dimension(120, 50));
+
+        JButton cancelButton = new JButton("취소"); // 홈화면으로 돌아가기
+        cancelButton.setFont(new Font("Arial", Font.BOLD, 18));
+        cancelButton.setPreferredSize(new Dimension(120, 50));
 
         buttonPanel.add(cartLabel);
         buttonPanel.add(payButton);
+        buttonPanel.add(cancelButton);
 
         // 장바구니 표시 영역
         cartPanel = new JPanel();
@@ -117,6 +121,17 @@ public class OrderPanel extends JPanel {
                     System.out.println(mainFrame.userVO.getUserIdx());
                 }
             }
+        });
+
+        cancelButton.addActionListener(e -> {
+            if (mainFrame.userVO != null) {
+                mainFrame.userVO = null;
+            }
+            // 장바구니 초기화
+            clearCart();
+
+            // 메인화면으로 이동
+            mainFrame.switchToMainMenu();
         });
 
         // 기본 카테고리 데이터 로드 및 화면 초기화
@@ -189,7 +204,7 @@ public class OrderPanel extends JPanel {
                 if (product.getProductCategory() == 2) {
                     addToCartButton.addActionListener(e -> addSetMenuToCart(product));
                 } else {
-                    addToCartButton.addActionListener(e -> addToCart(product, 1, 0, 0, 0, 0));
+                    addToCartButton.addActionListener(e -> addToCart(product, 1, 0, 0, 0, 0, 0, 0));
                 }
 
                 itemPanel.add(Box.createVerticalGlue());
@@ -234,9 +249,11 @@ public class OrderPanel extends JPanel {
         int friesPrice = optionDialog.getFriesPrice();
         int drinkPrice = optionDialog.getDrinkPrice();
         int quantity = optionDialog.getQuantity();
+        int friesCalorie = optionDialog.getFriesCalorie();
+        int drinkCalorie = optionDialog.getDrinkCalorie();
 
         if (selectedFriesIdx !=0 && selectedDrinkIdx != 0) {
-            addToCart(product, quantity, selectedFriesIdx, friesPrice, selectedDrinkIdx, drinkPrice);
+            addToCart(product, quantity, selectedFriesIdx, friesPrice, selectedDrinkIdx, drinkPrice, friesCalorie, drinkCalorie);
         }
     }
 
@@ -250,7 +267,11 @@ public class OrderPanel extends JPanel {
         return options;
     }
 
-    private void addToCart(ProductVO product, int quantity, int friesOptionIdx, int friesPrice, int drinkOptionidx, int drinkPrice) {
+    private void addToCart(ProductVO product, int quantity, Integer friesOptionIdx, int friesPrice, Integer drinkOptionidx, int drinkPrice, int friesCalorie, int drinkCalorie) {
+
+        if (cartItems == null) {
+            cartItems = new ArrayList<>(); // null인 경우 초기화
+        }
 
         boolean itemExists = false;
 
@@ -279,8 +300,9 @@ public class OrderPanel extends JPanel {
             cartItem.setOrderProductCategory(product.getProductCategory());
             cartItem.setOrderCount(quantity);
             cartItem.setOrderStatus(true);
-            cartItem.setOrderCalorie(product.getProductCalories());
-            cartItem.setOrderPrice(product.getProductPrice());
+            cartItem.setOrderCalorie((product.getProductCalorie()+friesCalorie+drinkCalorie) * quantity);
+            System.out.println((product.getProductCalorie()+friesCalorie+drinkCalorie) * quantity);
+            cartItem.setOrderPrice(product.getProductPrice()+friesPrice+drinkPrice);
             cartItems.add(cartItem);
         }
 
@@ -376,8 +398,14 @@ public class OrderPanel extends JPanel {
         updatePayButtonState(); // 버튼 상태 갱신
     }
 
-    private void clearCart() {
-        cartItems.clear();
+    public void clearCart() {
+
+        if (cartItems == null) {
+            cartItems = new ArrayList<>(); // cartItems가 null이면 새로 초기화
+        } else {
+            cartItems.clear(); // 기존 리스트 초기화
+        }
+
         totalPrice = 0;
         updateCartLabel();
         updateCartDisplay();

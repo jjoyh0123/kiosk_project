@@ -4,7 +4,7 @@ public class ProductVO {
 
     int productIdx;
     String productName, productDescription;
-    int productPrice, productCategory, productCalories;
+    int productPrice, productCategory, productCalorie;
     boolean productRecommendStatus, productSaleStatus;
     String productRegDate;
 
@@ -24,6 +24,14 @@ public class ProductVO {
         this.productName = productName;
     }
 
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
     public int getProductPrice() {
         return productPrice;
     }
@@ -40,28 +48,12 @@ public class ProductVO {
         this.productCategory = productCategory;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public int getProductCalorie() {
+        return productCalorie;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
-
-    public int getProductCalories() {
-        return productCalories;
-    }
-
-    public void setProductCalories(int productCalories) {
-        this.productCalories = productCalories;
-    }
-
-    public boolean isProductSaleStatus() {
-        return productSaleStatus;
-    }
-
-    public void setProductSaleStatus(boolean productSaleStatus) {
-        this.productSaleStatus = productSaleStatus;
+    public void setProductCalorie(int productCalorie) {
+        this.productCalorie = productCalorie;
     }
 
     public boolean isProductRecommendStatus() {
@@ -70,6 +62,14 @@ public class ProductVO {
 
     public void setProductRecommendStatus(boolean productRecommendStatus) {
         this.productRecommendStatus = productRecommendStatus;
+    }
+
+    public boolean isProductSaleStatus() {
+        return productSaleStatus;
+    }
+
+    public void setProductSaleStatus(boolean productSaleStatus) {
+        this.productSaleStatus = productSaleStatus;
     }
 
     public String getProductRegDate() {

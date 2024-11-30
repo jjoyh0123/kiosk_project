@@ -2,7 +2,7 @@ package kiosk.clientVO;
 
 public class UserVO {
 
-    int userIdx;
+    Integer userIdx;
 
     String userContact, userJoinDate, userGrade;
 
@@ -30,11 +30,11 @@ public class UserVO {
         this.userGrade = userGrade;
     }
 
-    public int getUserIdx() {
+    public Integer getUserIdx() {
         return userIdx;
     }
 
-    public void setUserIdx(int userIdx) {
+    public void setUserIdx(Integer userIdx) {
         this.userIdx = userIdx;
     }
 }

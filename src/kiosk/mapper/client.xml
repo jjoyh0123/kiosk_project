@@ -30,20 +30,31 @@
     </select>
 
     <select id="getCouponsByUserIdxAndProductIdx" parameterType="map" resultType="kiosk.clientVO.CouponVO">
-        SELECT c.*
-        FROM coupon AS c
-        JOIN couponSetting AS cs ON c.couponName = cs.couponSettingName
+        SELECT *
+        FROM coupon
         WHERE 1=1
         <if test="productIdxList != null and productIdxList.size() > 0">
-            AND cs.productIdx IN
+            AND productIdx IN
             <foreach item="item" collection="productIdxList" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="userIdx != null">
-            AND c.userIdx = #{userIdx}
+            AND userIdx = #{userIdx}
         </if>
-        AND c.couponStatus = false;
+        AND couponStatus = false;
     </select>
+
+    <insert id="insertCartItemToOrderTable" parameterType="kiosk.clientVO.CartItem">
+        INSERT INTO `order` (orderIdx, userIdx, productIdx, couponIdx, option1Idx, option2Idx, orderNumber, orderProductCategory, orderCount, orderStatus, orderCalorie, orderPrice, orderCouponApplyPrice)
+        VALUES (#{orderIdx}, #{userIdx}, #{productIdx}, #{couponIdx}, #{option1Idx}, #{option2Idx}, #{orderNumber}, #{orderProductCategory}, #{orderCount}, #{orderStatus}, #{orderCalorie}, #{orderPrice}, #{orderCouponApplyPrice});
+    </insert>
+
+    <update id="updateCouponVO" parameterType="Int">
+        UPDATE coupon
+        SET couponStatus = 1
+        WHERE couponIdx = #{couponIdx}
+        AND couponStatus = 0;
+    </update>
 
 </mapper>

@@ -1,5 +1,6 @@
 package kiosk.client;
 
+import kiosk.clientVO.CartItem;
 import kiosk.clientVO.OptionVO;
 
 import javax.swing.*;
@@ -18,6 +19,8 @@ public class OptionDialog extends JDialog {
     private int selectedDrinkIdx; // 선택된 음료 옵션
     private int friesPrice = 0; // 프라이 옵션 가격
     private int drinkPrice = 0; // 음료 옵션 가격
+    private int friesCalorie = 0;
+    private int drinkCalorie = 0;
 
     public OptionDialog(Frame parent, String productName, int productIdx, int productPrice, List<OptionVO> friesOptions, List<OptionVO> drinkOptions) {
         super(parent, "추가 옵션을 선택해주세요!", true);
@@ -77,6 +80,7 @@ public class OptionDialog extends JDialog {
             radioButton.addActionListener(e -> {
                 selectedFriesIdx = option.getOptionIdx();
                 friesPrice = option.getOptionPrice();
+                friesCalorie = option.getOptionCalorie();
                 updateTotalPrice();
             });
             friesGroup.add(radioButton);
@@ -100,6 +104,7 @@ public class OptionDialog extends JDialog {
             radioButton.addActionListener(e -> {
                 selectedDrinkIdx = option.getOptionIdx();
                 drinkPrice = option.getOptionPrice();
+                drinkCalorie = option.getOptionCalorie();
                 updateTotalPrice();
             });
             drinkGroup.add(radioButton);
@@ -145,10 +150,13 @@ public class OptionDialog extends JDialog {
         bottomPanel.add(totalPriceLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
         JButton confirmButton = new JButton("확인");
         confirmButton.addActionListener(e -> {
             if (validateSelection()) {
+
                 dispose();
+
             } else {
                 JOptionPane.showMessageDialog(null, "모든 옵션을 선택해주세요!", "경고", JOptionPane.WARNING_MESSAGE);
             }
@@ -200,5 +208,13 @@ public class OptionDialog extends JDialog {
 
     public int getDrinkPrice() {
         return drinkPrice;
+    }
+
+    public int getFriesCalorie() {
+        return friesCalorie;
+    }
+
+    public int getDrinkCalorie() {
+        return drinkCalorie;
     }
 }
