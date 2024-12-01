@@ -1,4 +1,4 @@
-package kiosk.vo;
+package kiosk.adminVO;
 
 public class CouponSettingVO {
 

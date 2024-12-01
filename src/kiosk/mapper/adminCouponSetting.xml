@@ -3,32 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="adminCouponSetting">
-<!--
-	<resultMap type="adminCouponSetting" id="CouponSettingMap">
-		<id column="couponIdx" property="couponIdx" />
-		<result column="productIdx" property="productIdx" />
-		<result column="couponSettingName" property="couponSettingName" />
-		<result column="couponSettingGrade" property="couponSettingGrade" />
-		<result column="couponSettingRate" property="couponSettingRate" />
-		<result column="couponSettingFixed" property="couponSettingFixed" />
-		<result column="couponSettingStatus" property="couponSettingStatus" />
-		<result column="productName" property="productName" />
-	</resultMap>
-
--->
-
-
-
+<mapper namespace="couponSetting">
 
 	
-	<select id="couponSetting" resultType="kiosk.vo.CouponSettingVO">
-		SELECT c.productIdx, c.couponSettingName, c.couponSettingGrade, c.couponSettingRate,
-		c.couponSettingFixed, c.couponSettingStatus, p.productName
+	<select id="couponSet" resultType="kiosk.adminVO.CouponSettingVO" >
+		SELECT c.couponSettingName,  p.productName, c.couponSettingRate, c.couponSettingFixed,
+        c.couponSettingGrade, c.couponSettingStatus
 		FROM kiosk.couponSetting AS c
 		INNER JOIN kiosk.product p ON p.productIdx = c.productIdx
-		ORDER BY couponSettingGrade ASC;
+		ORDER BY 
+        CASE 
+        WHEN couponSettingGrade = 'silver' THEN 1
+        WHEN couponSettingGrade = 'gold' THEN 2
+        WHEN couponSettingGrade = 'platinum' THEN 3
+        WHEN couponSettingGrade = 'diamond' THEN 4
+        END;
 	</select>
 
-</mapper>
 
+	<update id="updateCouponSet" parameterType="kiosk.adminVO.CouponSettingVO">
+		UPDATE couponSetting
+		SET
+		couponSettingRate = #{couponSettingRate},
+		couponSettingFixed = #{couponSettingFixed},
+		couponSettingStatus = #{couponSettingStatus}
+		WHERE 
+		couponSettingIdx = #{couponSettingIdx}
+	</update>
+</mapper>

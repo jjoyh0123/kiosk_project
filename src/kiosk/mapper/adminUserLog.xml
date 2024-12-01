@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="searchUserData">
+
+    <!-- 회원 데이터 조회 쿼리 -->
+    <select id="getUserData" parameterType="String" resultType="kiosk.adminUserLogManagement.UserLogVO">
+        SELECT 
+            userIdx, userContact, userJoinDate, userGrade
+        FROM users
+        WHERE userContact LIKE #{number}
+    </select>
+
+</mapper>

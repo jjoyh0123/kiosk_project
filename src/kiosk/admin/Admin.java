@@ -10,9 +10,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import kiosk.adminCouponManagement.AdminCouponSetting;
 import kiosk.adminLogin.AdminLoginJDialog;
 import kiosk.adminMenuManagement.AdminMenuManagementPanel;
 import kiosk.adminOrderManagement.AdminOrderList;
+import kiosk.adminUserLogManagement.AdminUserLog;
 
 public class Admin extends JDialog {
   JMenuBar menuBar;
@@ -112,7 +114,10 @@ public class Admin extends JDialog {
     couponManageMenuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // 필요한 동작 구현
+    	  Admin.this.getContentPane().removeAll();
+          Admin.this.getContentPane().add(new AdminCouponSetting(mainFrame));
+          Admin.this.revalidate();
+          Admin.this.repaint();
       }
     });
 
@@ -120,7 +125,10 @@ public class Admin extends JDialog {
     behavioralAnalysisMenuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        // 필요한 동작 구현
+       	  Admin.this.getContentPane().removeAll();
+          Admin.this.getContentPane().add(new AdminUserLog(mainFrame));
+          Admin.this.revalidate();
+          Admin.this.repaint();
       }
     });
 
