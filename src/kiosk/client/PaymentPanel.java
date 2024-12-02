@@ -32,27 +32,34 @@ public class PaymentPanel extends JPanel {
         this.totalPrice = orderPanel.totalPrice;
         this.finalPrice = orderPanel.totalPrice;
         this.orderPanel = orderPanel;
+        this.setBackground(Color.WHITE);
 
         setLayout(new BorderLayout());
 
         // 상단: 제목
         JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(Color.WHITE);
         titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 10,10,10)); // 상단 여백
         JLabel titleLabel = new JLabel("결제하기", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(80,0,0,0));
         titlePanel.add(titleLabel, BorderLayout.CENTER);
         add(titlePanel, BorderLayout.NORTH);
 
         // 중앙: 결제 옵션 및 쿠폰
         JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
 
         // 쿠폰 선택
         JPanel couponPanel = new JPanel(new BorderLayout());
+        couponPanel.setBackground(Color.WHITE);
         JLabel couponLabel = new JLabel("쿠폰 적용: ");
-        couponLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        couponLabel.setFont(new Font("Arial", Font.BOLD, 27));
+        couponLabel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         couponPanel.add(couponLabel, BorderLayout.WEST);
         couponBox = new JComboBox<>();
         Dimension size = new Dimension(300, 500);
+        couponBox.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
         couponBox.setPreferredSize(size);
         couponBox.setMaximumSize(size);
         couponBox.setMinimumSize(size);
@@ -113,6 +120,8 @@ public class PaymentPanel extends JPanel {
 
         // 결제 수단 버튼
         JPanel paymentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        paymentPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
+        paymentPanel.setBackground(Color.WHITE);
         payWithCardButton = new JButton("신용카드/삼성페이");
         payWithKakaoButton = new JButton("카카오페이");
         payWithAppleButton = new JButton("애플페이");
@@ -132,24 +141,31 @@ public class PaymentPanel extends JPanel {
 
         // 하단: 최종 금액
         JPanel bottomPanel = new JPanel();
+        bottomPanel.setBackground(Color.WHITE);
         bottomPanel.setLayout(new GridLayout(3,1));
 
         JPanel totalAndDiscountPanel = new JPanel(new BorderLayout(10, 10));
+        totalAndDiscountPanel.setBackground(Color.WHITE);
         totalPriceLabel = new JLabel("총 결제 금액: ₩" + finalPrice, JLabel.LEFT);
+        totalPriceLabel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 20));
         discountPriceLabel = new JLabel("총 할인 금액: ₩" + discountPrice, JLabel.RIGHT);
+        discountPriceLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
         discountPriceLabel.setFont(new Font("Arial", Font.BOLD, 20));
         totalAndDiscountPanel.add(totalPriceLabel, BorderLayout.WEST);
         totalAndDiscountPanel.add(discountPriceLabel, BorderLayout.EAST);
         bottomPanel.add(totalAndDiscountPanel);
 
         JPanel finalPricePanel = new JPanel(new BorderLayout(10, 10));
+        finalPricePanel.setBackground(Color.WHITE);
         finalPriceLabel = new JLabel("최종 결제 금액: ₩"+finalPrice, JLabel.CENTER);
+        finalPricePanel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
         finalPriceLabel.setFont(new Font("Arial", Font.BOLD, 20));
         finalPricePanel.add(finalPriceLabel, BorderLayout.EAST);
         bottomPanel.add(finalPricePanel);
 
         JPanel cancelButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        cancelButtonPanel.setBackground(Color.WHITE);
         paymentCancelButton = new JButton("주문취소");
         paymentCancelButton.setPreferredSize(new Dimension(500, 50));
         paymentCancelButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -157,18 +173,21 @@ public class PaymentPanel extends JPanel {
             // 커스텀 JDialog 생성
             JDialog dialog = new JDialog((Frame) null, "전체 취소 확인", true); // 모달 Dialog
             dialog.setUndecorated(true); // 창 테두리 제거
+            dialog.setBackground(Color.WHITE);
             dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // 창 닫기 버튼 비활성화
             dialog.setSize(400, 400);
             dialog.setLocationRelativeTo(null); // 화면 중앙에 표시
 
             // 메시지 패널
             JPanel messagePanel = new JPanel(new BorderLayout());
+            messagePanel.setBackground(Color.WHITE);
             JLabel messageLabel = new JLabel("<html>입력하신 모든 내용이 취소됩니다.<br>전체 취소하시겠습니까?</html>", JLabel.CENTER);
             messageLabel.setFont(new Font("Arial", Font.PLAIN, 30));
             messagePanel.add(messageLabel, BorderLayout.CENTER);
 
             // 버튼 패널
             JPanel buttonPanel = new JPanel(new FlowLayout());
+            buttonPanel.setBackground(Color.WHITE);
             JButton yesButton = new JButton("예");
             JButton noButton = new JButton("아니요");
 
@@ -206,9 +225,15 @@ public class PaymentPanel extends JPanel {
         int selectedIndex = couponBox.getSelectedIndex() - 1; // 쿠폰 리스트의 첫 번째 항목은 "쿠폰을 선택하세요"와 같은 안내 문구이기 때문에, 유효한 쿠폰 리스트 인덱스를 맞추기 위해 -1
 
         // 쿠폰이 선택되지 않은 경우
-        if (selectedIndex < 0) {
+        if (selectedIndex < 0 || couponBox.getSelectedIndex() == 0) {
             finalPrice = totalPrice;
             discountPrice = 0; // 할인 금액 초기화
+
+            // CartItem의 orderCouponApplyPrice를 finalPrice로 설정
+            for (CartItem cartItem : orderPanel.cartItems) {
+                cartItem.setOrderCouponApplyPrice(cartItem.getOrderPrice()); // 원래 가격 그대로 유지
+                System.out.println("쿠폰선택안됨");
+            }
 
         } else {
             System.out.println(couponList.size());
@@ -252,6 +277,14 @@ public class PaymentPanel extends JPanel {
     // 결제 처리
     private void processPayment(String MethodOfPayment) {
         // PaymentDialog 호출
+
+        if (selectedCouponIdx == 0) { // 쿠폰 선택이 안된 경우 원래 가격 유지 (콤보박스를 아예 안클릭한 경우를 위해 여기서 선언)
+            for (CartItem cartItem : orderPanel.cartItems) {
+                cartItem.setOrderCouponApplyPrice(cartItem.getOrderPrice()); // 원래 가격 그대로 유지
+                System.out.println("쿠폰선택안됨");
+            }
+        }
+
         PaymentDialog dialog = new PaymentDialog(mainFrame, orderPanel, MethodOfPayment, orderPanel.cartItems, selectedCouponIdx ,factory);
     }
 

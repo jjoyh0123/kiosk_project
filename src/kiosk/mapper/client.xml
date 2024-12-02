@@ -57,4 +57,10 @@
         AND couponStatus = 0;
     </update>
 
+    <select id="getMaxOrderNumber" resultType="Int">
+        SELECT distinct orderNumber
+        FROM `order`
+        WHERE orderDate = (SELECT MAX(orderDate) FROM `order`)
+    </select>
+
 </mapper>

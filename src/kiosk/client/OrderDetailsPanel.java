@@ -18,6 +18,7 @@ public class OrderDetailsPanel extends JPanel {
 
         this.mainFrame = mainFrame;
         this.orderPanel = orderPanel;
+        this.setBackground(Color.WHITE);
 
         setLayout(new BorderLayout());
 
@@ -30,6 +31,7 @@ public class OrderDetailsPanel extends JPanel {
 
         // 중앙: 주문 내역 리스트
         itemListPanel = new JPanel();
+        itemListPanel.setBackground(Color.WHITE);
         itemListPanel.setLayout(new BoxLayout(itemListPanel, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(itemListPanel);
@@ -37,11 +39,13 @@ public class OrderDetailsPanel extends JPanel {
 
         // 하단: 총 금액 및 버튼들
         bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(Color.WHITE);
         totalPriceLabel = new JLabel("", JLabel.RIGHT);
         totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 25));
         bottomPanel.add(totalPriceLabel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setBackground(Color.WHITE);
         JButton backButton = new JButton("이전으로");
         backButton.setPreferredSize(new Dimension(150, 50));
         payButton = new JButton("결제하기");
@@ -79,6 +83,7 @@ public class OrderDetailsPanel extends JPanel {
 
     public void refreshItemList() {
         itemListPanel.removeAll(); // 기존 항목 제거
+        itemListPanel.setBackground(Color.WHITE);
         itemListPanel.setLayout(new GridBagLayout()); // GridBagLayout 사용
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -97,6 +102,7 @@ public class OrderDetailsPanel extends JPanel {
             if (item.getOrderCount() <= 0) continue;
 
             JPanel itemPanel = new JPanel(new GridBagLayout());
+            itemPanel.setBackground(Color.WHITE);
             itemPanel.setPreferredSize(new Dimension(400, fixedHeight)); // 수평 길이 설정
             itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
@@ -137,6 +143,7 @@ public class OrderDetailsPanel extends JPanel {
             innerGbc.weightx = 0.2;
             innerGbc.anchor = GridBagConstraints.CENTER;
             JPanel quantityPanel = new JPanel(new FlowLayout());
+            quantityPanel.setBackground(Color.WHITE);
             JButton decreaseButton = new JButton("-");
             decreaseButton.setPreferredSize(new Dimension(30, 30));
             JLabel quantityLabel = new JLabel(String.valueOf(item.getOrderCount()), JLabel.CENTER);

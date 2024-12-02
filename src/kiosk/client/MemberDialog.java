@@ -33,30 +33,50 @@ public class MemberDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         // 상단 안내 텍스트와 텍스트 필드
-        JPanel northPanel = new JPanel(new BorderLayout());
+        JPanel titlepanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("휴대폰 번호를 입력해주세요!", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        northPanel.add(titleLabel, BorderLayout.NORTH);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(55,0, 0, 0));
+        titlepanel.setBackground(Color.WHITE);
+        titlepanel.add(titleLabel, BorderLayout.CENTER);
 
+        // 텍스트 필드 패널
+        JPanel fieldPanel = new JPanel(new BorderLayout());
         displayField = new JTextField();
         displayField.setFont(new Font("Arial", Font.PLAIN, 24));
+        displayField.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
+        displayField.setBackground(Color.WHITE);
         displayField.setHorizontalAlignment(JTextField.CENTER);
         displayField.setEditable(false);
         displayField.setPreferredSize(new Dimension(400, 50));
-        northPanel.add(displayField, BorderLayout.SOUTH);
+        fieldPanel.add(displayField, BorderLayout.CENTER);
+
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.setPreferredSize(new Dimension(400, 200));
+        northPanel.setBackground(Color.WHITE);
+        northPanel.add(titlepanel, BorderLayout.NORTH);
+        northPanel.add(fieldPanel, BorderLayout.SOUTH);
 
         // 키패드 버튼
-        JPanel buttonPanel = new JPanel(new GridLayout(4, 3, 10, 20));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 3, 5, 5));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(55,0,0,0));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setPreferredSize(new Dimension(300, 400));
+
+        // 버튼 크기 조정
+        Dimension buttonSize = new Dimension(80, 80);
+
         for (int i = 1; i <= 9; i++) {
             String number = String.valueOf(i);
             JButton numberButton = new JButton(number);
             numberButton.setFont(new Font("Arial", Font.BOLD, 24));
+            numberButton.setPreferredSize(buttonSize);
             numberButton.addActionListener(e -> appendToDisplay(number));
             buttonPanel.add(numberButton);
         }
 
-        JButton clearAllButton = new JButton("전체 지우기");
-        clearAllButton.setFont(new Font("Arial", Font.BOLD, 18));
+        JButton clearAllButton = new JButton("clear");
+        clearAllButton.setFont(new Font("Arial", Font.BOLD, 24));
         clearAllButton.addActionListener(e -> {
             rawPhoneNumber = ""; // 원본 데이터 초기화
             displayField.setText(""); // 텍스트 필드 초기화
@@ -68,15 +88,23 @@ public class MemberDialog extends JDialog {
         zeroButton.addActionListener(e -> appendToDisplay("0"));
         buttonPanel.add(zeroButton);
 
-        JButton backspaceButton = new JButton("하나만 지우기");
-        backspaceButton.setFont(new Font("Arial", Font.BOLD, 18));
+        JButton backspaceButton = new JButton("<");
+        backspaceButton.setFont(new Font("Arial", Font.BOLD, 24));
         backspaceButton.addActionListener(e -> backspaceDisplay());
         buttonPanel.add(backspaceButton);
 
+        // 키패드 패널을 담는 상위 패널
+        JPanel buttonContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)); // 중앙 정렬
+        buttonContainer.setBackground(Color.WHITE);
+        buttonContainer.add(buttonPanel);
+
         // 하단 버튼
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        southPanel.setBackground(Color.WHITE);
         cancelBtn = new JButton("취소");
+        cancelBtn.setPreferredSize(new Dimension(140,50));
         loginBtn = new JButton("확인");
+        loginBtn.setPreferredSize(new Dimension(140, 50));
 
         cancelBtn.setFont(new Font("Arial", Font.BOLD, 18));
         cancelBtn.addActionListener(e -> dispose()); // 다이얼로그 닫기
@@ -94,7 +122,7 @@ public class MemberDialog extends JDialog {
         // 패널 추가
         setLayout(new BorderLayout());
         add(northPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER);
+        add(buttonContainer, BorderLayout.CENTER);
         add(southPanel, BorderLayout.SOUTH);
 
         setVisible(true);

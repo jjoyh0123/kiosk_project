@@ -1,8 +1,10 @@
 package kiosk.client;
 
 import kiosk.clientVO.CartItem;
+import kiosk.clientVO.OptionVO;
 import kiosk.clientVO.UserVO;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -20,7 +22,7 @@ public class MainFrame extends JFrame {
   private JPanel mainPanel;
   private SqlSessionFactory factory;
 
-  public int orderNumber = 1;
+  public int orderNumber = 0;
 
   public UserVO userVO;
   public OrderPanel orderPanel;
@@ -29,6 +31,7 @@ public class MainFrame extends JFrame {
 
   public MainFrame() {
     dbConnect();
+    getMaxDateOrderNumber(); // order테이블에서 날짜가 가장 높은 오더넘버 + 1
 
     // CardLayout 및 메인 패널 설정
     cardLayout = new CardLayout();
@@ -125,6 +128,16 @@ public class MainFrame extends JFrame {
   // 화면 전환 메서드: 메인 메뉴로 돌아가기
   public void switchToMainMenu() {
     cardLayout.show(mainPanel, "MainMenu");
+  }
+
+  private void getMaxDateOrderNumber() {
+    int num = 0;
+    try (SqlSession ss = factory.openSession()) {
+      num = ss.selectOne("client.getMaxOrderNumber");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    orderNumber = num + 1;
   }
 
   public static void main(String[] args) {

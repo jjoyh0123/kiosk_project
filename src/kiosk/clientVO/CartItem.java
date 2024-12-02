@@ -2,9 +2,9 @@ package kiosk.clientVO;
 
 public class CartItem {
 
-    int orderIdx, userIdx, productIdx;
+    int orderIdx, userIdx = 1, productIdx; // 비회원은 userIdx 1
     Integer couponIdx;
-    Integer option1Idx, option2Idx;
+    Integer option1Idx = null, option2Idx = null;
     int orderNumber, orderProductCategory, orderCount;
     boolean orderStatus;
     int orderCalorie, orderPrice, orderCouponApplyPrice;
