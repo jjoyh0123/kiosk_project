@@ -4,14 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Window;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -19,13 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import org.apache.ibatis.session.SqlSession;
 
-import kiosk.adminMenuManagement.adminMenuDetailJDialog;
-import kiosk.client.MainFrame;
 import kiosk.adminVO.CouponSettingVO;
+import kiosk.client.MainFrame;
 
 public class AdminCouponDialog extends JDialog {
 
@@ -38,7 +33,8 @@ public class AdminCouponDialog extends JDialog {
 
 	JTextField lastFocued = null;
 
-	public AdminCouponDialog(MainFrame mainFrame, Window parent, AdminCouponSetting adminCouponSet, CouponSettingVO coupon) {
+	public AdminCouponDialog(MainFrame mainFrame, Window parent, AdminCouponSetting adminCouponSet,
+			CouponSettingVO coupon) {
 		super(parent, "쿠폰 상세", ModalityType.APPLICATION_MODAL);
 
 		this.mainFrame = mainFrame;
@@ -122,12 +118,17 @@ public class AdminCouponDialog extends JDialog {
 				updateCoupon.setCouponSettingRate(Integer.parseInt(field4.getText()));
 				updateCoupon.setCouponSettingFixed(Integer.parseInt(field5.getText()));
 				updateCoupon.setCouponSettingStatus(checkBox.isSelected());
-				
+
 				session.update("couponSetting.updateCouponSet", updateCoupon); // 상태 업데이트
 				session.commit();
+
+				List<CouponSettingVO> updatedCouponList = session.selectList("couponSetting.couponSet");
+
+		        // 테이블 갱신
+		        adminCouponSet.loadCouponData();  // 갱신된 목록으로 테이블을 다시 로드
+
 				
-				adminCouponSet.loadCouponData();
-				
+
 				JOptionPane.showMessageDialog(AdminCouponDialog.this, "저장되었습니다.");
 				dispose();
 			} catch (Exception ex) {
@@ -171,7 +172,7 @@ public class AdminCouponDialog extends JDialog {
 
 	// 넘버패드 버튼 동작 처리
 	private void handleNumberPadInput(String input) {
-		if (lastFocued == null)	{
+		if (lastFocued == null) {
 			JOptionPane.showMessageDialog(AdminCouponDialog.this, "입력할 필드를 선택하세요.");
 			return;
 		}

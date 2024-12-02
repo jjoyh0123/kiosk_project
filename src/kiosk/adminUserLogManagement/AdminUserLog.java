@@ -30,7 +30,7 @@ public class AdminUserLog extends JPanel {
 	public AdminUserLog(MainFrame mainFrame) {
 		// 오늘 날짜 및 검색 범위 설정
 		today = LocalDate.now(); // 2024년 12월을 기준으로 시작
-		minDate = today.minusMonths(3); // 3개월 전 (2024년 9월)
+		minDate = today.minusMonths(2); // 3개월 전 (2024년 9월)
 		maxDate = today.withMonth(12).withDayOfMonth(today.lengthOfMonth());
 		currentDate = today; // 기본 날짜: 오늘
 
@@ -97,14 +97,19 @@ public class AdminUserLog extends JPanel {
 
 	// 날짜 업데이트 메서드
 	private void updateDate(int monthOffset) {
-		LocalDate newDate = currentDate.plusMonths(monthOffset); // 새로운 날짜 계산
+		if (currentDate.getMonthValue() == 12 && monthOffset > 0) {
+	        // 12월을 넘어가는 경우, 아무것도 하지 않고 종료
+	        nextMonthBtn.setEnabled(false); // 12월이면 버튼 비활성화
+	        return;
+	    }
 
-		// 날짜가 범위 내에 있는지 확인
-		if (newDate.isBefore(minDate) || newDate.isAfter(maxDate)) {
-			JOptionPane.showMessageDialog(this,
-					"검색 가능한 날짜는 " + getFormattedDate(minDate) + "부터 " + getFormattedDate(maxDate) + "까지입니다.", "범위 초과",
-					JOptionPane.WARNING_MESSAGE);
-			return;
+		    // 새로운 날짜 계산
+		    LocalDate newDate = currentDate.plusMonths(monthOffset); // newDate는 한 번만 선언
+
+		if (currentDate.getMonthValue() == 12) {
+			nextMonthBtn.setEnabled(false); // 12월이면 비활성화
+		} else {
+			nextMonthBtn.setEnabled(true); // 그 외에는 활성화
 		}
 
 		currentDate = newDate; // 날짜 업데이트
@@ -133,9 +138,6 @@ public class AdminUserLog extends JPanel {
 		System.out.println("검색된 날짜의 데이터 검색: " + getFormattedDate(date));
 		// TODO: DB 연동 및 데이터 로드 로직 추가
 	}
-	
-	
-	
 
 	// 전체 데이터를 불러오는 메서드
 	private void loadAllData() {

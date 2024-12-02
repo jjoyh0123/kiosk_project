@@ -7,7 +7,7 @@
 
 	
 	<select id="couponSet" resultType="kiosk.adminVO.CouponSettingVO" >
-		SELECT c.couponSettingName,  p.productName, c.couponSettingRate, c.couponSettingFixed,
+		SELECT c.couponSettingIdx, c.couponSettingName,  p.productName, c.couponSettingRate, c.couponSettingFixed,
         c.couponSettingGrade, c.couponSettingStatus
 		FROM kiosk.couponSetting AS c
 		INNER JOIN kiosk.product p ON p.productIdx = c.productIdx
@@ -27,6 +27,7 @@
 		couponSettingRate = #{couponSettingRate},
 		couponSettingFixed = #{couponSettingFixed},
 		couponSettingStatus = #{couponSettingStatus}
+		
 		WHERE 
 		couponSettingIdx = #{couponSettingIdx}
 	</update>
