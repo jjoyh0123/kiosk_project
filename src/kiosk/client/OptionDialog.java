@@ -35,6 +35,7 @@ public class OptionDialog extends JDialog {
 
         // 상단: 상품 정보
         JPanel productInfoPanel = new JPanel(new BorderLayout());
+        productInfoPanel.setBackground(Color.WHITE);
         productInfoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // 동적으로 이미지 설정
@@ -42,17 +43,16 @@ public class OptionDialog extends JDialog {
         try {
             String imagePath = "/kiosk/static/product" + productIdx + ".jpg";
             ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
-            Image scaledImage = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image scaledImage = icon.getImage().getScaledInstance(150, 100, Image.SCALE_SMOOTH);
             productImage.setIcon(new ImageIcon(scaledImage));
         } catch (NullPointerException e) {
-            // 기본 이미지 제공
-            productImage.setIcon(new ImageIcon(new ImageIcon("default_image_path.jpg").getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
-            System.err.println("이미지 로드 실패: /kiosk/static/product" + productIdx + ".jpg");
+            e.printStackTrace();
         }
         productImage.setPreferredSize(new Dimension(150, 150));
         productInfoPanel.add(productImage, BorderLayout.WEST);
 
         JPanel productDetails = new JPanel(new GridLayout(3, 1));
+        productDetails.setBackground(Color.WHITE);
         productDetails.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JLabel nameLabel = new JLabel(productName);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -66,11 +66,13 @@ public class OptionDialog extends JDialog {
 
         // 중앙: 옵션 선택
         JPanel optionsPanel = new JPanel();
+        optionsPanel.setBackground(Color.WHITE);
         optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS)); // BoxLayout을 사용하여 동적 레이아웃 적용
         optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // 프라이 옵션
         JPanel friesContainer = new JPanel();
+        friesContainer.setBackground(Color.WHITE);
         friesContainer.setLayout(new BoxLayout(friesContainer, BoxLayout.Y_AXIS)); // 세로 정렬
         friesContainer.setBorder(BorderFactory.createTitledBorder("프라이 선택"));
         friesGroup = new ButtonGroup();
@@ -95,6 +97,7 @@ public class OptionDialog extends JDialog {
 
         // 음료 옵션
         JPanel drinkContainer = new JPanel();
+        drinkContainer.setBackground(Color.WHITE);
         drinkContainer.setLayout(new BoxLayout(drinkContainer, BoxLayout.Y_AXIS)); // 세로 정렬
         drinkContainer.setBorder(BorderFactory.createTitledBorder("음료 선택"));
         drinkGroup = new ButtonGroup();
@@ -112,6 +115,7 @@ public class OptionDialog extends JDialog {
         }
 
         JScrollPane drinkScrollPane = new JScrollPane(drinkContainer);
+        drinkScrollPane.setBackground(Color.WHITE);
         drinkScrollPane.setPreferredSize(new Dimension(400, 100)); // 스크롤 높이 제한
         drinkScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         drinkScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -121,9 +125,11 @@ public class OptionDialog extends JDialog {
 
         // 하단: 수량 선택 및 확인/취소 버튼
         JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(Color.WHITE);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        quantityPanel.setBackground(Color.WHITE);
         JButton minusButton = new JButton("-");
         minusButton.addActionListener(e -> {
             if (quantity > 1) {
@@ -150,6 +156,7 @@ public class OptionDialog extends JDialog {
         bottomPanel.add(totalPriceLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(Color.WHITE);
 
         JButton confirmButton = new JButton("확인");
         confirmButton.addActionListener(e -> {
