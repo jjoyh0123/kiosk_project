@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="client">
+
+  <!-- 전화번호와 맞는 유저 한명의 정보 가져오기 -->
+  <select id="getMatchedUserInfo" parameterType="String" resultType="kiosk.clientVO.UserVO">
+    SELECT *
+    FROM user
+    WHERE userContact = #{userContact}
+  </select>
+
+  <select id="getProductData" parameterType="Int" resultType="kiosk.clientVO.ProductVO">
+    SELECT *
+    FROM product
+    WHERE productCategory = #{productCategory}
+  </select>
+
+  <select id="getOptionData" parameterType="Int" resultType="kiosk.clientVO.OptionVO">
+    SELECT *
+    FROM `option`
+    WHERE optionCategory = #{optionCategory}
+  </select>
+
+  <select id="getCouponData" parameterType="Int" resultType="kiosk.clientVO.CouponVO">
+    SELECT *
+    FROM coupon
+    WHERE userIdx = #{userIdx}
+  </select>
+
+  <select id="getCouponsByUserIdxAndProductIdx" parameterType="map" resultType="kiosk.clientVO.CouponVO">
+    SELECT *
+    FROM coupon
+    WHERE 1=1
+    <if test="productIdxList != null and productIdxList.size() > 0">
+      AND productIdx IN
+      <foreach item="item" collection="productIdxList" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="userIdx != null">
+      AND userIdx = #{userIdx}
+    </if>
+    AND couponStatus = false;
+  </select>
+
+  <insert id="insertCartItemToOrderTable" parameterType="kiosk.clientVO.CartItem">
+    INSERT INTO `order` (orderIdx, userIdx, productIdx, couponIdx, option1Idx, option2Idx, orderNumber,
+    orderProductCategory, orderCount, orderStatus, orderCalorie, orderPrice, orderCouponApplyPrice)
+    VALUES (#{orderIdx}, #{userIdx}, #{productIdx}, #{couponIdx}, #{option1Idx}, #{option2Idx}, #{orderNumber},
+    #{orderProductCategory}, #{orderCount}, #{orderStatus}, #{orderCalorie}, #{orderPrice}, #{orderCouponApplyPrice});
+  </insert>
+
+  <update id="updateCouponVO" parameterType="Int">
+    UPDATE coupon
+    SET couponStatus = 1
+    WHERE couponIdx = #{couponIdx}
+    AND couponStatus = 0;
+  </update>
+
+  <select id="getMaxOrderNumber" resultType="Int">
+    SELECT distinct orderNumber
+    FROM `order`
+    WHERE orderDate = (SELECT MAX(orderDate) FROM `order`)
+  </select>
+
+</mapper>
