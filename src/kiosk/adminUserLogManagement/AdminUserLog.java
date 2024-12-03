@@ -1,6 +1,5 @@
 package kiosk.adminUserLogManagement;
 
-import javax.swing.table.AbstractTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -19,10 +18,9 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import Create.RoundedButton;
 import org.apache.ibatis.session.SqlSession;
 
-import kiosk.adminCouponManagement.AdminCouponDialog;
-import kiosk.adminCouponManagement.AdminCouponSetting;
 import kiosk.adminVO.UserLogVO;
 import kiosk.client.MainFrame;
 
@@ -46,7 +44,7 @@ public class AdminUserLog extends JPanel {
   DefaultTableModel userLogModel;
   JScrollPane scrollPane;
 
-  String[] columnNames = {"고객연락처", "등급", "Top1상품명", "Top2상품명", "Top3상품명"};
+  String[] columnNames = {"고객연락처", "등급"};
 
   public AdminUserLog(MainFrame mainFrame) {
     this.mainFrame = mainFrame;
@@ -62,8 +60,8 @@ public class AdminUserLog extends JPanel {
 
     // 상단 버튼 패널 초기화
     topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // 버튼 가운데 정렬
-    allSelectBtn = new JButton("전체선택");
-    numberSearchBtn = new JButton("번호검색");
+    allSelectBtn = new RoundedButton("전체선택");
+    numberSearchBtn = new RoundedButton("번호검색");
 
     // 상단 패널에 버튼 추가
     topPanel.add(allSelectBtn);
@@ -124,7 +122,7 @@ public class AdminUserLog extends JPanel {
     numberSearchBtn.addActionListener(e -> {
       AdminUserSeachDialog dialog = new AdminUserSeachDialog(JOptionPane.getFrameForComponent(this), // 다이얼로그의 부모
 
-          this::searchByNumber);
+              this::searchByNumber);
       dialog.setLocationRelativeTo(this); // 현재 화면 중앙에 다이얼로그 표시
       dialog.setVisible(true); // 다이얼로그 표시
     });
@@ -143,13 +141,10 @@ public class AdminUserLog extends JPanel {
             // 선택된 행의 데이터 가져오기
             String userContact = logTable.getValueAt(selectedRow, 0).toString();
             String usergrade = (String) logTable.getValueAt(selectedRow, 1).toString();
-            String top1 = (String) logTable.getValueAt(selectedRow, 2).toString();
-            String top2 = (String) logTable.getValueAt(selectedRow, 3).toString();
-            String top3 = (String) logTable.getValueAt(selectedRow, 4).toString();
 
-            kiosk.adminVO.UserLogVO loglist = userLogList.get(selectedRow);
+            kiosk.adminVO.UserLogVO log = userLogList.get(selectedRow);
 
-            showDialog(loglist);
+            showDialog(log);
           }
         }
       }
@@ -157,16 +152,18 @@ public class AdminUserLog extends JPanel {
 
   }
 
-  private void showDialog(kiosk.adminVO.UserLogVO loglist) {
-    //AdminCouponDialog dialog = new AdminCouponDialog(mainFrame, SwingUtilities.getWindowAncestor(this), AdminCouponSetting.this, loglist);
-    //dialog.setVisible(true);
-    //dialog.setLocationRelativeTo(null);
+  // 조회된 테이블을 선택했을때 뜨는 다이얼로그
+  private void showDialog(UserLogVO log) {
+    AdminUserTableLogDialog dialog = new AdminUserTableLogDialog(mainFrame, SwingUtilities.getWindowAncestor(this), this, log);
+    dialog.setVisible(true);
+    dialog.setLocationRelativeTo(null);
   }
+
 
 
   // 날짜 업데이트 메서드
   private void updateDate(int monthOffset) {
-    if (currentDate.getMonthValue() == 12 && monthOffset > 0) {
+    if (currentDate.getMonthValue() == 11 && monthOffset > 0) {
       // 12월을 넘어가는 경우, 아무것도 하지 않고 종료
       nextMonthBtn.setEnabled(false); // 12월이면 버튼 비활성화
       return;
@@ -220,11 +217,11 @@ public class AdminUserLog extends JPanel {
       // 쿠폰 데이터를 테이블에 추가
       for (UserLogVO log : userLogList) {
         userLogModel.addRow(new Object[]{
-            log.getUserContact(),
-            log.getLogGrade(),
-            log.getTop1ProductName(),
-            log.getTop2ProductName(),
-            log.getTop3ProductName(),
+                log.getUserContact(),
+                log.getLogGrade(),
+                log.getTop1ProductName(),
+                log.getTop2ProductName(),
+                log.getTop3ProductName(),
         });
       }
 
@@ -251,14 +248,14 @@ public class AdminUserLog extends JPanel {
       // 테이블 초기화
       userLogModel.setRowCount(0);
 
-      // 쿠폰 데이터를 테이블에 추가
+      // 로그 데이터를 테이블에 추가
       for (UserLogVO log : userLogList) {
         userLogModel.addRow(new Object[]{
-          log.getUserContact(),
-          log.getLogGrade(),
-          log.getTop1ProductName(),
-          log.getTop2ProductName(),
-          log.getTop3ProductName(),
+                log.getUserContact(),
+                log.getLogGrade(),
+                log.getTop1ProductName(),
+                log.getTop2ProductName(),
+                log.getTop3ProductName(),
         });
       }
 
@@ -273,8 +270,31 @@ public class AdminUserLog extends JPanel {
   }
 
   // 번호로 데이터를 검색하는 메서드
-  private void searchByNumber(String number) {
-    System.out.println("검색한 번호: " + number);
-  }
+  public void searchByNumber(String number) {
+    try {
+      System.out.println("검색한 번호: " + number);
+      SqlSession ss = mainFrame.factory.openSession(); // MainFrame에서 제공된 factory 사용
+      userLogList = ss.selectList("searchUserData.searchByNumber", number); // Mapper 호출
+      ss.close();
 
+      // 테이블 초기화
+      userLogModel.setRowCount(0);
+
+      // 조회된 데이터로 테이블에 추가
+      for (UserLogVO log : userLogList) {
+        userLogModel.addRow(new Object[]{
+                log.getUserContact(),
+                log.getLogGrade(),
+        });
+      }
+
+      contentPanel.revalidate();
+      contentPanel.repaint();
+      logTable.revalidate();
+      logTable.repaint();
+    } catch (Exception e) {
+      e.printStackTrace();
+      JOptionPane.showMessageDialog(this, "번호로 데이터를 불러오는 중 오류가 발생했습니다.");
+    }
+  }
 }

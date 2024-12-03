@@ -165,6 +165,7 @@ public class AdminCouponDialog extends JDialog {
     add(mainPanel, BorderLayout.CENTER);
 
     setSize(460, 600);
+    setUndecorated(false);
     setLocationRelativeTo(parent);
   }
 

@@ -20,7 +20,7 @@ import kiosk.client.MainFrame;
 import kiosk.adminVO.OrderVO;
 
 public class AdminOrderList extends JPanel {
-  // Admin parent;
+
   MainFrame mainFrame;
   JPanel topPanel, orderPanel;
   JButton refreshBtn;
@@ -32,12 +32,8 @@ public class AdminOrderList extends JPanel {
 
     this.mainFrame = mainFrame;
 
-    // this.parent = parent;
-    // this.mainFrame = parent.mainFrame;
-    // this.parent.add(this);
 
     // 상단 새로고침 버튼
-
     topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
     refreshBtn = new JButton("새로고침");
     topPanel.add(refreshBtn);
@@ -74,12 +70,12 @@ public class AdminOrderList extends JPanel {
 
   }
 
-  // 주문 패널 업데이트 메서드
+  // 주문 panel 업데이트 메서드
   private void updateOrderPanels() {
     orderPanel.removeAll();
 
     System.out.println(orderList.size());
-    if (orderList != null) {
+    if (orderList != null && !orderList.isEmpty()) {
       for (OrderVO order : orderList) {
         JPanel orderCard = createOrderCard(order); // 카드 형식으로 주문 표시
         System.out.println(order.isOrderStatus());
@@ -108,7 +104,7 @@ public class AdminOrderList extends JPanel {
         }
 
         orderCard.add(completeBtn, BorderLayout.EAST); // 버튼을 카드 하단에 추가
-        orderPanel.add(orderCard, BorderLayout.EAST);
+        orderPanel.add(orderCard);
       }
     }
 
@@ -120,10 +116,11 @@ public class AdminOrderList extends JPanel {
     return (orderStatus) ? "조리완료" : "조리중";
   }
 
-  // 카드 형식으로 주문을 표시하는 메서드
+  // 카드 형식으로 주문을 표시
   private JPanel createOrderCard(OrderVO order) {
     JPanel cardPanel = new JPanel();
     cardPanel.setLayout(new BorderLayout());
+    cardPanel.setBackground(Color.WHITE);
     cardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
     // 카드 상단: 주문 번호와 총 가격

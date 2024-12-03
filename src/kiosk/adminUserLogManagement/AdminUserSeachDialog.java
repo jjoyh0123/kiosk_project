@@ -2,6 +2,7 @@ package kiosk.adminUserLogManagement;
 
 import javax.swing.*;
 
+import Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.client.MainFrame;
 
@@ -11,7 +12,9 @@ import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
 public class AdminUserSeachDialog extends JDialog {
-  private JTextField textField;
+  private JTextField textField, currentText;
+  private JPanel inputPanel, keypadPanel, actionPanel;
+  private JButton backspaceButton, zeroButton, clearButton, searchButton;
 
   public AdminUserSeachDialog(Frame frame, Consumer<String> onSearch) {
     super(frame, "번호 검색", true);
@@ -19,6 +22,7 @@ public class AdminUserSeachDialog extends JDialog {
 
     // 상단 번호 입력 필드
     JPanel inputPanel = new JPanel(new BorderLayout());
+    inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
     JLabel label = new JLabel("번호: ");
     textField = new JTextField(15);
 
@@ -34,7 +38,7 @@ public class AdminUserSeachDialog extends JDialog {
     // 버튼 키패드
     JPanel keypadPanel = new JPanel(new GridLayout(4, 3, 5, 5));
     for (int i = 1; i <= 9; i++) {
-      JButton button = new JButton(String.valueOf(i));
+      JButton button = new RoundedButton(String.valueOf(i));
       button.setPreferredSize(new Dimension(60, 60));
       button.addActionListener(e -> appendToTextField(button.getText()));
       keypadPanel.add(button);
@@ -58,8 +62,8 @@ public class AdminUserSeachDialog extends JDialog {
 
     // 하단 버튼: 입력 및 취소
     JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    JButton searchButton = new JButton("입력");
-    JButton cancelButton = new JButton("취소");
+    JButton searchButton = new RoundedButton("입력");
+    JButton cancelButton = new RoundedButton("취소");
     actionPanel.add(searchButton);
     actionPanel.add(cancelButton);
 
@@ -83,6 +87,7 @@ public class AdminUserSeachDialog extends JDialog {
     add(actionPanel, BorderLayout.CENTER);
 
     setSize(300, 400);
+    setUndecorated(false);
     setLocationRelativeTo(frame);
   }
 
