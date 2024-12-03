@@ -1,20 +1,6 @@
 package kiosk.userMenuManagement;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
-import org.apache.ibatis.session.SqlSession;
-import kiosk.adminVO.OrderVO;
-import kiosk.client.MainFrame;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
@@ -23,6 +9,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import org.apache.ibatis.session.SqlSession;
+
+import kiosk.adminVO.OrderVO;
+import kiosk.client.MainFrame;
 
 public class AdminUserSettlementPanel extends JPanel {
     JLabel dateLabel;
@@ -47,10 +49,9 @@ public class AdminUserSettlementPanel extends JPanel {
         settlementLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
         topPanel.add(settlementLabel, BorderLayout.NORTH);
 
-
         // 합계 표시 패널
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-        
+
         JLabel titleLabel = new JLabel("쿠폰 보기", JLabel.CENTER);
         titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 35));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
@@ -92,7 +93,7 @@ public class AdminUserSettlementPanel extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         // 테이블 섹션
-        String[] columnNames = {"", "주문번호", "회원번호", "주문 일자", "주문금액"};
+        String[] columnNames = { "", "주문번호", "회원번호", "주문 일자", "주문금액" };
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -134,38 +135,38 @@ public class AdminUserSettlementPanel extends JPanel {
     }
 
     private void changeViewMode(String mode) {
-        viewMode = mode;   // 뷰 모드 변경
+        viewMode = mode; // 뷰 모드 변경
         updateDateLabel(); // 레이블 업데이트
-        loadTableData();   // 데이터를 다시 로드
+        loadTableData(); // 데이터를 다시 로드
     }
 
     private void changePeriod(int direction) {
         switch (viewMode) {
-            case "daily":
-                currentDate = currentDate.plusDays(direction);
-                break;
-            case "monthly":
-                currentDate = currentDate.plusMonths(direction);
-                break;
-            case "yearly":
-                currentDate = currentDate.plusYears(direction);
-                break;
+        case "daily":
+            currentDate = currentDate.plusDays(direction);
+            break;
+        case "monthly":
+            currentDate = currentDate.plusMonths(direction);
+            break;
+        case "yearly":
+            currentDate = currentDate.plusYears(direction);
+            break;
         }
         updateDateLabel(); // 날짜 레이블 업데이트
-        loadTableData();   // 데이터 로드
+        loadTableData(); // 데이터 로드
     }
 
     private void updateDateLabel() {
         switch (viewMode) {
-            case "daily":
-                dateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                break;
-            case "monthly":
-                dateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM")));
-                break;
-            case "yearly":
-                dateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("yyyy")));
-                break;
+        case "daily":
+            dateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            break;
+        case "monthly":
+            dateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+            break;
+        case "yearly":
+            dateLabel.setText(currentDate.format(DateTimeFormatter.ofPattern("yyyy")));
+            break;
         }
     }
 
@@ -177,18 +178,18 @@ public class AdminUserSettlementPanel extends JPanel {
 
             // 뷰 모드에 따라 쿼리 및 날짜 파라미터 설정
             switch (viewMode) {
-                case "daily":
-                    queryId = "adminUserManagement.getDailyOrders";
-                    dateParam = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 일별
-                    break;
-                case "monthly":
-                    queryId = "adminUserManagement.getMonthlyOrders";
-                    dateParam = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM")); // 월별
-                    break;
-                case "yearly":
-                    queryId = "adminUserManagement.getYearlyOrders";
-                    dateParam = currentDate.format(DateTimeFormatter.ofPattern("yyyy")); // 연별
-                    break;
+            case "daily":
+                queryId = "adminUserManagement.getDailyOrders";
+                dateParam = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 일별
+                break;
+            case "monthly":
+                queryId = "adminUserManagement.getMonthlyOrders";
+                dateParam = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM")); // 월별
+                break;
+            case "yearly":
+                queryId = "adminUserManagement.getYearlyOrders";
+                dateParam = currentDate.format(DateTimeFormatter.ofPattern("yyyy")); // 연별
+                break;
             }
 
             // 데이터 조회
@@ -197,13 +198,8 @@ public class AdminUserSettlementPanel extends JPanel {
                 int rowNum = 1;
                 int total = 0;
                 for (OrderVO order : results) {
-                    tableModel.addRow(new Object[]{
-                        rowNum++, 
-                        order.getOrderNumber(), 
-                        order.getUserContact(), 
-                        order.getOrderDate(), 
-                        order.getTotalOrderPrice()
-                    });
+                    tableModel.addRow(new Object[] { rowNum++, order.getOrderNumber(), order.getUserContact(),
+                            order.getOrderDate(), order.getTotalOrderPrice() });
                     total += order.getTotalOrderPrice();
                 }
 
@@ -219,7 +215,7 @@ public class AdminUserSettlementPanel extends JPanel {
     private void showDateInputDialog() {
         Window parentWindow = SwingUtilities.getWindowAncestor(this);
         JFrame parentFrame = parentWindow instanceof JFrame ? (JFrame) parentWindow : null;
-        AdminUserSettlementDayDialog dialog = new AdminUserSettlementDayDialog();
+        AdminUserSettlementDayDialog dialog = new AdminUserSettlementDayDialog(parentFrame);
         dialog.setVisible(true);
 
         if (dialog.isApplied()) {
@@ -244,13 +240,8 @@ public class AdminUserSettlementPanel extends JPanel {
             int total = 0;
             for (int i = 0; i < results.size(); i++) {
                 OrderVO order = results.get(i);
-                tableModel.addRow(new Object[]{
-                    i + 1,
-                    order.getOrderNumber(),
-                    order.getUserContact(),
-                    order.getOrderDate(),
-                    order.getTotalOrderPrice()
-                });
+                tableModel.addRow(new Object[] { i + 1, order.getOrderNumber(), order.getUserContact(),
+                        order.getOrderDate(), order.getTotalOrderPrice() });
                 total += order.getTotalOrderPrice();
             }
 

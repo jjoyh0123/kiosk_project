@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="admin">
+<mapper namespace="adminLogin">
 
 	<!--  비밀번호 조회-->
-	<select id="idpw" parameterType="String" resultType="kiosk.vo.AdminVO">
+	<select id="idpw" parameterType="String" resultType="kiosk.adminVO.AdminVO">
 		SELECT * From admin WHERE adminName = #{id}
 	</select>
 

@@ -1,5 +1,12 @@
 package kiosk.userMenuManagement;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -11,46 +18,32 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.apache.ibatis.session.SqlSession;
-import kiosk.adminVO.UserVO;
+
+import kiosk.admin.Admin;
 import kiosk.adminVO.CouponSettingVO;
 import kiosk.adminVO.CouponVO;
 import kiosk.client.MainFrame;
-import kiosk.admin.Admin;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class AdminUserCouponPayment extends JDialog {
     int userIdx;
-     MainFrame mainFrame;
-     String userGrade;
+    MainFrame mainFrame;
+    String userGrade;
 
-    public AdminUserCouponPayment(Admin owner, int userIdx,String userGrade, String userContact, MainFrame mainFrame) {
+    public AdminUserCouponPayment(Admin owner, int userIdx, String userGrade, String userContact, MainFrame mainFrame) {
         super(owner, "회원 쿠폰 관리", true);
         this.userIdx = userIdx;
         this.mainFrame = mainFrame;
-        this.userGrade= userGrade;
+        this.userGrade = userGrade;
         // 다이얼로그 기본 설정
         setLayout(new BorderLayout());
         setSize(460, 450);
-        //setLocationRelativeTo(owner);
-        
+        // setLocationRelativeTo(owner);
+
         setUndecorated(true);
         setLocation(730, 230);
-       // 탑패널 그 해당 회원의 번호와 등급이 나오고 나가기 버튼 만듬 
+        // 탑패널 그 해당 회원의 번호와 등급이 나오고 나가기 버튼 만듬
         JPanel topPanel = new JPanel(new BorderLayout());
-        
-       
 
-        
         JLabel userInfoLabel = new JLabel("고객 ID: " + userContact + ", 등급: " + userGrade);
         topPanel.add(userInfoLabel, BorderLayout.WEST);
 
@@ -60,7 +53,7 @@ public class AdminUserCouponPayment extends JDialog {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // 개별 쿠폰나오는 패널들 box layout설정 
+        // 개별 쿠폰나오는 패널들 box layout설정
         JPanel couponListPanel = new JPanel();
         couponListPanel.setLayout(new BoxLayout(couponListPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(couponListPanel);
@@ -83,20 +76,20 @@ public class AdminUserCouponPayment extends JDialog {
 
                     JLabel nameLabel = new JLabel(coupon.getCouponSettingName() + " 쿠폰");
                     nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    //JLabel discountLabel = new JLabel("할인율: " + coupon.getCouponSettingFixed()+"원");
-                    //discountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    // JLabel discountLabel = new JLabel("할인율: " + coupon.getCouponSettingFixed()+"원");
+                    // discountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                     JButton issueButton = new JButton("쿠폰 지급");
                     issueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                     issueButton.addActionListener(e -> {
-                    	issueCouponToUser(coupon);
+                        issueCouponToUser(coupon);
                         JOptionPane.showMessageDialog(this, coupon.getCouponSettingName() + " 쿠폰이 지급되었습니다!");
                     });
 
                     couponPanel.add(nameLabel);
                     couponPanel.add(Box.createVerticalStrut(10));
-                    //couponPanel.add(discountLabel);
-                    //couponPanel.add(Box.createVerticalStrut(10));
+                    // couponPanel.add(discountLabel);
+                    // couponPanel.add(Box.createVerticalStrut(10));
                     couponPanel.add(issueButton);
 
                     couponListPanel.add(couponPanel);
@@ -125,13 +118,12 @@ public class AdminUserCouponPayment extends JDialog {
             newCoupon.setUserIdx(userIdx); // 사용자 ID
             newCoupon.setProductIdx(coupon.getProductIdx());
             newCoupon.setCouponName(coupon.getCouponSettingName());
-            newCoupon.setCouponRate(coupon.getCouponSettingRate()); // 
+            newCoupon.setCouponRate(coupon.getCouponSettingRate()); //
             newCoupon.setCouponFixed(coupon.getCouponSettingFixed());
             newCoupon.setCouponRegDate(regDate);
-            newCoupon.setCouponExpDate(expDate); 
+            newCoupon.setCouponExpDate(expDate);
             newCoupon.setCouponStatus(false); // 기본값: 사용 가능 (0)
 
-           
             session.insert("adminUserManagement.insertCoupon", newCoupon);
             session.commit(); // DB 변경 사항 적용
             JOptionPane.showMessageDialog(this, "쿠폰이 성공적으로 지급되었습니다!");

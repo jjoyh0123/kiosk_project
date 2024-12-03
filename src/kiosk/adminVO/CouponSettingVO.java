@@ -1,40 +1,76 @@
 package kiosk.adminVO;
 
 public class CouponSettingVO {
-    private String couponSettingName;
-    private int couponSettingFixed;
-    private int couponSettingRate; 
-    private int productIdx;
 
-    public String getCouponSettingName() {
-        return couponSettingName;
-    }
+	int couponSettingIdx, productIdx, couponSettingRate, couponSettingFixed;
+	String couponSettingName, couponSettingGrade, productName;
+	boolean couponSettingStatus;
+	
+	
+	public String getProductName() {
+		return productName;
+	}
 
-    public void setCouponSettingName(String couponSettingName) {
-        this.couponSettingName = couponSettingName;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    public int getCouponSettingFixed() {
-        return couponSettingFixed;
-    }
+	
 
-    public void setCouponSettingFixed(int couponSettingFixed) {
-        this.couponSettingFixed = couponSettingFixed;
-    }
+	public int getCouponSettingIdx() {
+		return couponSettingIdx;
+	}
 
-    public int getCouponSettingRate() { // 할인 비율 Getter
-        return couponSettingRate;
-    }
+	public void setCouponSettingIdx(int couponSettingIdx) {
+		this.couponSettingIdx = couponSettingIdx;
+	}
 
-    public void setCouponSettingRate(int couponSettingRate) { // 할인 비율 Setter
-        this.couponSettingRate = couponSettingRate;
-    }
+	public int getProductIdx() {
+		return productIdx;
+	}
 
-    public int getProductIdx() {
-        return productIdx;
-    }
+	public void setProductIdx(int productIdx) {
+		this.productIdx = productIdx;
+	}
 
-    public void setProductIdx(int productIdx) {
-        this.productIdx = productIdx;
-    }
+	public int getCouponSettingRate() {
+		return couponSettingRate;
+	}
+
+	public void setCouponSettingRate(int couponSettingRate) {
+		this.couponSettingRate = couponSettingRate;
+	}
+
+	public int getCouponSettingFixed() {
+		return couponSettingFixed;
+	}
+
+	public void setCouponSettingFixed(int couponSettingFixed) {
+		this.couponSettingFixed = couponSettingFixed;
+	}
+
+	public String getCouponSettingName() {
+		return couponSettingName;
+	}
+
+	public void setCouponSettingName(String couponSettingName) {
+		this.couponSettingName = couponSettingName;
+	}
+
+	public String getCouponSettingGrade() {
+		return couponSettingGrade;
+	}
+
+	public void setCouponSettingGrade(String couponSettingGrade) {
+		this.couponSettingGrade = couponSettingGrade;
+	}
+
+	public boolean isCouponSettingStatus() {
+		return couponSettingStatus;
+	}
+
+	public void setCouponSettingStatus(boolean couponSettingStatus) {
+		this.couponSettingStatus = couponSettingStatus;
+	}
+
 }

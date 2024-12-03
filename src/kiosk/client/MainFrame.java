@@ -3,7 +3,6 @@ package kiosk.client;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.Reader;
@@ -13,7 +12,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,7 +26,6 @@ import kiosk.adminLogin.AdminLoginJDialog;
 
 public class MainFrame extends JFrame {
   JPanel mainPanel;
-  JButton adminBtn;
   public SqlSessionFactory factory;
   List<kiosk.adminVO.productVO> list;
 
@@ -50,27 +47,27 @@ public class MainFrame extends JFrame {
     this.setSize(540, 960);
     this.setLocationRelativeTo(null);
     this.setVisible(true);
-  
+
     JPanel contentPane = (JPanel) getContentPane();
 
     InputMap inputMap = contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
     ActionMap actionMap = contentPane.getActionMap();
 
-    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "spaceAction");
-    actionMap.put("spaceAction", new AbstractAction() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println("관리자모드 로그인");
-        new AdminLoginJDialog(MainFrame.this);
-      }
-    });
-
     inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "upAction");
     actionMap.put("upAction", new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("관리자모드 진입");
-        new Admin(MainFrame.this);
+        System.out.println("관리자 로그인 진입");
+        new AdminLoginJDialog(MainFrame.this);
+      }
+    });
+
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "downAction");
+    actionMap.put("downAction", new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("관리자 모드 진입");
+        new Admin(MainFrame.this, null);
       }
     });
   }
@@ -88,6 +85,6 @@ public class MainFrame extends JFrame {
 
   public static void main(String[] args) {
     new MainFrame();
-    
+
   }
 }
