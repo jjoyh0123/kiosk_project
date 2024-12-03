@@ -28,6 +28,7 @@ public class MainFrame extends JFrame {
   public OrderPanel orderPanel;
   public OrderDetailsPanel orderDetailsPanel;
   public PaymentPanel paymentPanel;
+  public RoundedButton roundedButton;
 
   public MainFrame() {
     dbConnect();
@@ -81,7 +82,7 @@ public class MainFrame extends JFrame {
     mainMenuPanel.setLayout(null);
 
     // 버튼 추가
-    JButton userLoginBtn = new JButton("회원 주문");
+   RoundedButton userLoginBtn = new RoundedButton("회원 주문");
     userLoginBtn.setBounds(80, 850, 140, 50);
     userLoginBtn.addActionListener(e -> new MemberDialog(this, factory)); // OrderDialog 호출
 
