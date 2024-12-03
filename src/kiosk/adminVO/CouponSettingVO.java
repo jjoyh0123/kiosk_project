@@ -1,9 +1,12 @@
-package kiosk.vo;
+package kiosk.adminVO;
 
 public class CouponSettingVO {
 
 	int couponSettingIdx, productIdx, couponSettingRate, couponSettingFixed;
 	String couponSettingName, couponSettingGrade, productName;
+	boolean couponSettingStatus;
+	
+	
 	public String getProductName() {
 		return productName;
 	}
@@ -12,7 +15,7 @@ public class CouponSettingVO {
 		this.productName = productName;
 	}
 
-	boolean couponSettingStatus;
+	
 
 	public int getCouponSettingIdx() {
 		return couponSettingIdx;

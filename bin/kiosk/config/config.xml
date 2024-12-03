@@ -19,5 +19,7 @@
 		<mapper resource="kiosk/mapper/adminLogin.xml" />
 		<mapper resource="kiosk/mapper/adminOrderList.xml" />
     <mapper resource="kiosk/mapper/adminMenuManagement.xml" />
+    <mapper resource="kiosk/mapper/adminCouponSetting.xml" />
+    <mapper resource="kiosk/mapper/adminUserLog.xml" />
 	</mappers>
 </configuration>
