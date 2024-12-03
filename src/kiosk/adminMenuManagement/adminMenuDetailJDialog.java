@@ -33,8 +33,8 @@ public class adminMenuDetailJDialog extends JDialog {
   Dimension buttonSize;
 
   public adminMenuDetailJDialog(MainFrame mainFrame, int productIdx, String productName, String imagePath,
-      Window parent, int productPrice, int productCategory, boolean productRecommendStatus, boolean productSaleStatus,
-      String productRegDate) {
+                                Window parent, int productPrice, int productCategory, boolean productRecommendStatus, boolean productSaleStatus,
+                                String productRegDate) {
     super(parent, "상품 상세", ModalityType.APPLICATION_MODAL);
     this.mainFrame = mainFrame;
     this.productIdx = productIdx;

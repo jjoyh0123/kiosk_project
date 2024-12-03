@@ -2,14 +2,14 @@
 package kiosk.adminVO;
 
 public class productVO {
-    int idx;
-    String productName;
-    int productPrice;
-    int productCategory;
-    boolean productRecommendStatus;
-    boolean productSaleStatus;
-    String productImagePath;
-    String productRegDate;
+  int idx;
+  String productName;
+  int productPrice;
+  int productCategory;
+  boolean productRecommendStatus;
+  boolean productSaleStatus;
+  String productImagePath;
+  String productRegDate;
 
   public String getProductRegDate() {
     return productRegDate;
@@ -36,21 +36,21 @@ public class productVO {
     this.productName = productName;
   }
 
-    public int getProductPrice() {
-        return productPrice;
-    }
+  public int getProductPrice() {
+    return productPrice;
+  }
 
-    public void setProductPrice(int productPrice) {
-        this.productPrice = productPrice;
-    }
+  public void setProductPrice(int productPrice) {
+    this.productPrice = productPrice;
+  }
 
-    public int getProductCategory() {
-        return productCategory;
-    }
+  public int getProductCategory() {
+    return productCategory;
+  }
 
-    public void setProductCategory(int productCategory) {
-        this.productCategory = productCategory;
-    }
+  public void setProductCategory(int productCategory) {
+    this.productCategory = productCategory;
+  }
 
   public boolean isProductRecommendStatus() {
     return productRecommendStatus;

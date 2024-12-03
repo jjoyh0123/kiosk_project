@@ -104,8 +104,8 @@ public class AdminMenuManagementPanel extends JPanel {
     JPanel panel = new JPanel();
     panel.setLayout(new GridLayout(0, 3, 5, 5));
 
-    String[] itemNames = { "시추안 크리스프 버거", "쉑마이스터 버거", "쉑버거", "스모크쉑", "슈룸 버거", "쉑 스택", "햄버거", "시추안 크리스프 프라이", "쉑버거",
-        "시추안 크리스프 프라이", "프라이", "치즈 프라이", "유자 바질 레모네이드", "레몬에이드", "아이스티", "피프티/피프티", "탄산음료" };
+    String[] itemNames = {"시추안 크리스프 버거", "쉑마이스터 버거", "쉑버거", "스모크쉑", "슈룸 버거", "쉑 스택", "햄버거", "시추안 크리스프 프라이", "쉑버거",
+        "시추안 크리스프 프라이", "프라이", "치즈 프라이", "유자 바질 레모네이드", "레몬에이드", "아이스티", "피프티/피프티", "탄산음료"};
 
     for (int i = startImage - 1; i < endImage; i++) {
       String imagePath = "/kiosk/static/product" + (i + 1) + ".jpg";
@@ -158,21 +158,21 @@ public class AdminMenuManagementPanel extends JPanel {
         String categoryName;
 
         switch (productCategory) {
-        case 1:
-          categoryName = "단품";
-          break;
-        case 2:
-          categoryName = "세트";
-          break;
-        case 3:
-          categoryName = "스낵";
-          break;
-        case 4:
-          categoryName = "음료";
-          break;
-        default:
-          categoryName = "기타";
-          break;
+          case 1:
+            categoryName = "단품";
+            break;
+          case 2:
+            categoryName = "세트";
+            break;
+          case 3:
+            categoryName = "스낵";
+            break;
+          case 4:
+            categoryName = "음료";
+            break;
+          default:
+            categoryName = "기타";
+            break;
         }
 
         String categoryTest = categoryName + "(" + productCategory + ")";
