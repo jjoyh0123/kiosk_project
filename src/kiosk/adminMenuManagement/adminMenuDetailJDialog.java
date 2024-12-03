@@ -1,6 +1,7 @@
 package kiosk.adminMenuManagement;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Window;
@@ -29,18 +30,19 @@ public class adminMenuDetailJDialog extends JDialog {
     int productIdx;
 
     MainFrame mainFrame;
-
+    Dimension buttonSize;
     public adminMenuDetailJDialog(MainFrame mainFrame, int productIdx, String productName, String imagePath,
-            Window parent, String productPrice, String productCategory, boolean productRecommendStatus,
+            Window parent, int productPrice, int productCategory, boolean productRecommendStatus,
             boolean productSaleStatus, String productRegDate) {
         super(parent, "상품 상세", ModalityType.APPLICATION_MODAL);
         this.mainFrame = mainFrame;
         this.productIdx = productIdx;
         this.productRecommendStatus = productRecommendStatus;
         this.productSaleStatus = productSaleStatus;
-
+        setUndecorated(true);
         // 창 초기화
         setLayout(new BorderLayout());
+        setLocation(945, 230);
 
         // 상품 이미지 로드
         ImageIcon imageIcon = new ImageIcon(getClass().getResource(imagePath));
@@ -56,15 +58,15 @@ public class adminMenuDetailJDialog extends JDialog {
 
         // 상품 가격
         JLabel priceLabel = new JLabel("가격: ");
-        JTextField priceTextField = new JTextField(productPrice);
+        JTextField priceTextField = new JTextField(String.valueOf(productPrice));
         priceTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         priceTextField.setBorder(BorderFactory.createEmptyBorder());
         priceTextField.setEditable(false);
 
         // 카테고리
         JLabel categoryLabel = new JLabel("카테고리: ");
-        String categoryWithNumber = productCategory;
-        JTextField categoryTextField = new JTextField(categoryWithNumber);
+        int categoryWithNumber = productCategory;
+        JTextField categoryTextField = new JTextField(String.valueOf(productCategory));
         categoryTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         categoryTextField.setBorder(BorderFactory.createEmptyBorder());
         categoryTextField.setEditable(false);
@@ -86,6 +88,13 @@ public class adminMenuDetailJDialog extends JDialog {
         JButton saveButton = new JButton("저장");
         JButton cancelButton = new JButton("취소");
 
+        buttonSize = new Dimension(100, 60); // 버튼 크기 설정
+
+        saveButton.setPreferredSize(buttonSize);
+        cancelButton.setPreferredSize(buttonSize);
+        
+        
+        
         saveButton.addActionListener(e -> {
             updateProductStatus();
             JOptionPane.showMessageDialog(adminMenuDetailJDialog.this, "저장되었습니다!");
@@ -126,6 +135,7 @@ public class adminMenuDetailJDialog extends JDialog {
         add(mainPanel, BorderLayout.CENTER);
 
         setSize(460, 450);
+        setLocation(730, 230);
         setLocationRelativeTo(parent);
     }
 
@@ -135,6 +145,8 @@ public class adminMenuDetailJDialog extends JDialog {
             session = mainFrame.factory.openSession();
             productVO product = new productVO();
             product.setIdx(productIdx);
+        
+            
             product.setProductRecommendStatus(recommendCheckBox.isSelected());
             product.setProductSaleStatus(saleCheckBox.isSelected());
 

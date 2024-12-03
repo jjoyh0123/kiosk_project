@@ -4,8 +4,8 @@ package kiosk.adminVO;
 public class productVO {
     int idx;
     String productName;
-    String productPrice;
-    String productCategory;
+    int productPrice;
+    int productCategory;
     boolean productRecommendStatus;
     boolean productSaleStatus;
     String productImagePath;
@@ -36,19 +36,19 @@ public class productVO {
         this.productName = productName;
     }
 
-    public String getProductPrice() {
+    public int getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(int productPrice) {
         this.productPrice = productPrice;
     }
 
-    public String getProductCategory() {
+    public int getProductCategory() {
         return productCategory;
     }
 
-    public void setProductCategory(String productCategory) {
+    public void setProductCategory(int productCategory) {
         this.productCategory = productCategory;
     }
 

@@ -2,6 +2,7 @@ package kiosk.adminMenuManagement;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -13,17 +14,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.adminVO.productVO;
 import kiosk.client.MainFrame;
 
 public class AdminMenuManagementPanel extends JPanel {
     JPanel centerPanel; // centerPanel을 클래스 레벨에서 선언하여 참조
     MainFrame mainFrame;
+    Dimension buttonSize;
 
     public AdminMenuManagementPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -37,10 +41,27 @@ public class AdminMenuManagementPanel extends JPanel {
         JButton snackButton = new JButton("스낵");
         JButton drinkButton = new JButton("음료");
         JPanel menuNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        Font buttonFont = new Font("aria", Font.BOLD, 20); // 폰트 크기 20, 굵게 설정
+        singleButton.setFont(buttonFont);
+        setButton.setFont(buttonFont);
+        snackButton.setFont(buttonFont);
+        drinkButton.setFont(buttonFont);
 
+        Dimension buttonSize = new Dimension(100, 50);
+        singleButton.setPreferredSize(buttonSize);
+        setButton.setPreferredSize(buttonSize);
+        snackButton.setPreferredSize(buttonSize);
+        drinkButton.setPreferredSize(buttonSize);
+        
+        
+        
         JLabel menulable = new JLabel("메뉴카테고리");
-        menulable.setFont(new Font("메뉴카테고리", Font.BOLD, 20));
-        menulable.setPreferredSize(new Dimension(180, 20));
+    
+        menulable.setFont(new Font("맑은고딕", Font.BOLD, 25));
+     
+        
+        menulable.setPreferredSize(new Dimension(300, 60));
         menuNorthPanel.add(menulable);
 
         // 버튼들을 패널에 추가
@@ -48,6 +69,13 @@ public class AdminMenuManagementPanel extends JPanel {
         northPanel.add(setButton);
         northPanel.add(snackButton);
         northPanel.add(drinkButton);
+        buttonSize = new Dimension(100, 50); // 버튼 크기 설정
+
+        singleButton.setPreferredSize(buttonSize);
+        setButton.setPreferredSize(buttonSize);
+        snackButton.setPreferredSize(buttonSize);
+        drinkButton.setPreferredSize(buttonSize);
+        
 
         // 큰 중앙 패널 (카드 레이아웃)
         centerPanel = new JPanel(new CardLayout());
@@ -117,7 +145,7 @@ public class AdminMenuManagementPanel extends JPanel {
         for (int i = 0; i < emptyCells; i++) {
             panel.add(new JPanel());
         }
-
+        
         return panel;
     }
 
@@ -133,20 +161,20 @@ public class AdminMenuManagementPanel extends JPanel {
             productVO product = session.selectOne("adminMenuManagement.getProductById", productIdx);
             if (product != null) {
                 String productRegDate = product.getProductRegDate(); // 등록일
-                String productCategory = product.getProductCategory();
+                int productCategory = product.getProductCategory();
                 String categoryName;
 
                 switch (productCategory) {
-                case "1":
+                case 1:
                     categoryName = "단품";
                     break;
-                case "2":
+                case 2:
                     categoryName = "세트";
                     break;
-                case "3":
+                case 3:
                     categoryName = "스낵";
                     break;
-                case "4":
+                case 4:
                     categoryName = "음료";
                     break;
                 default:
@@ -158,7 +186,7 @@ public class AdminMenuManagementPanel extends JPanel {
 
                 adminMenuDetailJDialog detailsFrame = new adminMenuDetailJDialog(mainFrame, productIdx,
                         product.getProductName(), "/kiosk/static/product" + productIdx + ".jpg",
-                        SwingUtilities.getWindowAncestor(this), product.getProductPrice(), categoryTest,
+                        SwingUtilities.getWindowAncestor(this), product.getProductPrice(), product.getProductCategory(),
                         product.isProductRecommendStatus(), product.isProductSaleStatus(), productRegDate // 등록일 추가
                 );
                 detailsFrame.setVisible(true);

@@ -17,5 +17,7 @@
   <mappers>
     <mapper resource="kiosk/mapper/adminLogin.xml" />
     <mapper resource="kiosk/mapper/adminMenuManagement.xml" />
+    <mapper resource="kiosk/mapper/adminUserManagement.xml" />
+    
   </mappers>
 </configuration>

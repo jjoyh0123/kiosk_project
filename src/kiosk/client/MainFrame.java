@@ -3,6 +3,7 @@ package kiosk.client;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.Reader;
@@ -22,6 +23,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import kiosk.admin.Admin;
 import kiosk.adminLogin.AdminLoginJDialog;
 
 public class MainFrame extends JFrame {
@@ -48,7 +50,7 @@ public class MainFrame extends JFrame {
     this.setSize(540, 960);
     this.setLocationRelativeTo(null);
     this.setVisible(true);
-
+  
     JPanel contentPane = (JPanel) getContentPane();
 
     InputMap inputMap = contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -58,9 +60,17 @@ public class MainFrame extends JFrame {
     actionMap.put("spaceAction", new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println("관리자모드 진입");
-        // new Admin(MainFrame.this);
+        System.out.println("관리자모드 로그인");
         new AdminLoginJDialog(MainFrame.this);
+      }
+    });
+
+    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "upAction");
+    actionMap.put("upAction", new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println("관리자모드 진입");
+        new Admin(MainFrame.this);
       }
     });
   }
@@ -78,5 +88,6 @@ public class MainFrame extends JFrame {
 
   public static void main(String[] args) {
     new MainFrame();
+    
   }
 }

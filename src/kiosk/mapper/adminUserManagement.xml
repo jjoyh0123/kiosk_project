@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="adminUserManagement">
+    <select id="selectAllUsers" resultType="kiosk.adminVO.UserVO">
+        SELECT userIdx, userContact, userJoinDate, userGrade
+        FROM user;
+    </select>
+    <select id="searchByNumber" parameterType="String" resultType="kiosk.adminVO.UserVO">
+  
+    SELECT userIdx, userContact, userJoinDate, userGrade
+        FROM user
+     WHERE userContact LIKE CONCAT('%',#{number});   
+    </select>
+    <select id="selectCouponByGrade" parameterType="String" resultType="kiosk.adminVO.CouponSettingVO">
+        SELECT couponSettingGrade, couponSettingFixed, productIdx,couponSettingName,couponSettingRate  
+        FROM couponSetting
+        WHERE couponSettingGrade LIKE CONCAT('%', #{grade}, '%')
+       
+    </select>
+    <select id="selectUserByIdx" parameterType="int" resultType="kiosk.adminVO.UserVO">
+    SELECT userIdx, userGrade
+    FROM user
+    WHERE userIdx = #{userIdx};
+</select>
+   <insert id="insertCoupon" parameterType="kiosk.adminVO.CouponVO">
+    INSERT INTO coupon (userIdx, productIdx, couponName, couponRate, couponFixed, couponRegDate, couponExpDate, couponStatus)
+    VALUES (#{userIdx}, #{productIdx}, #{couponName}, #{couponRate}, #{couponFixed}, #{couponRegDate}, #{couponExpDate}, #{couponStatus});
+</insert>
+  <select id="selectCouponsByUserIdx" parameterType="int" resultType="kiosk.adminVO.CouponVO">
+       SELECT couponName, couponExpDate,couponRegDate ,couponStatus
+       FROM coupon
+       WHERE userIdx = #{userIdx}
+         AND (
+            (YEAR(couponRegDate) = YEAR(CURRENT_DATE()) AND MONTH(couponRegDate) = MONTH(CURRENT_DATE()))
+            OR
+            (YEAR(couponExpDate) = YEAR(CURRENT_DATE()) AND MONTH(couponExpDate) = MONTH(CURRENT_DATE()))
+          )
+          And couponStaTUS = 0;
+  </select>
+<!-- 주문내역 불러오기 -->
+	<select id="orderList" parameterType="int" resultType="kiosk.adminVO.OrderVO">
+		SELECT o.orderNumber,
+		GROUP_CONCAT(DISTINCT CONCAT(p.productName, ' ', o.orderCount , '개') ORDER BY o.productIdx
+		SEPARATOR ', ') AS products,
+		SUM(o.orderCouponApplyPrice) AS totalOrderPrice,
+		MAX(c.couponName) AS appliedCoupon,
+		MIN(o.orderDate) AS orderDate,
+		MIN(o.orderStatus) AS orderStatus
+		FROM `order` o
+		LEFT JOIN product p ON o.productIdx = p.productIdx
+		LEFT JOIN coupon c ON o.couponIdx = c.couponIdx
+		WHERE orderDate = CURDATE()
+		AND userIdx = #{userIdx};
+		GROUP BY o.orderNumber
+		ORDER BY orderStatus ASC, orderDate DESC
+	</select>
+     <select id="orderListByDate" parameterType="map"  resultType="kiosk.adminVO.OrderVO">
+    SELECT o.orderNumber,
+           GROUP_CONCAT(CONCAT(p.productName, ' ', o.orderCount, '개') ORDER BY p.productIdx SEPARATOR ', ') AS products,
+           SUM(o.orderCouponApplyPrice) AS totalOrderPrice,
+           MAX(c.couponName) AS appliedCoupon,
+           MIN(o.orderDate) AS orderDate,
+           MIN(o.orderStatus) AS orderStatus
+    FROM `order` o
+    LEFT JOIN product p ON o.productIdx = p.productIdx
+    LEFT JOIN coupon c ON o.couponIdx = c.couponIdx
+    WHERE DATE(o.orderDate) = #{orderDate}
+    AND o.userIdx = #{userIdx}
+    GROUP BY o.orderNumber
+    ORDER BY orderStatus ASC, orderDate DESC;
+</select>
+
+   <select id="getDailyOrders" parameterType="String" resultType="kiosk.adminVO.OrderVO">
+    SELECT 
+        o.orderNumber AS orderNumber, 
+        u.userIdx AS userIdx,
+        u.userContact AS userContact,
+        o.orderDate AS orderDate,
+        SUM(o.orderPrice) AS totalOrderPrice
+    FROM `order` o
+    JOIN `user` u ON o.userIdx = u.userIdx
+    WHERE DATE(o.orderDate) = #{dateParam}
+    GROUP BY o.orderNumber, u.userIdx, u.userContact, o.orderDate;
+</select>
+
+
+<select id="getMonthlyOrders" parameterType="String" resultType="kiosk.adminVO.OrderVO">
+    SELECT 
+        o.orderNumber AS orderNumber, 
+        u.userIdx AS userIdx,
+        u.userContact AS userContact,
+        o.orderDate AS orderDate,
+        SUM(o.orderPrice) AS totalOrderPrice
+    FROM `order` o
+    JOIN `user` u ON o.userIdx = u.userIdx
+    WHERE DATE_FORMAT(o.orderDate, '%Y-%m') = #{dateParam}
+    GROUP BY o.orderNumber, u.userIdx, u.userContact, o.orderDate;
+</select>
+
+
+
+<select id="getYearlyOrders" parameterType="String" resultType="kiosk.adminVO.OrderVO">
+    SELECT 
+        o.orderNumber AS orderNumber, 
+        u.userIdx AS userIdx,
+        u.userContact AS userContact,
+        o.orderDate AS orderDate,
+        SUM(o.orderPrice) AS totalOrderPrice
+    FROM `order` o
+    JOIN `user` u ON o.userIdx = u.userIdx
+    WHERE YEAR(o.orderDate) = #{dateParam}
+    GROUP BY o.orderNumber, u.userIdx, u.userContact, o.orderDate;
+</select>
+
+
+   <select id="getOrdersForPeriod" parameterType="map" resultType="kiosk.adminVO.OrderVO">
+    SELECT 
+        orderNumber AS orderNumber,
+        userIdx AS userIdx,
+        orderDate AS orderDate,
+        orderPrice AS totalOrderPrice
+    FROM `order`
+    WHERE orderDate BETWEEN #{startDate} AND #{endDate}
+</select>
+
+
+
+
+
+</mapper>
+
+
+
+  
+
+
