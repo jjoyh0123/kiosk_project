@@ -144,7 +144,7 @@
           <td></td>
           <td>userJoinDate</td>
           <td>datetime</td>
-          <td>사용자 등록일</td>
+          <td>사용자 가입일</td>
           <td>now()</td>
           <td></td>
         </tr>
@@ -181,7 +181,7 @@
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
-          <td></td>
+          <td>FK1</td>
           <td>userIdx</td>
           <td>bigint</td>
           <td>회원 인덱스</td>
@@ -189,7 +189,7 @@
           <td>사용자 테이블의 외래 키</td>
         </tr>
         <tr>
-          <td></td>
+          <td>FK2</td>
           <td>logTop1ProductIdx</td>
           <td>bigint</td>
           <td>top1메뉴 인덱스</td>
@@ -197,7 +197,7 @@
           <td>상품 테이블의 외래 키</td>
         </tr>
         <tr>
-          <td></td>
+          <td>FK3</td>
           <td>logTop2ProductIdx</td>
           <td>bigint</td>
           <td>top2메뉴 인덱스</td>
@@ -205,7 +205,7 @@
           <td>상품 테이블의 외래 키</td>
         </tr>
         <tr>
-          <td></td>
+          <td>FK4</td>
           <td>logTop3ProductIdx</td>
           <td>bigint</td>
           <td>top3메뉴 인덱스</td>
@@ -349,12 +349,20 @@
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
-          <td>FK</td>
+          <td>FK1</td>
           <td>userIdx</td>
           <td>bigint</td>
           <td>사용자 인덱스</td>
           <td>NN</td>
           <td>사용자 테이블의 외래 키</td>
+        </tr>
+        <tr>
+          <td>FK2</td>
+          <td>productIdx</td>
+          <td>bigint</td>
+          <td>상품 인덱스</td>
+          <td>NN</td>
+          <td>상품 테이블의 외래 키</td>
         </tr>
         <tr>
           <td></td>
@@ -673,6 +681,14 @@
           <td>orderPrice</td>
           <td>mediumint</td>
           <td>주문가격</td>
+          <td>0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>orderCouponApplyPrice</td>
+          <td>mediumint</td>
+          <td>쿠폰적용가격</td>
           <td>0</td>
           <td></td>
         </tr>

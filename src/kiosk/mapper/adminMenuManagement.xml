@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="adminMenuManagement">
+
+  <select id="getProductById" parameterType="int" resultType="kiosk.adminVO.productVO">
+    SELECT productName, productPrice, productCategory, productRecommendStatus, productSaleStatus, productRegDate
+    FROM product
+    WHERE productIdx = #{productIdx}
+  </select>
+
+  <update id="updateProductStatus" parameterType="kiosk.adminVO.productVO">
+    UPDATE product
+    SET productRecommendStatus = #{productRecommendStatus},
+        productSaleStatus      = #{productSaleStatus}
+    WHERE productIdx = #{idx}
+  </update>
+
+</mapper>

@@ -1,0 +1,41 @@
+package kiosk.client;
+
+import java.awt.GridLayout;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class AdminLogin extends JFrame {
+	
+	JPanel idPasswordPanel, loginCancelPanel, numberPadPanel;
+	JComboBox<String> adminIdSelect;
+	JTextField adminPassword;
+	String password = "";
+	int passwordLength = 6;
+	
+	
+	public AdminLogin() {
+		JPanel northPanel = new JPanel(new GridLayout(2,1));
+		
+		// 관리자 아이디 선택
+		adminIdSelect = new JComboBox<>(new String[] {"선택하세요", "Primary", "Secondary"});
+		adminIdSelect.setSelectedIndex(0);
+		idPasswordPanel.add(new JLabel("ID"));
+		idPasswordPanel.add(adminIdSelect);
+		
+		// 패스워드 입력 
+		adminPassword = new JTextField(6);
+		idPasswordPanel.add(new JLabel("PW"));
+		idPasswordPanel.add(adminPassword);
+		
+		// 번호키패드 
+		
+		
+	}
+
+}
+
+	
