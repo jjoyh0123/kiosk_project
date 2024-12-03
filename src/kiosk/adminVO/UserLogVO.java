@@ -3,10 +3,52 @@ package kiosk.adminVO;
 import java.sql.Date;
 
 public class UserLogVO {
+	// userIdx로 연락처 가져오기
+	// 고객 등급 가져오기
+	// 테이블 선택시 고객별로 각 1,2,3 순위별로 가져오기
+	// product 테이블이랑 JION 해보고 안되면 보류하기
 	
-	int productIdx, orderIdx, userIdx, couponIdx, orderNumber, orderCount, orderCouponApplyPrice,
-	logIdx, logTop1ProductIdx, logTop2ProductIdx,logTop3ProductIdx, logOrderCount, logExpense, logCouponUsage ;
+	String userContact, logGrade;
+	String top1ProductName, top2ProductName, top3ProductName;
+	int userIdx, logIdx, logTop1ProductIdx, logTop2ProductIdx, logTop3ProductIdx; 
+	Date logDate;
 	
+	public String getUserContact() {
+		return userContact;
+	}
+	public void setUserContact(String userContact) {
+		this.userContact = userContact;
+	}
+	public String getLogGrade() {
+		return logGrade;
+	}
+	public void setLogGrade(String logGrade) {
+		this.logGrade = logGrade;
+	}
+	public String getTop1ProductName() {
+		return top1ProductName;
+	}
+	public void setTop1ProductName(String top1ProductName) {
+		this.top1ProductName = top1ProductName;
+	}
+	public String getTop2ProductName() {
+		return top2ProductName;
+	}
+	public void setTop2ProductName(String top2ProductName) {
+		this.top2ProductName = top2ProductName;
+	}
+	public String getTop3ProductName() {
+		return top3ProductName;
+	}
+	public void setTop3ProductName(String top3ProductName) {
+		this.top3ProductName = top3ProductName;
+	}
+	public int getUserIdx() {
+		return userIdx;
+	}
+	public void setUserIdx(int userIdx) {
+		this.userIdx = userIdx;
+	}
 	public int getLogIdx() {
 		return logIdx;
 	}
@@ -31,92 +73,13 @@ public class UserLogVO {
 	public void setLogTop3ProductIdx(int logTop3ProductIdx) {
 		this.logTop3ProductIdx = logTop3ProductIdx;
 	}
-	public int getLogOrderCount() {
-		return logOrderCount;
-	}
-	public void setLogOrderCount(int logOrderCount) {
-		this.logOrderCount = logOrderCount;
-	}
-	public int getLogExpense() {
-		return logExpense;
-	}
-	public void setLogExpense(int logExpense) {
-		this.logExpense = logExpense;
-	}
-	public int getLogCouponUsage() {
-		return logCouponUsage;
-	}
-	public void setLogCouponUsage(int logCouponUsage) {
-		this.logCouponUsage = logCouponUsage;
-	}
 	public Date getLogDate() {
 		return logDate;
 	}
 	public void setLogDate(Date logDate) {
 		this.logDate = logDate;
 	}
-	public String getLogGrade() {
-		return logGrade;
-	}
-	public void setLogGrade(String logGrade) {
-		this.logGrade = logGrade;
-	}
-	Date orderDate, logDate;
-	String productName, logGrade;
-	
-	public int getProductIdx() {
-		return productIdx;
-	}
-	public void setProductIdx(int productIdx) {
-		this.productIdx = productIdx;
-	}
-	public int getOrderIdx() {
-		return orderIdx;
-	}
-	public void setOrderIdx(int orderIdx) {
-		this.orderIdx = orderIdx;
-	}
-	public int getUserIdx() {
-		return userIdx;
-	}
-	public void setUserIdx(int userIdx) {
-		this.userIdx = userIdx;
-	}
-	public int getCouponIdx() {
-		return couponIdx;
-	}
-	public void setCouponIdx(int couponIdx) {
-		this.couponIdx = couponIdx;
-	}
-	public int getOrderNumber() {
-		return orderNumber;
-	}
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
-	}
-	public int getOrderCount() {
-		return orderCount;
-	}
-	public void setOrderCount(int orderCount) {
-		this.orderCount = orderCount;
-	}
-	public int getOrderCouponApplyPrice() {
-		return orderCouponApplyPrice;
-	}
-	public void setOrderCouponApplyPrice(int orderCouponApplyPrice) {
-		this.orderCouponApplyPrice = orderCouponApplyPrice;
-	}
-	public Date getOrderDate() {
-		return orderDate;
-	}
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 
+	
+	
 }

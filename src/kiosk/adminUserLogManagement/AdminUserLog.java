@@ -1,19 +1,34 @@
 package kiosk.adminUserLogManagement;
 
+import javax.swing.table.AbstractTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
+import org.apache.ibatis.session.SqlSession;
+
+import kiosk.adminCouponManagement.AdminCouponDialog;
+import kiosk.adminCouponManagement.AdminCouponSetting;
+import kiosk.adminVO.UserLogVO;
 import kiosk.client.MainFrame;
 
 public class AdminUserLog extends JPanel {
+
+	MainFrame mainFrame;
 
 	private JButton allSelectBtn; // 전체선택 버튼
 	private JButton numberSearchBtn; // 번호검색 버튼
@@ -22,17 +37,25 @@ public class AdminUserLog extends JPanel {
 	private JLabel dateLabel; // 현재 검색 날짜를 표시할 라벨
 	private JButton prevMonthBtn; // 이전 달 버튼
 	private JButton nextMonthBtn; // 다음 달 버튼
-	private LocalDate currentDate; // 현재 선택된 날짜 (기본: 오늘)
-	private final LocalDate today; // 오늘 날짜
-	private final LocalDate minDate; // 검색 가능한 최소 날짜 (3개월 전)
-	private final LocalDate maxDate; // 검색 가능한 최대 날짜 (12월)
+	private LocalDate currentDate; // 현재 선택된 날짜
+	private LocalDate today; // 오늘 날짜
+	private LocalDate minDate; // 검색 가능한 최소 날짜
+	private LocalDate maxDate; // 검색 가능한 최대 날짜
+	private JTable logTable;
+	List<UserLogVO> userLogList;
+	DefaultTableModel userLogModel;
+	JScrollPane scrollPane;
+
+	String[] columnNames = { "고객연락처", "등급", "Top1상품명", "Top2상품명", "Top3상품명" };
 
 	public AdminUserLog(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+
 		// 오늘 날짜 및 검색 범위 설정
-		today = LocalDate.now(); // 2024년 12월을 기준으로 시작
-		minDate = today.minusMonths(2); // 3개월 전 (2024년 9월)
-		maxDate = today.withMonth(12).withDayOfMonth(today.lengthOfMonth());
-		currentDate = today; // 기본 날짜: 오늘
+		today = LocalDate.now();
+		minDate = today.minusMonths(3);
+		maxDate = today.minusMonths(1).withDayOfMonth(today.minusMonths(1).lengthOfMonth());
+		currentDate = today;
 
 		// 패널 레이아웃 설정
 		setLayout(new BorderLayout());
@@ -76,9 +99,21 @@ public class AdminUserLog extends JPanel {
 		// 메인 패널에 중앙 패널 추가
 		add(contentPanel, BorderLayout.CENTER);
 
-		// 전체선택 버튼 이벤트
-		allSelectBtn.addActionListener(e -> loadAllData());
+		// 테이블 초기화
+		userLogModel = new DefaultTableModel(columnNames, 0); // 컬럼명 설정
+		logTable = new JTable(userLogModel) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+        };
 
+		// 스크롤 추가
+		scrollPane = new JScrollPane(logTable);
+		contentPanel.add(scrollPane, BorderLayout.CENTER);
+
+		this.add(contentPanel);
+		
 		// 버튼 이벤트 예제
 		allSelectBtn.addActionListener(e -> {
 			JOptionPane.showMessageDialog(this, "전체 데이터를 불러옵니다.");
@@ -93,18 +128,52 @@ public class AdminUserLog extends JPanel {
 			dialog.setLocationRelativeTo(this); // 현재 화면 중앙에 다이얼로그 표시
 			dialog.setVisible(true); // 다이얼로그 표시
 		});
+
+		// DB에서 데이터 불러오기
+		//loadAllData();
+		searchByDate(currentDate);
+
+		logTable.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) { // 클릭 감지
+					int selectedRow = logTable.getSelectedRow();
+					if (selectedRow != -1) {
+						// 선택된 행의 데이터 가져오기
+						String userContact = logTable.getValueAt(selectedRow, 0).toString();
+						String usergrade = (String) logTable.getValueAt(selectedRow, 1).toString();
+						String top1 = (String) logTable.getValueAt(selectedRow, 2).toString();
+						String top2 = (String) logTable.getValueAt(selectedRow, 3).toString();
+						String top3 = (String) logTable.getValueAt(selectedRow, 4).toString();
+
+						kiosk.adminVO.UserLogVO loglist = userLogList.get(selectedRow);
+
+						showDialog(loglist);
+					}
+				}
+			}
+		});
+
 	}
+
+	private void showDialog(kiosk.adminVO.UserLogVO loglist) {
+		//AdminCouponDialog dialog = new AdminCouponDialog(mainFrame, SwingUtilities.getWindowAncestor(this), AdminCouponSetting.this, loglist);
+		//dialog.setVisible(true);
+		//dialog.setLocationRelativeTo(null);
+	}
+
 
 	// 날짜 업데이트 메서드
 	private void updateDate(int monthOffset) {
 		if (currentDate.getMonthValue() == 12 && monthOffset > 0) {
-	        // 12월을 넘어가는 경우, 아무것도 하지 않고 종료
-	        nextMonthBtn.setEnabled(false); // 12월이면 버튼 비활성화
-	        return;
-	    }
+			// 12월을 넘어가는 경우, 아무것도 하지 않고 종료
+			nextMonthBtn.setEnabled(false); // 12월이면 버튼 비활성화
+			return;
+		}
 
-		    // 새로운 날짜 계산
-		    LocalDate newDate = currentDate.plusMonths(monthOffset); // newDate는 한 번만 선언
+		// 새로운 날짜 계산
+		LocalDate newDate = currentDate.plusMonths(monthOffset); // newDate는 한 번만 선언
 
 		if (currentDate.getMonthValue() == 12) {
 			nextMonthBtn.setEnabled(false); // 12월이면 비활성화
@@ -137,12 +206,70 @@ public class AdminUserLog extends JPanel {
 	private void searchByDate(LocalDate date) {
 		System.out.println("검색된 날짜의 데이터 검색: " + getFormattedDate(date));
 		// TODO: DB 연동 및 데이터 로드 로직 추가
+		try {
+			String yearMonth = date.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+			
+			// MyBatis SqlSession 생성
+			SqlSession ss = mainFrame.factory.openSession(); // MainFrame에서 제공된 factory 사용
+			userLogList = ss.selectList("searchUserData.getUserData2", yearMonth); // Mapper 호출
+			ss.close();
+
+			// 테이블 초기화
+			userLogModel.setRowCount(0);
+
+			// 쿠폰 데이터를 테이블에 추가
+			for (UserLogVO log : userLogList) {
+				userLogModel.addRow(new Object[] { 
+						log.getUserContact(), 
+						log.getLogGrade(),
+						log.getTop1ProductName(),
+						log.getTop2ProductName(),
+						log.getTop3ProductName(),
+				});
+			}
+			
+			contentPanel.revalidate();
+			contentPanel.repaint();
+			logTable.revalidate();
+			logTable.repaint();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "데이터를 불러오는 중 오류가 발생했습니다.");
+		}
 	}
 
 	// 전체 데이터를 불러오는 메서드
 	private void loadAllData() {
 		// 여기에 데이터를 로드하는 로직 추가
 		System.out.println("전체 데이터 로드 로직 구현");
+		try {
+			// MyBatis SqlSession 생성
+			SqlSession ss = mainFrame.factory.openSession(); // MainFrame에서 제공된 factory 사용
+			userLogList = ss.selectList("searchUserData.getUserData"); // Mapper 호출
+			ss.close();
+
+			// 테이블 초기화
+			userLogModel.setRowCount(0);
+
+			// 쿠폰 데이터를 테이블에 추가
+			for (UserLogVO log : userLogList) {
+				userLogModel.addRow(new Object[] { 
+						log.getUserContact(), 
+						log.getLogGrade(),
+						log.getTop1ProductName(),
+						log.getTop2ProductName(),
+						log.getTop3ProductName(),
+				});
+			}
+			
+			contentPanel.revalidate();
+			contentPanel.repaint();
+			logTable.revalidate();
+			logTable.repaint();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "데이터를 불러오는 중 오류가 발생했습니다.");
+		}
 	}
 
 	// 번호로 데이터를 검색하는 메서드

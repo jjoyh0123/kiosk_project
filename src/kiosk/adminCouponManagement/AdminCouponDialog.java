@@ -1,6 +1,7 @@
 package kiosk.adminCouponManagement;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Window;
@@ -43,35 +44,35 @@ public class AdminCouponDialog extends JDialog {
 		setLayout(new BorderLayout());
 
 		label1 = new JLabel("이름 :");
-		label1.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		label1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 		field1 = new JTextField(coupon.getCouponSettingName());
-		field1.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		field1.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		field1.setBorder(BorderFactory.createEmptyBorder());
 		field1.setEditable(false);
 
 		label2 = new JLabel("적용상품 :");
-		label2.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		label2.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 		field2 = new JTextField(coupon.getProductName());
-		field2.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		field2.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		field2.setBorder(BorderFactory.createEmptyBorder());
 		field2.setEditable(false);
 
 		label3 = new JLabel("등급 :");
-		label3.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		label3.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 		field3 = new JTextField(coupon.getCouponSettingGrade());
-		field3.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		field3.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		field3.setBorder(BorderFactory.createEmptyBorder());
 		field3.setEditable(false);
 
 		label4 = new JLabel("할인율 :");
-		label4.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		label4.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 		field4 = new JTextField();
 		field4.setText(coupon.getCouponSettingRate() + "");
-		field4.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		field4.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		field4.setBorder(BorderFactory.createEmptyBorder());
 		field4.addFocusListener(new FocusAdapter() {
 			@Override
@@ -81,11 +82,11 @@ public class AdminCouponDialog extends JDialog {
 		});
 
 		label5 = new JLabel("고정할인금액 :");
-		label5.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		label5.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 		field5 = new JTextField();
 		field5.setText(coupon.getCouponSettingFixed() + "");
-		field5.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		field5.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		field5.setBorder(BorderFactory.createEmptyBorder());
 		field5.addFocusListener(new FocusAdapter() {
 			@Override
@@ -95,7 +96,8 @@ public class AdminCouponDialog extends JDialog {
 		});
 
 		checkBox = new JCheckBox("사용 상태", true);
-		checkBox.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		checkBox.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		
 
 		// 저장 및 취소 버튼
 		JButton saveButton = new JButton("저장");

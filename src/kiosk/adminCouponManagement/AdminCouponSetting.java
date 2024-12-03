@@ -48,7 +48,7 @@ public class AdminCouponSetting extends JPanel {
         
         titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // FlowLayout으로 변경
         titleLabel = new JLabel("쿠폰관리");
-        titleLabel.setFont(new Font("맑은고딕", Font.BOLD, 20));
+        titleLabel.setFont(new Font("맑은고딕", Font.BOLD, 25));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         titleLabel.setPreferredSize(new Dimension(180, 40));
         titlePanel.add(titleLabel);

@@ -2,9 +2,7 @@ package kiosk.adminOrderManagement;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,14 +16,13 @@ import javax.swing.JScrollPane;
 
 import org.apache.ibatis.session.SqlSession;
 
-import kiosk.adminVO.OrderVO;
 import kiosk.client.MainFrame;
+import kiosk.adminVO.OrderVO;
 
 public class AdminOrderList extends JPanel {
 	// Admin parent;
 	MainFrame mainFrame;
-	JPanel titlePanel,topPanel, orderPanel;
-	JLabel titleLabel;
+	JPanel topPanel, orderPanel;
 	JButton refreshBtn;
 	List<OrderVO> orderList;
 	JScrollPane scrollPane;
@@ -39,25 +36,12 @@ public class AdminOrderList extends JPanel {
 		// this.mainFrame = parent.mainFrame;
 		// this.parent.add(this);
 
-		
 		// 상단 새로고침 버튼
-		titlePanel = new JPanel();
-		titlePanel.setLayout(new BorderLayout()); // 레이아웃을 BorderLayout으로 설정
-		titleLabel = new JLabel("주문관리");
-		titleLabel.setFont(new Font("주문관리", Font.BOLD, 25));
-		titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		titleLabel.setPreferredSize(new Dimension(180, 40)); // 크기 조정 (기존 20에서 더 크게 설정)
-		titleLabel.setHorizontalAlignment(JLabel.LEFT); // 왼쪽 정렬로 설정
-		titlePanel.add(titleLabel, BorderLayout.WEST); // titleLabel을 WEST에 추가 (왼쪽 정렬)
 
 		topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		refreshBtn = new JButton("새로고침");
 		topPanel.add(refreshBtn);
-		
-		this.add(topPanel, BorderLayout.NORTH); // topPanel은 그대로 사용
-		this.add(titlePanel, BorderLayout.NORTH); // titlePanel을 BorderLayout.NORTH에 추가
-
-	
+		this.add(topPanel, BorderLayout.NORTH);
 
 		orderPanel = new JPanel(new GridLayout(0, 1));
 		scrollPane = new JScrollPane(orderPanel);
