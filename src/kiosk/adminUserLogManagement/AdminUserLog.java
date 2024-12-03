@@ -1,8 +1,6 @@
 package kiosk.adminUserLogManagement;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
@@ -30,7 +28,7 @@ public class AdminUserLog extends JPanel {
 
   private JButton allSelectBtn; // 전체선택 버튼
   private JButton numberSearchBtn; // 번호검색 버튼
-  private JPanel topPanel; // 상단 버튼 패널
+  private JPanel topPanel, titlePanel; // 상단 버튼 패널
   private JPanel contentPanel; // 중앙 데이터 패널
   private JLabel dateLabel; // 현재 검색 날짜를 표시할 라벨
   private JButton prevMonthBtn; // 이전 달 버튼
@@ -67,6 +65,10 @@ public class AdminUserLog extends JPanel {
     topPanel.add(allSelectBtn);
     topPanel.add(numberSearchBtn);
 
+    JLabel title = new JLabel("성향분석");
+    JPanel titlePanel = new JPanel();
+    titlePanel.add(title);
+    title.setFont(new Font("맑은고딕", Font.BOLD, 25));
     // 메인 패널에 상단 패널 추가
     add(topPanel, BorderLayout.NORTH);
 
@@ -128,7 +130,6 @@ public class AdminUserLog extends JPanel {
     });
 
     // DB에서 데이터 불러오기
-    //loadAllData();
     searchByDate(currentDate);
 
     logTable.addMouseListener(new MouseAdapter() {
@@ -138,12 +139,7 @@ public class AdminUserLog extends JPanel {
         if (e.getClickCount() == 1) { // 클릭 감지
           int selectedRow = logTable.getSelectedRow();
           if (selectedRow != -1) {
-            // 선택된 행의 데이터 가져오기
-            String userContact = logTable.getValueAt(selectedRow, 0).toString();
-            String usergrade = (String) logTable.getValueAt(selectedRow, 1).toString();
-
-            kiosk.adminVO.UserLogVO log = userLogList.get(selectedRow);
-
+            UserLogVO log = userLogList.get(selectedRow);
             showDialog(log);
           }
         }
@@ -202,7 +198,7 @@ public class AdminUserLog extends JPanel {
   // 특정 월의 데이터를 검색하는 메서드
   private void searchByDate(LocalDate date) {
     System.out.println("검색된 날짜의 데이터 검색: " + getFormattedDate(date));
-    // TODO: DB 연동 및 데이터 로드 로직 추가
+
     try {
       String yearMonth = date.format(DateTimeFormatter.ofPattern("yyyy-MM"));
 

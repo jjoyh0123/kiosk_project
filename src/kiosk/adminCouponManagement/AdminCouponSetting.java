@@ -120,14 +120,6 @@ public class AdminCouponSetting extends JPanel {
         if (e.getClickCount() == 1) { // 클릭감지
           int selectedRow = couponTable.getSelectedRow();
           if (selectedRow != -1) {
-            // 선택된 행의 데이터 가져오기
-            String name = (String) couponTable.getValueAt(selectedRow, 0).toString();
-            String productName = (String) couponTable.getValueAt(selectedRow, 1).toString();
-            String grade = (String) couponTable.getValueAt(selectedRow, 2).toString();
-            String rate = (String) couponTable.getValueAt(selectedRow, 3).toString();
-            String fixed = (String) couponTable.getValueAt(selectedRow, 4).toString();
-            String status = (String) couponTable.getValueAt(selectedRow, 5).toString();
-
             int modelRow = couponTable.convertRowIndexToModel(selectedRow);
             kiosk.adminVO.CouponSettingVO coupon = couponList.get(modelRow);
 

@@ -35,9 +35,15 @@ public class AdminLoginJDialog extends JDialog {
     setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     this.setLayout(new BorderLayout());
 
+    JPanel topPanel = new JPanel();
+    JLabel title = new JLabel("관리자 로그인");
+    topPanel.add(title);
+    this.add(topPanel);
+
+
     // 아이디, 패스워드 패널
     idPasswordPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-    idPasswordPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    idPasswordPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 10));
 
     // 관리자 아이디 선택
     adminIdSelect = new JComboBox<>(new String[]{"선택하세요", "Senior", "Junior"});

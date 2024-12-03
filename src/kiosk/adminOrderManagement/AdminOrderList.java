@@ -1,18 +1,11 @@
 package kiosk.adminOrderManagement;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,6 +17,7 @@ public class AdminOrderList extends JPanel {
   MainFrame mainFrame;
   JPanel topPanel, orderPanel;
   JButton refreshBtn;
+  JLabel titleName;
   List<OrderVO> orderList;
   JScrollPane scrollPane;
 
@@ -32,16 +26,36 @@ public class AdminOrderList extends JPanel {
 
     this.mainFrame = mainFrame;
 
+    JPanel topPanel = new JPanel();
+    topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
-    // 상단 새로고침 버튼
-    topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    refreshBtn = new JButton("새로고침");
-    topPanel.add(refreshBtn);
+    JPanel leftPanel = new JPanel();
+    JPanel rightPanel = new JPanel();
+
+    JLabel titleName = new JLabel("주문관리");
+    titleName.setFont(new Font("맑은고딕", Font.BOLD, 25));
+    JButton refreshBtn = new JButton("새로고침");
+
+// 왼쪽 패널에 새로고침 버튼
+    leftPanel.add(titleName);
+
+// 오른쪽 패널에 주문 관리 레이블
+    rightPanel.add(refreshBtn);
+
+// 상단 패널에 두 개의 패널을 추가
+    topPanel.add(leftPanel);
+    topPanel.add(rightPanel);
+
+    leftPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+
+// 전체 창에 topPanel을 추가
     this.add(topPanel, BorderLayout.NORTH);
 
     orderPanel = new JPanel(new GridLayout(0, 1));
     scrollPane = new JScrollPane(orderPanel);
     this.add(scrollPane, BorderLayout.CENTER);
+
+
 
     try (SqlSession session = mainFrame.factory.openSession()) {
       orderList = session.selectList("adminOrderList.orderList");

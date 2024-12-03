@@ -12,9 +12,7 @@ import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
 public class AdminUserSeachDialog extends JDialog {
-  private JTextField textField, currentText;
-  private JPanel inputPanel, keypadPanel, actionPanel;
-  private JButton backspaceButton, zeroButton, clearButton, searchButton;
+  private JTextField textField;
 
   public AdminUserSeachDialog(Frame frame, Consumer<String> onSearch) {
     super(frame, "번호 검색", true);
