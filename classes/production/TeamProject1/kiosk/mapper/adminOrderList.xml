@@ -17,7 +17,7 @@
     FROM `order` o
     LEFT JOIN product p ON o.productIdx = p.productIdx
     LEFT JOIN coupon c ON o.couponIdx = c.couponIdx
-    WHERE orderDate = CURDATE()
+    WHERE orderDate &gt;= CURDATE() AND orderDate &lt; ( CURDATE() + INTERVAL 1 DAY )
     GROUP BY o.orderNumber
     ORDER BY orderStatus ASC, orderDate DESC
   </select>

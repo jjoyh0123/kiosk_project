@@ -98,6 +98,7 @@ public class adminMenuDetailJDialog extends JDialog {
     JButton cancelButton = new RoundedButton("취소");
     
     nameLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    saveButton.setFont(new Font("맑은고딕", Font.BOLD, 18) );
     cancelButton.setFont(new Font("맑은고딕", Font.BOLD, 18) );
 
     buttonSize = new Dimension(100, 60); // 버튼 크기 설정

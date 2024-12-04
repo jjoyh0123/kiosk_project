@@ -59,7 +59,7 @@ public class PaymentPanel extends JPanel {
     couponLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     couponPanel.add(couponLabel, BorderLayout.WEST);
     couponBox = new JComboBox<>();
-    Dimension size = new Dimension(300, 500);
+    Dimension size = new Dimension(200, 100);
     couponBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
     couponBox.setPreferredSize(size);
     couponBox.setMaximumSize(size);
