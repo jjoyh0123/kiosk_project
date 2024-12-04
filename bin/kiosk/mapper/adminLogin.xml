@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminLogin">
 
-	<!--  비밀번호 조회-->
-	<select id="idpw" parameterType="String" resultType="kiosk.adminVO.AdminVO">
-		SELECT * From admin WHERE adminName = #{id}
-	</select>
+  <!--  비밀번호 조회-->
+  <select id="idpw" parameterType="String" resultType="kiosk.adminVO.AdminVO">
+    SELECT * From admin WHERE adminName = #{id}
+  </select>
 
 </mapper>
