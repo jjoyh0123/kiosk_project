@@ -9,7 +9,7 @@ import java.awt.*;
 public class AdminUserTableLogDialog extends JDialog {
 
     MainFrame mainFrame;
-    JLabel titleLabel;
+    JLabel titleLabel, label1, label2, label3;
     JButton exitBtn;
 
     public AdminUserTableLogDialog(MainFrame mainFrame, Window parent, AdminUserLog adminUserLogSet,
@@ -41,16 +41,15 @@ public class AdminUserTableLogDialog extends JDialog {
         add(topPanel, BorderLayout.NORTH);  // 상단 패널을 다이얼로그의 북쪽에 배치
 
         JLabel label1 = new JLabel("<html>" +
-               "로그 날짜 : " + log.getLogDate() + "<br>" +
+               "로그 기준날짜 : " + log.getLogDate() + "<br>" +
                "고객 연락처 : " + log.getUserContact() + "<br>" +
-               "전월 기준 고객 등급 : " + log.getLogGrade() + "</div>" +
+               "전월 기준 고객 등급 : " + log.getLogGrade() + "<br>" +
                "Top1 구매한 상품명 : " + log.getTop1ProductName() + "<br>" +
                "Top1 구매 갯수 : " + log.getLogTop1ProductOrderCount() + "<br>" +
                "Top1 구매한 비용 : " + log.getLogTop1ProductExpense() + "<br>" +
                "Top1 사용한 쿠폰 : " + log.getLogTop1CouponUsage() + "<br>" +
                "</html>");
-        label1.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
-
+        label1.setFont(new Font("맑은 고딕", Font.BOLD, 11));
 
         JLabel label2 = new JLabel("<html>" +
                 "Top2 구매한 상품명 : " + log.getTop2ProductName() + "<br>" +
@@ -58,8 +57,7 @@ public class AdminUserTableLogDialog extends JDialog {
                 "Top2 구매한 비용 : " + log.getLogTop2ProductExpense() + "<br>" +
                 "Top2 사용한 쿠폰 : " + log.getLogTop2CouponUsage() + "<br>" +
                 "</html>");
-        label2.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
-
+        label2.setFont(new Font("맑은 고딕", Font.BOLD, 11));
 
         JLabel label3 = new JLabel("<html>" +
                 "Top3 구매한 상품명 : " + log.getTop3ProductName() + "<br>" +
@@ -67,7 +65,7 @@ public class AdminUserTableLogDialog extends JDialog {
                 "Top3 구매한 비용 : " + log.getLogTop3ProductExpense() + "<br>" +
                 "Top3 사용한 쿠폰 : " + log.getLogTop3CouponUsage() + "<br>" +
                 "</html>");
-        label3.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+        label3.setFont(new Font("맑은 고딕", Font.BOLD, 11));
 
 
 

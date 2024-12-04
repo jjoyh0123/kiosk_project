@@ -94,7 +94,7 @@ public class AdminCouponDialog extends JDialog {
       }
     });
 
-    checkBox = new JCheckBox("사용 상태", true);
+    checkBox = new JCheckBox("사용 상태", false);
     checkBox.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
     // 저장 및 취소 버튼

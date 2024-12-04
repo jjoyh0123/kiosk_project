@@ -160,8 +160,8 @@ public class AdminUserLog extends JPanel {
   // 날짜 업데이트 메서드
   private void updateDate(int monthOffset) {
     if (currentDate.getMonthValue() == 11 && monthOffset > 0) {
-      // 12월을 넘어가는 경우, 아무것도 하지 않고 종료
-      nextMonthBtn.setEnabled(false); // 12월이면 버튼 비활성화
+
+      nextMonthBtn.setEnabled(false);
       return;
     }
 
