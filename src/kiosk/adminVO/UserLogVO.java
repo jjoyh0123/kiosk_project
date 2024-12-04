@@ -6,12 +6,29 @@ public class UserLogVO {
   // userIdx로 연락처 가져오기
   // 고객 등급 가져오기
   // 테이블 선택시 고객별로 각 1,2,3 순위별로 가져오기
+
+  public int getLogTop1ProductOrderCount() {
+    return logTop1ProductOrderCount;
+  }
+
+  public void setLogTop1ProductOrderCount(int logTop1ProductOrderCount) {
+    this.logTop1ProductOrderCount = logTop1ProductOrderCount;
+  }
   // product 테이블이랑 JION 해보고 안되면 보류하기
 
   String userContact, logGrade;
   String top1ProductName, top2ProductName, top3ProductName;
-  int userIdx, logIdx, logTop1ProductIdx, logTop2ProductIdx, logTop3ProductIdx;
-  Date logDate;
+  int userIdx, logIdx, logTop1ProductIdx, logTop2ProductIdx, logTop3ProductIdx, logTop1ProductOrderCount, logTop1ProductExpense, logTop1CouponUsage;
+
+  public int getLogTop1ProductExpense() {
+    return logTop1ProductExpense;
+  }
+
+  public void setLogTop1ProductExpense(int logTop1ProductExpense) {
+    this.logTop1ProductExpense = logTop1ProductExpense;
+  }
+
+  String logDate;
 
   public String getUserContact() {
     return userContact;
@@ -93,11 +110,11 @@ public class UserLogVO {
     this.logTop3ProductIdx = logTop3ProductIdx;
   }
 
-  public Date getLogDate() {
+  public String getLogDate() {
     return logDate;
   }
 
-  public void setLogDate(Date logDate) {
+  public void setLogDate(String logDate) {
     this.logDate = logDate;
   }
 

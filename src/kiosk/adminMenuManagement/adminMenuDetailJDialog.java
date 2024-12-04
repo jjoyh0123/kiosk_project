@@ -1,6 +1,7 @@
 package kiosk.adminMenuManagement;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -19,6 +20,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.adminVO.productVO;
 import kiosk.client.MainFrame;
 
@@ -36,6 +38,8 @@ public class adminMenuDetailJDialog extends JDialog {
                                 Window parent, int productPrice, int productCategory, boolean productRecommendStatus, boolean productSaleStatus,
                                 String productRegDate) {
     super(parent, "상품 상세", ModalityType.APPLICATION_MODAL);
+    
+    
     this.mainFrame = mainFrame;
     this.productIdx = productIdx;
     this.productRecommendStatus = productRecommendStatus;
@@ -52,42 +56,49 @@ public class adminMenuDetailJDialog extends JDialog {
 
     // 상품 이름
     JLabel nameLabel = new JLabel("이름: ");
+    nameLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
     JTextField nameTextField = new JTextField(productName);
-    nameTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+    nameTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
     nameTextField.setBorder(BorderFactory.createEmptyBorder());
     nameTextField.setEditable(false);
 
     // 상품 가격
     JLabel priceLabel = new JLabel("가격: ");
+    priceLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
     JTextField priceTextField = new JTextField(String.valueOf(productPrice));
-    priceTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+    priceTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
     priceTextField.setBorder(BorderFactory.createEmptyBorder());
     priceTextField.setEditable(false);
 
     // 카테고리
     JLabel categoryLabel = new JLabel("카테고리: ");
+    categoryLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
     int categoryWithNumber = productCategory;
     JTextField categoryTextField = new JTextField(String.valueOf(productCategory));
-    categoryTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+    categoryTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
     categoryTextField.setBorder(BorderFactory.createEmptyBorder());
     categoryTextField.setEditable(false);
 
     // 등록일
     JLabel regDateLabel = new JLabel("등록일: ");
+    regDateLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
     JTextField regDateTextField = new JTextField(productRegDate);
-    regDateTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+    regDateTextField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
     regDateTextField.setBorder(BorderFactory.createEmptyBorder());
     regDateTextField.setEditable(false);
 
     // 추천 체크박스
     recommendCheckBox = new JCheckBox("추천 상품", productRecommendStatus);
-
+    recommendCheckBox.setFont(new Font("맑은고딕", Font.BOLD, 18));
     // 판매 상태 체크박스
     saleCheckBox = new JCheckBox("판매 상태", productSaleStatus);
-
+    saleCheckBox.setFont(new Font("맑은고딕", Font.BOLD, 18));
     // 저장 및 취소 버튼
-    JButton saveButton = new JButton("저장");
-    JButton cancelButton = new JButton("취소");
+    JButton saveButton = new RoundedButton("저장");
+    JButton cancelButton = new RoundedButton("취소");
+    
+    nameLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    cancelButton.setFont(new Font("맑은고딕", Font.BOLD, 18) );
 
     buttonSize = new Dimension(100, 60); // 버튼 크기 설정
 
@@ -104,7 +115,10 @@ public class adminMenuDetailJDialog extends JDialog {
 
     // 상단 패널
     JPanel topPanel = new JPanel(new BorderLayout());
+    topPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // 위쪽과 아래쪽 여백 10픽셀 추가
     topPanel.add(imageLabel, BorderLayout.CENTER);
+
+    
 
     // 입력 필드 패널
     JPanel inputPanel = new JPanel(new GridLayout(7, 2, 10, 10));
@@ -135,7 +149,14 @@ public class adminMenuDetailJDialog extends JDialog {
 
     setSize(460, 450);
     setLocation(730, 230);
+
+   
+    // 테두리 추가
+    mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2)); // 회색 테두리, 두께 2px
+
+    add(mainPanel, BorderLayout.CENTER);
     setLocationRelativeTo(parent);
+    
   }
 
   private void updateProductStatus() {

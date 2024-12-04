@@ -2,7 +2,9 @@ package kiosk.adminOrderManagement;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +18,7 @@ import javax.swing.JScrollPane;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.client.MainFrame;
 import kiosk.adminVO.OrderVO;
 
@@ -37,15 +40,35 @@ public class AdminOrderList extends JPanel {
     // this.parent.add(this);
 
     // 상단 새로고침 버튼
-
-    topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    refreshBtn = new JButton("새로고침");
-    topPanel.add(refreshBtn);
-    this.add(topPanel, BorderLayout.NORTH);
+    JPanel northPanel = new JPanel(new BorderLayout()); // 레이아웃 설정 추가
+    JPanel titlepanel = new JPanel(new BorderLayout()); 
+    JLabel northtitle = new JLabel("주문관리");
+    northtitle.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    northtitle.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0)); // 여백 추가
+    titlepanel.add(northtitle, BorderLayout.WEST);
+    titlepanel.setBackground(new Color(190 ,190, 190)); // 상단 패널 배경색 설정 (밝은 회색)
+   
+    titlepanel.setPreferredSize(new Dimension(500,35));
+    
+    
+    topPanel = new JPanel(new BorderLayout());
+    refreshBtn = new RoundedButton("새로고침");
+    refreshBtn.setPreferredSize(new Dimension(60,70));
+    topPanel.add(refreshBtn, BorderLayout.EAST);
+    //this.add(topPanel, BorderLayout.NORTH);
+    topPanel.setPreferredSize(new Dimension(500,35));
+   
 
     orderPanel = new JPanel(new GridLayout(0, 1));
     scrollPane = new JScrollPane(orderPanel);
-    this.add(scrollPane, BorderLayout.CENTER);
+    
+    scrollPane.setPreferredSize(new Dimension(500,700));
+    //this.add(scrollPane, BorderLayout.CENTER);
+    northPanel.add(titlepanel, BorderLayout.NORTH);
+    northPanel.add(topPanel, BorderLayout.CENTER);
+    northPanel.add(scrollPane, BorderLayout.SOUTH);
+    
+    add(northPanel);
 
     try (SqlSession session = mainFrame.factory.openSession()) {
       orderList = session.selectList("adminOrderList.orderList");
@@ -56,6 +79,7 @@ public class AdminOrderList extends JPanel {
     }
 
     updateUI();
+    System.out.println(getHeight());
 
     // 새로고침 버튼 액션
     refreshBtn.addActionListener(new ActionListener() {
@@ -84,7 +108,7 @@ public class AdminOrderList extends JPanel {
         JPanel orderCard = createOrderCard(order); // 카드 형식으로 주문 표시
         System.out.println(order.isOrderStatus());
 
-        JButton completeBtn = new JButton(getOrderStatusText(order.isOrderStatus()));
+        JButton completeBtn = new RoundedButton(getOrderStatusText(order.isOrderStatus()));
         completeBtn.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {

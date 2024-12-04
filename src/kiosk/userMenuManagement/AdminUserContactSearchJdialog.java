@@ -2,6 +2,7 @@ package kiosk.userMenuManagement;
 
 import javax.swing.*;
 
+import Create.RoundedButton;
 import kiosk.admin.Admin;
 
 import java.awt.*;
@@ -14,10 +15,18 @@ public class AdminUserContactSearchJdialog extends JDialog {
 
   public AdminUserContactSearchJdialog(Admin owner, Consumer<String> onSearch) {
     super(owner, "번호 검색", true);
+    
+    setLocation(730, 230);
+  
+    JPanel contentPanel = new JPanel(new BorderLayout());
+    contentPanel.setBorder(BorderFactory.createLineBorder(Color.gray, 1)); // 검정색 2픽셀 테두리
+    
+    setUndecorated(true);// 위에 윈도우창없애기
     setLayout(new BorderLayout());
 
     // 상단 번호 입력 필드
     JPanel inputPanel = new JPanel(new BorderLayout());
+    inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); //여백
     JLabel label = new JLabel("번호: ");
     textField = new JTextField(15);
 
@@ -33,7 +42,8 @@ public class AdminUserContactSearchJdialog extends JDialog {
     // 버튼 키패드
     JPanel keypadPanel = new JPanel(new GridLayout(4, 3, 5, 5));
     for (int i = 1; i <= 9; i++) {
-      JButton button = new JButton(String.valueOf(i));
+      JButton button = new RoundedButton(String.valueOf(i));
+      button.setFont(new Font("맑은글씨", Font.PLAIN, 30));
       button.setPreferredSize(new Dimension(60, 60));
       button.addActionListener(e -> appendToTextField(button.getText()));
       keypadPanel.add(button);
@@ -41,7 +51,8 @@ public class AdminUserContactSearchJdialog extends JDialog {
     }
 
 
-    JButton backspaceButton = new JButton("←");
+    JButton backspaceButton = new RoundedButton("←");
+    backspaceButton.setFont(new Font("맑은글씨", Font.PLAIN, 30));
     backspaceButton.addActionListener(e -> {
       String currentText = textField.getText();
       if (currentText.length() > 0) {
@@ -49,19 +60,21 @@ public class AdminUserContactSearchJdialog extends JDialog {
       }
     });
     keypadPanel.add(backspaceButton);
-    JButton zeroButton = new JButton("0");
+    JButton zeroButton = new RoundedButton("0");
+    zeroButton.setFont(new Font("맑은글씨", Font.PLAIN, 30));
     zeroButton.addActionListener(e -> appendToTextField("0"));
     keypadPanel.add(zeroButton);
 
 
-    JButton clearButton = new JButton("C");
+    JButton clearButton = new RoundedButton("C");
+    clearButton.setFont(new Font("맑은글씨", Font.PLAIN, 30));
     clearButton.addActionListener(e -> textField.setText(""));
     keypadPanel.add(clearButton);
 
     // 하단 버튼: 입력 및 취소
     JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    JButton searchButton = new JButton("입력");
-    JButton cancelButton = new JButton("취소");
+    JButton searchButton = new RoundedButton("입력");
+    JButton cancelButton = new RoundedButton("취소");
     actionPanel.add(searchButton);
     actionPanel.add(cancelButton);
 
@@ -80,10 +93,13 @@ public class AdminUserContactSearchJdialog extends JDialog {
     cancelButton.addActionListener(e -> dispose());
 
     // 컴포넌트 추가
-    add(inputPanel, BorderLayout.NORTH);
-    add(keypadPanel, BorderLayout.SOUTH);
-    add(actionPanel, BorderLayout.CENTER);
-
+    contentPanel.add(inputPanel, BorderLayout.NORTH);
+    contentPanel.add(keypadPanel, BorderLayout.SOUTH);
+    contentPanel.add(actionPanel, BorderLayout.CENTER);
+    //add(inputPanel, BorderLayout.NORTH);
+    //add(keypadPanel, BorderLayout.SOUTH);
+    //add(actionPanel, BorderLayout.CENTER);
+    add(contentPanel);
     setSize(300, 400);
     setLocationRelativeTo(owner);
   }

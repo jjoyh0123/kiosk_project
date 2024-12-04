@@ -3,6 +3,8 @@ package kiosk.userMenuManagement;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -16,9 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.CouponSettingVO;
 import kiosk.adminVO.CouponVO;
@@ -38,27 +42,41 @@ public class AdminUserCouponPayment extends JDialog {
     setLayout(new BorderLayout());
     setSize(460, 450);
     // setLocationRelativeTo(owner);
+    
+
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBorder(BorderFactory.createLineBorder(Color.gray, 1)); // 검정색 2픽셀 테두리
 
     setUndecorated(true);
     setLocation(730, 230);
     // 탑패널 그 해당 회원의 번호와 등급이 나오고 나가기 버튼 만듬
     JPanel topPanel = new JPanel(new BorderLayout());
+    topPanel.setPreferredSize(new Dimension(460,40));
+    JLabel titleLabel = new JLabel("쿠폰 지급", JLabel.CENTER);
+    titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 25));
+    titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
+    topPanel.add(titleLabel,BorderLayout.NORTH);
+    
+    JPanel secondpanel = new JPanel(new BorderLayout());
 
     JLabel userInfoLabel = new JLabel("고객 ID: " + userContact + ", 등급: " + userGrade);
-    topPanel.add(userInfoLabel, BorderLayout.WEST);
+    secondpanel.add(userInfoLabel, BorderLayout.WEST);
 
-    JButton closeButton = new JButton("나가기");
+    JButton closeButton = new RoundedButton("나가기");
     closeButton.addActionListener(e -> dispose());
-    topPanel.add(closeButton, BorderLayout.EAST);
+    secondpanel.add(closeButton, BorderLayout.EAST);
 
-    add(topPanel, BorderLayout.NORTH);
-
+     contentPanel.add(topPanel, BorderLayout.NORTH);
+     contentPanel.add(secondpanel,BorderLayout.CENTER);
     // 개별 쿠폰나오는 패널들 box layout설정
     JPanel couponListPanel = new JPanel();
     couponListPanel.setLayout(new BoxLayout(couponListPanel, BoxLayout.Y_AXIS));
     JScrollPane scrollPane = new JScrollPane(couponListPanel);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    add(scrollPane, BorderLayout.CENTER);
+    scrollPane.setPreferredSize(new Dimension(460,380));
+    contentPanel.add(scrollPane, BorderLayout.SOUTH);
+    
+    add(contentPanel);
 
     loadCouponData(couponListPanel);
 
@@ -79,7 +97,7 @@ public class AdminUserCouponPayment extends JDialog {
           // JLabel discountLabel = new JLabel("할인율: " + coupon.getCouponSettingFixed()+"원");
           // discountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-          JButton issueButton = new JButton("쿠폰 지급");
+          JButton issueButton = new RoundedButton("쿠폰 지급");
           issueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
           issueButton.addActionListener(e -> {
             issueCouponToUser(coupon);

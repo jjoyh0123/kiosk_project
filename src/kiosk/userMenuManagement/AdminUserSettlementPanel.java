@@ -1,6 +1,8 @@
 package kiosk.userMenuManagement;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
@@ -18,11 +20,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.adminVO.OrderVO;
 import kiosk.client.MainFrame;
 
@@ -42,6 +48,7 @@ public class AdminUserSettlementPanel extends JPanel {
     setLayout(new BorderLayout());
 
     // 상단: 합계 및 날짜 이동 패널
+    JPanel northPanel = new JPanel(new BorderLayout()); // 레이아웃 설정 추가
     JPanel topPanel = new JPanel();
     topPanel.setLayout(new BorderLayout());
     JLabel settlementLabel = new JLabel("정산", JLabel.CENTER);
@@ -52,11 +59,14 @@ public class AdminUserSettlementPanel extends JPanel {
     // 합계 표시 패널
     JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
-    JLabel titleLabel = new JLabel("쿠폰 보기", JLabel.CENTER);
-    titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 35));
-    titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
-    topPanel.add(titleLabel, BorderLayout.NORTH);
+    JLabel titleLabel = new JLabel("정산");
+    titleLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0)); // 여백 추가
+    northPanel.add(titleLabel, BorderLayout.WEST);
+    northPanel.setPreferredSize(new Dimension(500,35));
     totalAmountLabel = new JLabel("총매출: 0원");
+    totalAmountLabel.setFont(new Font("맑은고딕", Font.BOLD, 20));
+    northPanel.setBackground(new Color(190 ,190, 190)); // 상단 패널 배경색 설정 (밝은 회색)
     totalPanel.add(totalAmountLabel);
 
     // 날짜 이동 및 보기 모드 버튼 패널
@@ -65,19 +75,30 @@ public class AdminUserSettlementPanel extends JPanel {
 
     // 날짜 이동 버튼 패널
     JPanel dateNavigationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    prevPeriodButton = new JButton("<");
+    prevPeriodButton = new RoundedButton("<");
+    prevPeriodButton.setPreferredSize(new Dimension(70,25));
     dateLabel = new JLabel(currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-    nextPeriodButton = new JButton(">");
+    dateLabel.setFont(new Font("맑은고딕", Font.BOLD, 20));
+    nextPeriodButton = new RoundedButton(">");
+    nextPeriodButton.setPreferredSize(new Dimension(70,25));
     dateNavigationPanel.add(prevPeriodButton);
     dateNavigationPanel.add(dateLabel);
     dateNavigationPanel.add(nextPeriodButton);
 
     // 보기 모드 버튼 패널
     JPanel viewButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    dailyViewButton = new JButton("일별보기");
-    monthlyViewButton = new JButton("월별보기");
-    yearlyViewButton = new JButton("연별보기");
-    inputDateButton = new JButton("기간 입력");
+    dailyViewButton = new RoundedButton("일별보기");
+    dailyViewButton.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    dailyViewButton.setPreferredSize(new Dimension(90,40));
+    monthlyViewButton = new RoundedButton("월별보기");
+    monthlyViewButton.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    monthlyViewButton.setPreferredSize(new Dimension(90,40));
+    yearlyViewButton = new RoundedButton("연별보기");
+    yearlyViewButton.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    yearlyViewButton.setPreferredSize(new Dimension(90,40));
+    inputDateButton = new RoundedButton("기간 입력");
+    inputDateButton.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    inputDateButton.setPreferredSize(new Dimension(90,40));
     viewButtonPanel.add(dailyViewButton);
     viewButtonPanel.add(monthlyViewButton);
     viewButtonPanel.add(yearlyViewButton);
@@ -86,7 +107,9 @@ public class AdminUserSettlementPanel extends JPanel {
     // 패널 구조 조립
     controlPanel.add(viewButtonPanel, BorderLayout.NORTH);
     controlPanel.add(dateNavigationPanel, BorderLayout.SOUTH);
-    topPanel.add(totalPanel, BorderLayout.NORTH);
+    
+    topPanel.add(northPanel, BorderLayout.NORTH);
+    topPanel.add(totalPanel, BorderLayout.CENTER);
     topPanel.add(controlPanel, BorderLayout.SOUTH);
 
     // 상단 패널 추가
@@ -94,13 +117,31 @@ public class AdminUserSettlementPanel extends JPanel {
 
     // 테이블 섹션
     String[] columnNames = {"", "주문번호", "회원번호", "주문 일자", "주문금액"};
+    
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return false; // 테이블 데이터 수정 불가
       }
     };
+ // 
+    
     table = new JTable(tableModel);
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+    // 각 열에 렌더러 적용
+    for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+        table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+    }
+    JTableHeader header = table.getTableHeader();
+    Font currentFont = header.getFont();
+
+    // 현재 폰트의 스타일과 크기를 유지하면서 굵게 만듭니다.
+    Font boldFont = new Font(currentFont.getName(), Font.BOLD, currentFont.getSize());
+
+    // 새로운 폰트를 테이블 헤더에 적용합니다.
+    header.setFont(boldFont);
     table.setRowHeight(20); // 행 높이를 줄임
     table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 

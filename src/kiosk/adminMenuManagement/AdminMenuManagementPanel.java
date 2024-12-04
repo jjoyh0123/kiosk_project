@@ -2,6 +2,7 @@ package kiosk.adminMenuManagement;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -9,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,6 +20,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.adminVO.productVO;
 import kiosk.client.MainFrame;
 
@@ -33,12 +36,13 @@ public class AdminMenuManagementPanel extends JPanel {
 
     // 상단 NORTH Panel과 버튼들
     JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); // 레이아웃 설정 추가
-    JButton singleButton = new JButton("단품");
-    JButton setButton = new JButton("세트");
-    JButton snackButton = new JButton("스낵");
-    JButton drinkButton = new JButton("음료");
+    JButton singleButton = new RoundedButton("단품");
+    JButton setButton = new RoundedButton("세트");
+    JButton snackButton = new RoundedButton("스낵");
+    JButton drinkButton = new RoundedButton("음료");
     JPanel menuNorthPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
+    //menuNorthPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0)); // 위쪽과 아래쪽 여백 10픽셀 추가
+    
     Font buttonFont = new Font("aria", Font.BOLD, 20); // 폰트 크기 20, 굵게 설정
     singleButton.setFont(buttonFont);
     setButton.setFont(buttonFont);
@@ -51,18 +55,22 @@ public class AdminMenuManagementPanel extends JPanel {
     snackButton.setPreferredSize(buttonSize);
     drinkButton.setPreferredSize(buttonSize);
 
-    JLabel menulable = new JLabel("메뉴카테고리");
+    JLabel menulable = new JLabel("메뉴관리");
+    
+    //menulable.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 0)); // 위쪽과 아래쪽 여백 10픽셀 추가
 
-    menulable.setFont(new Font("맑은고딕", Font.BOLD, 25));
+    menulable.setFont(new Font("맑은고딕", Font.BOLD, 18));
 
-    menulable.setPreferredSize(new Dimension(300, 60));
+    //menulable.setPreferredSize(new Dimension(300, 15));
     menuNorthPanel.add(menulable);
+    menuNorthPanel.setBackground(new Color(190 ,190, 190)); // 상단 패널 배경색 설정 (밝은 회색)
 
     // 버튼들을 패널에 추가
     northPanel.add(singleButton);
     northPanel.add(setButton);
     northPanel.add(snackButton);
     northPanel.add(drinkButton);
+    northPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
     buttonSize = new Dimension(100, 50); // 버튼 크기 설정
 
     singleButton.setPreferredSize(buttonSize);
@@ -116,7 +124,7 @@ public class AdminMenuManagementPanel extends JPanel {
       JLabel label = new JLabel(icon);
       JLabel textLabel = new JLabel(itemNames[i]);
       textLabel.setHorizontalAlignment(SwingConstants.CENTER);
-      textLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14)); // 한글을 지원하는 폰트 설정
+      textLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 16)); // 한글을 지원하는 폰트 설정
 
       imagePanel.add(label);
       imagePanel.add(textLabel);

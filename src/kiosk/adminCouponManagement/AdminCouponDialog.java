@@ -1,6 +1,8 @@
 package kiosk.adminCouponManagement;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Window;
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.adminVO.CouponSettingVO;
 import kiosk.client.MainFrame;
 
@@ -38,10 +41,13 @@ public class AdminCouponDialog extends JDialog {
     super(parent, "쿠폰 상세", ModalityType.APPLICATION_MODAL);
 
     this.mainFrame = mainFrame;
-
+    
+    
+    setLocation(825, 230);
+    setUndecorated(true); // 창 상단 제거
     // 창 초기화
     setLayout(new BorderLayout());
-
+    
     label1 = new JLabel("이름 :");
     label1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
@@ -98,16 +104,18 @@ public class AdminCouponDialog extends JDialog {
     checkBox.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
     // 저장 및 취소 버튼
-    JButton saveButton = new JButton("저장");
-    JButton cancelButton = new JButton("취소");
-
+    JButton saveButton = new RoundedButton("저장");
+    saveButton.setPreferredSize(new Dimension(200,50));
+    JButton cancelButton = new RoundedButton("취소");
+    cancelButton.setPreferredSize(new Dimension(200,50));
     // 넘버패드
     numberPadPanel = new JPanel(new GridLayout(4, 3, 5, 5));
     numberPadPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     String[] buttons = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "←", "0", "C"};
+    
 
     for (String text : buttons) {
-      JButton button = new JButton(text);
+      JButton button = new RoundedButton(text);
       button.addActionListener(e -> handleNumberPadInput(text));
       numberPadPanel.add(button);
     }
@@ -158,13 +166,17 @@ public class AdminCouponDialog extends JDialog {
 
     // 전체 레이아웃
     JPanel mainPanel = new JPanel(new BorderLayout());
+    mainPanel.setBorder(BorderFactory.createLineBorder(Color.gray, 1)); // 검정색 2픽셀 테두리
     mainPanel.add(inputPanel, BorderLayout.NORTH);
+    inputPanel.setPreferredSize(new Dimension(270,280));
     mainPanel.add(buttonPanel, BorderLayout.CENTER);
     mainPanel.add(numberPadPanel, BorderLayout.SOUTH);
+    numberPadPanel.setPreferredSize(new Dimension(270,260));
 
     add(mainPanel, BorderLayout.CENTER);
 
     setSize(460, 600);
+    setUndecorated(true);
     setLocationRelativeTo(parent);
   }
 
