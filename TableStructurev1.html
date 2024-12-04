@@ -29,22 +29,25 @@
         background-color: #f2f2f2;
       }
       .col-key {
-        width: 6%;
+        width: 5%;
       }
       .col-name {
-        width: 17%;
+        width: 15%;
       }
       .col-type {
-        width: 12%;
+        width: 10%;
       }
       .col-kr-name {
-        width: 19%;
+        width: 15%;
       }
       .col-default {
-        width: 8%;
+        width: 5%;
+      }
+      .col-extra {
+        width: 5%;
       }
       .col-desc {
-        width: 38%;
+        width: 45%;
       }
       hr {
         margin-top: 25px;
@@ -58,6 +61,7 @@
     <h2>축약어 정리</h2>
     <p>PK: Primary Key</p>
     <p>FK: Foreign Key</p>
+    <p>UK: Unique Key</p>
     <p>AI: AUTO_INCREMENT</p>
     <p>NN: Not Null</p>
 
@@ -72,6 +76,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -81,7 +86,8 @@
           <td>adminIdx</td>
           <td>int</td>
           <td>관리자 인덱스</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -89,6 +95,7 @@
           <td>adminId</td>
           <td>varchar(20)</td>
           <td>관리자 아이디</td>
+          <td></td>
           <td>NN</td>
           <td></td>
         </tr>
@@ -97,6 +104,7 @@
           <td>adminPassWord</td>
           <td>varchar(20)</td>
           <td>관리자 비밀번호</td>
+          <td></td>
           <td>NN</td>
           <td></td>
         </tr>
@@ -105,6 +113,7 @@
           <td>adminGrade</td>
           <td>varchar(20)</td>
           <td>관리자 등급</td>
+          <td></td>
           <td>NN</td>
           <td>primary: 주매니저, secondary: 부매니저</td>
         </tr>
@@ -120,6 +129,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -129,7 +139,8 @@
           <td>userIdx</td>
           <td>bigint</td>
           <td>사용자 인덱스</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -137,6 +148,7 @@
           <td>userContact</td>
           <td>varchar(20)</td>
           <td>사용자 연락처</td>
+          <td></td>
           <td></td>
           <td></td>
         </tr>
@@ -147,12 +159,14 @@
           <td>사용자 가입일</td>
           <td>now()</td>
           <td></td>
+          <td></td>
         </tr>
         <tr>
           <td></td>
           <td>userGrade</td>
           <td>varchar(20)</td>
           <td>사용자 등급</td>
+          <td></td>
           <td></td>
           <td>Silver, Gold, Platinum, Diamond.다이아가 제일 높음.</td>
         </tr>
@@ -168,6 +182,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -177,48 +192,135 @@
           <td>logIdx</td>
           <td>int</td>
           <td>사용자 아이디</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
           <td>FK1</td>
           <td>userIdx</td>
           <td>bigint</td>
-          <td>회원 인덱스</td>
+          <td>사용자 인덱스</td>
+          <td></td>
           <td>NN</td>
-          <td>사용자 테이블의 외래 키</td>
+          <td>사용자 식별 키</td>
         </tr>
         <tr>
           <td>FK2</td>
           <td>logTop1ProductIdx</td>
           <td>bigint</td>
-          <td>top1메뉴 인덱스</td>
-          <td>null</td>
-          <td>상품 테이블의 외래 키</td>
+          <td>top1 상품 인덱스</td>
+          <td></td>
+          <td></td>
+          <td>top1 상품 식별 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop1ProductOrderCount</td>
+          <td>smallint</td>
+          <td>top1 상품 주문횟수</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop1ProductExpense</td>
+          <td>int</td>
+          <td>top1 상품 판매금액</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop1CouponUsage</td>
+          <td>tinyint</td>
+          <td>top1 상품 쿠폰사용수</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
         </tr>
         <tr>
           <td>FK3</td>
           <td>logTop2ProductIdx</td>
           <td>bigint</td>
-          <td>top2메뉴 인덱스</td>
-          <td>null</td>
-          <td>상품 테이블의 외래 키</td>
+          <td>top2 상품 인덱스</td>
+          <td></td>
+          <td></td>
+          <td>top2 상품 식별 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop2ProductOrderCount</td>
+          <td>smallint</td>
+          <td>top2 상품 주문횟수</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop2ProductExpense</td>
+          <td>int</td>
+          <td>top2 상품 판매금액</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop2CouponUsage</td>
+          <td>tinyint</td>
+          <td>top2 상품 쿠폰사용수</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
         </tr>
         <tr>
           <td>FK4</td>
           <td>logTop3ProductIdx</td>
           <td>bigint</td>
-          <td>top3메뉴 인덱스</td>
-          <td>null</td>
-          <td>상품 테이블의 외래 키</td>
+          <td>top3 상품 인덱스</td>
+          <td></td>
+          <td></td>
+          <td>top3 상품 식별 키</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop3ProductOrderCount</td>
+          <td>smallint</td>
+          <td>top3 상품 주문횟수</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop3ProductExpense</td>
+          <td>int</td>
+          <td>top3 상품 판매금액</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>logTop3CouponUsage</td>
+          <td>tinyint</td>
+          <td>top3 상품 쿠폰사용수</td>
+          <td>0</td>
+          <td>NN</td>
+          <td></td>
         </tr>
         <tr>
           <td></td>
           <td>logDate</td>
           <td>date</td>
           <td>기록 날짜</td>
-          <td>date</td>
           <td></td>
+          <td>NN</td>
+          <td>'YYYY-MM-DD', 월단위 기록</td>
         </tr>
         <tr>
           <td></td>
@@ -227,30 +329,7 @@
           <td>기록 등급</td>
           <td></td>
           <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>logOrderCount</td>
-          <td>smallint</td>
-          <td>기록 주문횟수</td>
-          <td>0</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>logExpense</td>
-          <td>int</td>
-          <td>기록 소비금액</td>
-          <td>0</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>logCouponUsage</td>
-          <td>tinyint</td>
-          <td>기록 쿠폰사용수</td>
-          <td>0</td>
-          <td></td>
+          <td>해당 기록 날짜 때 사용자 등급</td>
         </tr>
       </tbody>
     </table>
@@ -264,6 +343,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -273,7 +353,8 @@
           <td>couponSettingIdx</td>
           <td>bigint</td>
           <td>쿠폰세팅 인덱스</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -281,14 +362,16 @@
           <td>productIdx</td>
           <td>bigint</td>
           <td>상품 인덱스</td>
+          <td></td>
           <td>NN</td>
-          <td>상품 테이블의 외래 키</td>
+          <td>상품 식별 키</td>
         </tr>
         <tr>
           <td></td>
           <td>couponSettingName</td>
           <td>varchar(100)</td>
           <td>쿠폰세팅 이름</td>
+          <td></td>
           <td>NN</td>
           <td></td>
         </tr>
@@ -297,6 +380,7 @@
           <td>couponSettingGrade</td>
           <td>varchar(20)</td>
           <td>쿠폰세팅 등급</td>
+          <td></td>
           <td>NN</td>
           <td>Silver, Gold, Platinum, Diamon. 다이아가 제일 높음</td>
         </tr>
@@ -306,6 +390,7 @@
           <td>smallint</td>
           <td>쿠폰세팅 %할인율</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -314,6 +399,7 @@
           <td>smallint</td>
           <td>쿠폰세팅 고정할인금액</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -322,6 +408,7 @@
           <td>boolean</td>
           <td>쿠폰세팅 사용상태</td>
           <td>false</td>
+          <td>NN</td>
           <td>매월 초에 false: 쿠폰 지급 안함, true: 쿠폰 지급 함</td>
         </tr>
       </tbody>
@@ -336,6 +423,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -345,7 +433,8 @@
           <td>couponIdx</td>
           <td>bigint</td>
           <td>쿠폰 인덱스</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -353,16 +442,18 @@
           <td>userIdx</td>
           <td>bigint</td>
           <td>사용자 인덱스</td>
+          <td></td>
           <td>NN</td>
-          <td>사용자 테이블의 외래 키</td>
+          <td>사용자 식별 키</td>
         </tr>
         <tr>
           <td>FK2</td>
           <td>productIdx</td>
           <td>bigint</td>
           <td>상품 인덱스</td>
+          <td></td>
           <td>NN</td>
-          <td>상품 테이블의 외래 키</td>
+          <td>상품 식별 키</td>
         </tr>
         <tr>
           <td></td>
@@ -370,6 +461,7 @@
           <td>varchar(100)</td>
           <td>쿠폰 이름</td>
           <td></td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -378,6 +470,7 @@
           <td>smallint</td>
           <td>쿠폰 %할인율</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -386,6 +479,7 @@
           <td>smallint</td>
           <td>쿠폰 고정할인금액</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -393,6 +487,7 @@
           <td>couponRegDate</td>
           <td>datetime</td>
           <td>쿠폰 발급일</td>
+          <td></td>
           <td>NN</td>
           <td></td>
         </tr>
@@ -401,6 +496,7 @@
           <td>couponExpDate</td>
           <td>datetime</td>
           <td>쿠폰 만료일</td>
+          <td></td>
           <td>NN</td>
           <td></td>
         </tr>
@@ -410,6 +506,7 @@
           <td>boolean</td>
           <td>쿠폰 사용상태</td>
           <td>false</td>
+          <td>NN</td>
           <td>false: 쿠폰 사용 안함, true: 쿠폰 사용 완료</td>
         </tr>
       </tbody>
@@ -424,6 +521,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -434,6 +532,7 @@
           <td>bigint</td>
           <td>상품 인덱스</td>
           <td>AI</td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -442,6 +541,7 @@
           <td>varchar(100)</td>
           <td>상품 이름</td>
           <td></td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -450,6 +550,7 @@
           <td>varchar(255)</td>
           <td>상품 설명</td>
           <td></td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -458,6 +559,7 @@
           <td>mediumint</td>
           <td>상품 가격</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -465,7 +567,8 @@
           <td>productCategory</td>
           <td>tinyint</td>
           <td>상품 카테고리</td>
-          <td></td>
+          <td>1</td>
+          <td>NN</td>
           <td>1: 단품, 2: 세트, 3: 스낵, 4: 음료</td>
         </tr>
         <tr>
@@ -474,6 +577,7 @@
           <td>smallint</td>
           <td>상품 칼로리</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -482,6 +586,7 @@
           <td>boolean</td>
           <td>추천상품여부</td>
           <td>false</td>
+          <td>NN</td>
           <td>true: 추천상품, false: 일반상품</td>
         </tr>
         <tr>
@@ -490,6 +595,7 @@
           <td>boolean</td>
           <td>판매상태</td>
           <td>true</td>
+          <td>NN</td>
           <td>true: 판매중, false: 미판매</td>
         </tr>
         <tr>
@@ -498,6 +604,7 @@
           <td>datetime</td>
           <td>상품 등록일</td>
           <td>now()</td>
+          <td>NN</td>
           <td></td>
         </tr>
       </tbody>
@@ -512,6 +619,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -521,7 +629,8 @@
           <td>optionIdx</td>
           <td>bigint</td>
           <td>옵션 인덱스</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -530,6 +639,7 @@
           <td>varchar(50)</td>
           <td>옵션 이름</td>
           <td></td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -538,6 +648,7 @@
           <td>mediumint</td>
           <td>옵션 가격</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -546,6 +657,7 @@
           <td>tinyint</td>
           <td>옵션 카테고리</td>
           <td>1</td>
+          <td>NN</td>
           <td>1: 스낵, 2: 음료</td>
         </tr>
         <tr>
@@ -554,6 +666,7 @@
           <td>smallint</td>
           <td>옵션 칼로리</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -562,6 +675,7 @@
           <td>tinyint</td>
           <td>옵션 판매상태</td>
           <td>true</td>
+          <td>NN</td>
           <td>true: 판매중, false: 미판매</td>
         </tr>
       </tbody>
@@ -576,6 +690,7 @@
           <th class="col-type">데이터타입</th>
           <th class="col-kr-name">컬럼한글명</th>
           <th class="col-default">기본값</th>
+          <th class="col-extra">추가</th>
           <th class="col-desc">설명</th>
         </tr>
       </thead>
@@ -585,7 +700,8 @@
           <td>oderIdx</td>
           <td>bigint</td>
           <td>주문 인덱스</td>
-          <td>AI</td>
+          <td></td>
+          <td>AI, NN</td>
           <td>고유 식별자, 자동 증가</td>
         </tr>
         <tr>
@@ -594,15 +710,17 @@
           <td>bigint</td>
           <td>사용자 인덱스</td>
           <td>null</td>
-          <td>사용자 테이블의 외래 키, 회원주문시 입력</td>
+          <td></td>
+          <td>사용자 식별 키, 회원주문시 입력</td>
         </tr>
         <tr>
           <td>FK2</td>
           <td>productIdx</td>
           <td>bigint</td>
           <td>상품 인덱스</td>
+          <td></td>
           <td>NN</td>
-          <td>상품 테이블의 외래 키</td>
+          <td>상품 식별 키</td>
         </tr>
         <tr>
           <td>FK3</td>
@@ -610,7 +728,8 @@
           <td>bigint</td>
           <td>쿠폰 인덱스</td>
           <td>null</td>
-          <td>쿠폰 테이블의 외래 키, 쿠폰 사용시 입력</td>
+          <td></td>
+          <td>쿠폰 식별 키, 쿠폰 사용시 입력</td>
         </tr>
         <tr>
           <td>FK4</td>
@@ -618,7 +737,8 @@
           <td>bigint</td>
           <td>옵션1 인덱스</td>
           <td>null</td>
-          <td>옵션 테이블의 외래 키, 세트 메뉴시 입력</td>
+          <td></td>
+          <td>옵션 식별 키, 세트 메뉴시 입력</td>
         </tr>
         <tr>
           <td>FK5</td>
@@ -626,7 +746,8 @@
           <td>bigint</td>
           <td>옵션2 인덱스</td>
           <td>null</td>
-          <td>옵션 테이블의 외래 키, 세트 메뉴시 입력</td>
+          <td></td>
+          <td>옵션 식별 키, 세트 메뉴시 입력</td>
         </tr>
         <tr>
           <td></td>
@@ -634,7 +755,8 @@
           <td>mediumint</td>
           <td>주문번호</td>
           <td>0</td>
-          <td>주문번호, 매일 갱신, 멤버 변수에서 값 받음</td>
+          <td>NN</td>
+          <td>주문번호, 매일 갱신</td>
         </tr>
         <tr>
           <td></td>
@@ -642,6 +764,7 @@
           <td>smallint</td>
           <td>상품 카테고리</td>
           <td>1</td>
+          <td>NN</td>
           <td>상품 카테고리 1: 단품, 2: 세트, 3: 스낵, 4: 음료</td>
         </tr>
         <tr>
@@ -650,6 +773,7 @@
           <td>tinyint</td>
           <td>주문수량</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -658,6 +782,7 @@
           <td>boolean</td>
           <td>조리상태</td>
           <td>false</td>
+          <td>NN</td>
           <td>false: 조리중, true: 조리완료</td>
         </tr>
         <tr>
@@ -666,6 +791,7 @@
           <td>smallint</td>
           <td>칼로리</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -674,6 +800,7 @@
           <td>datetime</td>
           <td>주문일자</td>
           <td>now()</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -682,6 +809,7 @@
           <td>mediumint</td>
           <td>주문가격</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
         <tr>
@@ -690,6 +818,7 @@
           <td>mediumint</td>
           <td>쿠폰적용가격</td>
           <td>0</td>
+          <td>NN</td>
           <td></td>
         </tr>
       </tbody>
