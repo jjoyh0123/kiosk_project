@@ -24,7 +24,7 @@ public class OrderDetailsPanel extends JPanel {
 
     // 상단 제목
     JLabel titleLabel = new JLabel("주문내역을 확인해 주세요.", JLabel.CENTER);
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+    titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
     titleLabel.setPreferredSize(new Dimension(400, 100)); // 높이를 설정
     titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); // 상하 여백 설정
     add(titleLabel, BorderLayout.NORTH);
@@ -41,14 +41,15 @@ public class OrderDetailsPanel extends JPanel {
     bottomPanel = new JPanel(new BorderLayout());
     bottomPanel.setBackground(Color.WHITE);
     totalPriceLabel = new JLabel("", JLabel.RIGHT);
-    totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 25));
+    totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
     bottomPanel.add(totalPriceLabel, BorderLayout.NORTH);
 
-    JPanel buttonPanel = new JPanel(new FlowLayout());
+    JPanel buttonPanel = new JPanel();
     buttonPanel.setBackground(Color.WHITE);
-    JButton backButton = new JButton("이전으로");
+    JButton backButton = new RoundedButton("이전으로");
+    backButton.setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
     backButton.setPreferredSize(new Dimension(150, 50));
-    payButton = new JButton("결제하기");
+    payButton = new RoundedButton("결제하기");
     payButton.setPreferredSize(new Dimension(150, 50));
 
     backButton.addActionListener(e -> {
@@ -78,7 +79,8 @@ public class OrderDetailsPanel extends JPanel {
         .sum();
 
     orderPanel.totalPrice = total;
-    totalPriceLabel.setText("총 주문 금액: ₩" + total);
+    totalPriceLabel.setText("총 주문 금액: ₩" + CurrencyFormatter.format(total));
+    totalPriceLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
   }
 
   public void refreshItemList() {
@@ -87,7 +89,7 @@ public class OrderDetailsPanel extends JPanel {
     itemListPanel.setLayout(new GridBagLayout()); // GridBagLayout 사용
 
     GridBagConstraints gbc = new GridBagConstraints();
-    gbc.insets = new Insets(5, 5, 5, 5); // 항목 간 간격 설정
+    //gbc.insets = new Insets(5, 0, 5, 0); // 항목 간 간격 설정
     gbc.fill = GridBagConstraints.HORIZONTAL; // 수평으로만 확장
     gbc.weightx = 1.0; // 수평 비율
     gbc.weighty = 0.0; // 수직 비율 (항목 고정 크기)
@@ -107,14 +109,14 @@ public class OrderDetailsPanel extends JPanel {
       itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
       GridBagConstraints innerGbc = new GridBagConstraints();
-      innerGbc.insets = new Insets(5, 5, 5, 5);
-      innerGbc.fill = GridBagConstraints.BOTH; // 채우기
-      innerGbc.weightx = 0.0;
+      // innerGbc.insets = new Insets(5, 5, 5, 5);
+      innerGbc.fill = GridBagConstraints.NONE; // 채우기 금지
 
       // 이미지
       innerGbc.gridx = 0;
       innerGbc.gridy = 0;
       innerGbc.weightx = 0.2;
+      innerGbc.anchor = GridBagConstraints.WEST;
       JLabel imageLabel = new JLabel();
       try {
         Image productImage = new ImageIcon(getClass().getResource("/kiosk/static/product" + item.getProductIdx() + ".jpg")).getImage();
@@ -127,15 +129,14 @@ public class OrderDetailsPanel extends JPanel {
 
       // 이름
       innerGbc.gridx = 1;
-      innerGbc.weightx = 0.3;
-      innerGbc.anchor = GridBagConstraints.WEST;
-      JTextArea nameLabel = new JTextArea(item.getProductName());
-      nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-      nameLabel.setLineWrap(true); // 줄 바꿈 허용
-      nameLabel.setWrapStyleWord(true); // 단어 단위로 줄 바꿈
-      nameLabel.setOpaque(false); // 배경 투명
-      nameLabel.setEditable(false); // 편집 불가
-      nameLabel.setFocusable(false); // 포커스 제거
+      innerGbc.gridy = 0;
+      innerGbc.weightx = 0;
+      innerGbc.anchor = GridBagConstraints.CENTER;
+      innerGbc.fill = GridBagConstraints.NONE;
+      JLabel nameLabel = new JLabel(item.getProductName());
+      nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 16));
+      nameLabel.setVerticalAlignment(SwingConstants.CENTER);
+      nameLabel.setPreferredSize(new Dimension(170, 30));
       itemPanel.add(nameLabel, innerGbc);
 
       // 수량 조절
@@ -145,10 +146,10 @@ public class OrderDetailsPanel extends JPanel {
       JPanel quantityPanel = new JPanel(new FlowLayout());
       quantityPanel.setBackground(Color.WHITE);
       JButton decreaseButton = new JButton("-");
-      decreaseButton.setPreferredSize(new Dimension(30, 30));
+      decreaseButton.setPreferredSize(new Dimension(40, 40));
       JLabel quantityLabel = new JLabel(String.valueOf(item.getOrderCount()), JLabel.CENTER);
       JButton increaseButton = new JButton("+");
-      increaseButton.setPreferredSize(new Dimension(30, 30));
+      increaseButton.setPreferredSize(new Dimension(40, 40));
 
       decreaseButton.addActionListener(e -> {
         item.setOrderCount(item.getOrderCount() - 1);
@@ -172,15 +173,16 @@ public class OrderDetailsPanel extends JPanel {
       innerGbc.gridx = 3;
       innerGbc.weightx = 0.2;
       innerGbc.anchor = GridBagConstraints.EAST;
-      JLabel priceLabel = new JLabel("₩" + (item.getOrderPrice() * item.getOrderCount()), JLabel.CENTER);
-      priceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+      JLabel priceLabel = new JLabel("₩" + CurrencyFormatter.format(item.getOrderPrice() * item.getOrderCount()), JLabel.CENTER);
+      priceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+      priceLabel.setPreferredSize(new Dimension(80, 30));
       itemPanel.add(priceLabel, innerGbc);
 
       // 삭제 버튼
       innerGbc.gridx = 4;
       innerGbc.weightx = 0.1;
-      innerGbc.anchor = GridBagConstraints.CENTER;
-      JButton deleteButton = new JButton("X");
+      //innerGbc.anchor = GridBagConstraints.CENTER;
+      JButton deleteButton = new RoundedButton("X");
       deleteButton.setPreferredSize(new Dimension(50, 50));
       deleteButton.addActionListener(e -> {
         orderPanel.cartItems.remove(item);

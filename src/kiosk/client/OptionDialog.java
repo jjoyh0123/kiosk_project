@@ -1,6 +1,5 @@
 package kiosk.client;
 
-import kiosk.clientVO.CartItem;
 import kiosk.clientVO.OptionVO;
 
 import javax.swing.*;
@@ -21,6 +20,7 @@ public class OptionDialog extends JDialog {
   private int drinkPrice = 0; // 음료 옵션 가격
   private int friesCalorie = 0;
   private int drinkCalorie = 0;
+  private MainFrame mainFrame;
 
   public OptionDialog(Frame parent, String productName, int productIdx, int productPrice, List<OptionVO> friesOptions, List<OptionVO> drinkOptions) {
     super(parent, "추가 옵션을 선택해주세요!", true);
@@ -31,6 +31,7 @@ public class OptionDialog extends JDialog {
     setLayout(new BorderLayout());
     setSize(500, 600);
     setLocationRelativeTo(null);
+    setUndecorated(true); // 창 닫기 버튼 및 테두리 제거
     setResizable(false);
 
     // 상단: 상품 정보
@@ -55,9 +56,9 @@ public class OptionDialog extends JDialog {
     productDetails.setBackground(Color.WHITE);
     productDetails.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     JLabel nameLabel = new JLabel(productName);
-    nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
-    JLabel priceLabel = new JLabel("₩" + productPrice);
-    priceLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+    nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+    JLabel priceLabel = new JLabel("₩" + CurrencyFormatter.format(productPrice));
+    priceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 16));
     productDetails.add(nameLabel);
     productDetails.add(priceLabel);
     productInfoPanel.add(productDetails, BorderLayout.CENTER);
@@ -68,7 +69,7 @@ public class OptionDialog extends JDialog {
     JPanel optionsPanel = new JPanel();
     optionsPanel.setBackground(Color.WHITE);
     optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS)); // BoxLayout을 사용하여 동적 레이아웃 적용
-    optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    optionsPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
     // 프라이 옵션
     JPanel friesContainer = new JPanel();
@@ -78,7 +79,8 @@ public class OptionDialog extends JDialog {
     friesGroup = new ButtonGroup();
 
     for (OptionVO option : friesOptions) {
-      JRadioButton radioButton = new JRadioButton(option.getOptionName() + " - ₩" + option.getOptionPrice());
+      JRadioButton radioButton = new JRadioButton(option.getOptionName() + " - ₩" + CurrencyFormatter.format(option.getOptionPrice()));
+      radioButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
       radioButton.addActionListener(e -> {
         selectedFriesIdx = option.getOptionIdx();
         friesPrice = option.getOptionPrice();
@@ -104,6 +106,7 @@ public class OptionDialog extends JDialog {
 
     for (OptionVO option : drinkOptions) {
       JRadioButton radioButton = new JRadioButton(option.getOptionName() + " - ₩" + option.getOptionPrice());
+      radioButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
       radioButton.addActionListener(e -> {
         selectedDrinkIdx = option.getOptionIdx();
         drinkPrice = option.getOptionPrice();
@@ -126,30 +129,36 @@ public class OptionDialog extends JDialog {
     // 하단: 수량 선택 및 확인/취소 버튼
     JPanel bottomPanel = new JPanel(new BorderLayout());
     bottomPanel.setBackground(Color.WHITE);
-    bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 
     JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
     quantityPanel.setBackground(Color.WHITE);
     JButton minusButton = new JButton("-");
+    minusButton.setPreferredSize(new Dimension(50, 50));
     minusButton.addActionListener(e -> {
       if (quantity > 1) {
-        quantity--;
-        updateTotalPrice();
+        if (validateSelection()) {
+          quantity--;
+          updateTotalPrice();
+        }
       }
     });
     quantityLabel = new JLabel(String.valueOf(quantity));
-    quantityLabel.setFont(new Font("Arial", Font.BOLD, 16));
+    quantityLabel.setFont(new Font("맑은 고딕", Font.BOLD, 16));
     JButton plusButton = new JButton("+");
+    plusButton.setPreferredSize(new Dimension(50, 50));
     plusButton.addActionListener(e -> {
-      quantity++;
-      updateTotalPrice();
+      if (validateSelection()) {
+        quantity++;
+        updateTotalPrice();
+      }
     });
     quantityPanel.add(minusButton);
     quantityPanel.add(quantityLabel);
     quantityPanel.add(plusButton);
 
-    totalPriceLabel = new JLabel("총 가격: ₩" + totalPrice);
-    totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 18));
+    totalPriceLabel = new JLabel("총 가격: ₩" + CurrencyFormatter.format(totalPrice));
+    totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
     totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
     bottomPanel.add(quantityPanel, BorderLayout.WEST);
@@ -158,17 +167,19 @@ public class OptionDialog extends JDialog {
     JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
     buttonPanel.setBackground(Color.WHITE);
 
-    JButton confirmButton = new JButton("확인");
+    JButton confirmButton = new RoundedButton("확인");
+    confirmButton.setPreferredSize(new Dimension(150, 50));
     confirmButton.addActionListener(e -> {
       if (validateSelection()) {
 
         dispose();
 
       } else {
-        JOptionPane.showMessageDialog(null, "모든 옵션을 선택해주세요!", "경고", JOptionPane.WARNING_MESSAGE);
+        MemberCustomDialog memberCustomDialog = new MemberCustomDialog(mainFrame, "모든 옵션을 선택해주세요.", 4);
       }
     });
-    JButton cancelButton = new JButton("취소");
+    JButton cancelButton = new RoundedButton("취소");
+    cancelButton.setPreferredSize(new Dimension(150, 50));
     cancelButton.addActionListener(e -> {
       selectedFriesIdx = 0;
       selectedDrinkIdx = 0;
@@ -185,7 +196,7 @@ public class OptionDialog extends JDialog {
 
   private void updateTotalPrice() {
     totalPrice = (basePrice + friesPrice + drinkPrice) * quantity;
-    totalPriceLabel.setText("총 가격: ₩" + totalPrice);
+    totalPriceLabel.setText("총 가격: ₩" + CurrencyFormatter.format(totalPrice));
     quantityLabel.setText(String.valueOf(quantity));
   }
 

@@ -6,8 +6,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class PaymentDialog extends JDialog {
@@ -39,7 +37,7 @@ public class PaymentDialog extends JDialog {
     northPanel.setBackground(Color.WHITE);
     titleLabel = new JLabel(paymentMethod, SwingConstants.CENTER);
     titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+    titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 24));
     titleLabel.setBackground(Color.WHITE);
     northPanel.add(titleLabel);
     this.add(northPanel, BorderLayout.NORTH);
@@ -49,7 +47,7 @@ public class PaymentDialog extends JDialog {
     centerPanel.setBackground(Color.WHITE);
     JLabel messageLabel = new JLabel("바코드를 리더기에 인식시켜주세요", SwingConstants.CENTER);
     messageLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-    messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+    messageLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
     centerPanel.add(messageLabel, BorderLayout.NORTH);
 
     // 상품 이미지
@@ -80,11 +78,11 @@ public class PaymentDialog extends JDialog {
     // 하단: 확인/취소 버튼
     JPanel buttonPanel = new JPanel(new FlowLayout());
     buttonPanel.setBackground(Color.WHITE);
-    confirmButton = new JButton("확인");
+    confirmButton = new RoundedButton("확인");
     confirmButton.setPreferredSize(new Dimension(200, 40));
     confirmButton.addActionListener(e -> handleConfirm());
 
-    cancelButton = new JButton("취소");
+    cancelButton = new RoundedButton("취소");
     cancelButton.setPreferredSize(new Dimension(200, 40));
     cancelButton.addActionListener(e -> dispose());
 
@@ -103,7 +101,7 @@ public class PaymentDialog extends JDialog {
         session.insert("client.insertCartItemToOrderTable", cartItem);  // order 테이블에 주문 정보 저장
       }
       session.commit();
-      JOptionPane.showMessageDialog(this, "결제가 완료되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
+      MemberCustomDialog memberCustomDialog = new MemberCustomDialog(mainFrame, "결제가 완료되었습니다!", 3);
       mainFrame.userVO = null;
       orderPanel.cartItems = null;
     } catch (Exception e) {

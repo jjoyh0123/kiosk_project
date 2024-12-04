@@ -40,8 +40,8 @@ public class OrderPanel extends JPanel {
     int[] categoryIndices = {2, 1, 3, 4}; // 카테고리 매핑
 
     for (int i = 0; i < categories.length; i++) {
-      JButton categoryButton = new JButton(categories[i]);
-      categoryButton.setFont(new Font("Arial", Font.BOLD, 20));
+      JButton categoryButton = new RoundedButton(categories[i]);
+      categoryButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
       categoryButton.setPreferredSize(new Dimension(110, 50));
 
       int categoryIdx = categoryIndices[i];
@@ -74,14 +74,14 @@ public class OrderPanel extends JPanel {
     JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
     buttonPanel.setBackground(Color.WHITE);
     cartLabel = new JLabel("장바구니 수량:" + cartItems.size());
-    payButton = new JButton("결제");
-    cartLabel.setFont(new Font("Arial", Font.BOLD, 15));
+    payButton = new RoundedButton("결제");
+    cartLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
     cartLabel.setPreferredSize(new Dimension(150, 50));
-    payButton.setFont(new Font("Arial", Font.BOLD, 18));
+    payButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
     payButton.setPreferredSize(new Dimension(120, 50));
 
-    JButton cancelButton = new JButton("취소"); // 홈화면으로 돌아가기
-    cancelButton.setFont(new Font("Arial", Font.BOLD, 18));
+    JButton cancelButton = new RoundedButton("취소"); // 홈화면으로 돌아가기
+    cancelButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
     cancelButton.setPreferredSize(new Dimension(120, 50));
 
     buttonPanel.add(cartLabel);
@@ -98,13 +98,13 @@ public class OrderPanel extends JPanel {
     // 총 가격 및 초기화 버튼
     JPanel totalPanel = new JPanel(new BorderLayout());
     totalPanel.setBackground(Color.WHITE);
-    JButton clearCartButton = new JButton("초기화");
-    clearCartButton.setFont(new Font("Arial", Font.BOLD, 16));
+    JButton clearCartButton = new RoundedButton("초기화");
+    clearCartButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
     clearCartButton.setPreferredSize(new Dimension(100, 40));
     clearCartButton.addActionListener(e -> clearCart());
 
     totalPriceLabel = new JLabel("총 가격: ₩0", JLabel.RIGHT);
-    totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 18));
+    totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 
     totalPanel.add(clearCartButton, BorderLayout.WEST);
     totalPanel.add(totalPriceLabel, BorderLayout.CENTER);
@@ -149,7 +149,7 @@ public class OrderPanel extends JPanel {
   }
 
   // MyBatis를 통해 상품 데이터를 가져옴
-  private void getProductData(int categoryIdx) {
+  public void getProductData(int categoryIdx) {
     try (SqlSession ss = factory.openSession()) {
       productList = ss.selectList("client.getProductData", categoryIdx);
     }
@@ -189,7 +189,7 @@ public class OrderPanel extends JPanel {
         JLabel itemImage = new JLabel();
         try {
           Image productImage = new ImageIcon(getClass().getResource("/kiosk/static/product" + product.getProductIdx() + ".jpg")).getImage();
-          Image scaledImage = productImage.getScaledInstance(120, 80, Image.SCALE_SMOOTH);
+          Image scaledImage = productImage.getScaledInstance(140, 90, Image.SCALE_SMOOTH);
           itemImage.setIcon(new ImageIcon(scaledImage));
         } catch (Exception e) {
           e.printStackTrace();
@@ -197,12 +197,12 @@ public class OrderPanel extends JPanel {
         itemImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel itemName = new JLabel(product.getProductName());
-        itemName.setFont(new Font("Arial", Font.BOLD, 12));
+        itemName.setFont(new Font("맑은 고딕", Font.BOLD, 14));
         itemName.setAlignmentX(Component.CENTER_ALIGNMENT);
         itemName.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JLabel itemPrice = new JLabel("₩" + product.getProductPrice());
-        itemPrice.setFont(new Font("Arial", Font.PLAIN, 12));
+        JLabel itemPrice = new JLabel("₩" + CurrencyFormatter.format(product.getProductPrice()));
+        itemPrice.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         itemPrice.setAlignmentX(Component.CENTER_ALIGNMENT);
         itemPrice.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -339,7 +339,7 @@ public class OrderPanel extends JPanel {
 
       itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS)); // 수직 정렬
       itemPanel.setPreferredSize(new Dimension(130, 180)); // 고정 크기
-      itemPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE)); // 테두리 설정
+      itemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // 테두리 설정
       itemPanel.setBackground(Color.WHITE);
 
       // 상품 이미지
@@ -347,26 +347,46 @@ public class OrderPanel extends JPanel {
       try {
         String imagePath = "/kiosk/static/product" + item.getProductIdx() + ".jpg";
         ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
-        Image scaledImage = icon.getImage().getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
         itemImage.setIcon(new ImageIcon(scaledImage));
       } catch (NullPointerException e) {
         itemImage.setText("이미지 없음");
       }
       itemImage.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
 
+      JPanel topPanel = new JPanel();
+      topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+      topPanel.setOpaque(false);
+      topPanel.setPreferredSize(new Dimension(125,40));
+
+      // 수량을 표시하는 동그라미
+      JLabel quantityCircle = new JLabel(String.valueOf(item.getOrderCount()), JLabel.CENTER) {
+        @Override
+        protected void paintComponent(Graphics g) {
+          Graphics2D g2d = (Graphics2D) g;
+          g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+          g2d.setColor(Color.GREEN); // 동그라미 색상
+          g2d.fillOval(0, 0, 30, 30); // 동그라미 그리기
+          g2d.setColor(Color.WHITE); // 숫자 색상
+          g2d.drawString(getText(), 30 / 2 - g.getFontMetrics().stringWidth(getText()) / 2, 30 / 2 + g.getFontMetrics().getAscent() / 3);
+        }
+      };
+      quantityCircle.setPreferredSize(new Dimension(30, 30));
+      quantityCircle.setFont(new Font("맑은 고딕", Font.BOLD, 14)); // 텍스트 폰트
+
       // 상품 이름
       JLabel itemNameLabel = new JLabel(item.getProductName());
-      itemNameLabel.setFont(new Font("Arial", Font.BOLD, 12));
+      itemNameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
       itemNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
 
       // 수량
-      JLabel itemQuantityLabel = new JLabel("수량: " + item.getOrderCount());
-      itemQuantityLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-      itemQuantityLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
+      //JLabel itemQuantityLabel = new JLabel("수량: " + item.getOrderCount());
+      //itemQuantityLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+      //itemQuantityLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
 
       // 상품 가격
-      JLabel itemPriceLabel = new JLabel("₩" + item.getOrderPrice() * item.getOrderCount());
-      itemPriceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+      JLabel itemPriceLabel = new JLabel("₩" + CurrencyFormatter.format(item.getOrderPrice() * item.getOrderCount()));
+      itemPriceLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
       itemPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
 
       // 상품 이미지 에서 x버튼
@@ -396,7 +416,11 @@ public class OrderPanel extends JPanel {
 
       // 삭제 버튼
       //removeButton.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
-      removeButton.setBounds(120, 5, 20, 20); // 위치를 오른쪽 위로 설정
+      //removeButton.setBounds(120, 5, 20, 20); // 위치를 오른쪽 위로 설정
+
+      topPanel.add(quantityCircle);
+      topPanel.add(Box.createHorizontalStrut(35)); // 가운데 유동적 공간
+      topPanel.add(removeButton);
 
       removeButton.addActionListener(e -> {
         cartItems.remove(item); // 장바구니 항목 삭제
@@ -406,19 +430,19 @@ public class OrderPanel extends JPanel {
         updatePayButtonState(); // 버튼 상태 갱신
       });
 
-      itemPanel.add(removeButton, JLayeredPane.PALETTE_LAYER);
+      //itemPanel.add(removeButton, JLayeredPane.PALETTE_LAYER);
+      itemPanel.add(topPanel, BorderLayout.NORTH);
 
       // 아이템 패널에 요소 추가
-      itemPanel.add(Box.createVerticalGlue()); // 위 여백
+      //itemPanel.add(Box.createVerticalGlue()); // 위 여백
       itemPanel.add(itemImage);
-      itemPanel.add(Box.createVerticalStrut(0)); // 간격 추가
+      itemPanel.add(Box.createVerticalStrut(6)); // 간격 추가
       itemPanel.add(itemNameLabel);
-      itemPanel.add(Box.createVerticalStrut(0)); // 간격 추가
-      itemPanel.add(itemQuantityLabel); // 수량 표시
-      itemPanel.add(Box.createVerticalStrut(0)); // 간격 추가
+      itemPanel.add(Box.createVerticalStrut(6)); // 간격 추가
+      //itemPanel.add(itemQuantityLabel); // 수량 표시
+      //itemPanel.add(Box.createVerticalStrut(0)); // 간격 추가
       itemPanel.add(itemPriceLabel);
-      itemPanel.add(Box.createVerticalStrut(0)); // 간격 추가
-      itemPanel.add(removeButton);
+      //itemPanel.add(Box.createVerticalStrut(0)); // 간격 추가
       itemPanel.add(Box.createVerticalGlue()); // 아래 여백
 
       horizontalCartPanel.add(itemPanel);
@@ -432,7 +456,7 @@ public class OrderPanel extends JPanel {
 
     cartPanel.add(scrollPane);
 
-    totalPriceLabel.setText("총 가격: ₩" + totalPrice); // 총 가격 레이블 초기화
+    totalPriceLabel.setText("총 가격: ₩" + CurrencyFormatter.format(totalPrice)); // 총 가격 레이블 초기화
 
     cartPanel.revalidate();
     cartPanel.repaint();

@@ -60,9 +60,11 @@
   </update>
 
   <select id="getMaxOrderNumber" resultType="Int">
-    SELECT distinct orderNumber
+    SELECT orderNumber
     FROM `order`
-    WHERE orderDate = (SELECT MAX(orderDate) FROM `order`)
+    WHERE DATE(orderDate) = CURRENT_DATE
+    ORDER BY orderNumber DESC
+    LIMIT 1
   </select>
 
 </mapper>
