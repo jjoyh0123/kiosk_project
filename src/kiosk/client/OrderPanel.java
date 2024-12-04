@@ -355,7 +355,8 @@ public class OrderPanel extends JPanel {
       itemImage.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
 
       JPanel topPanel = new JPanel();
-      topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+//      topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
+      topPanel.setLayout(new GridLayout(1,2, 5, 0));
       topPanel.setOpaque(false);
       topPanel.setPreferredSize(new Dimension(125,40));
 
@@ -410,6 +411,7 @@ public class OrderPanel extends JPanel {
         removeButton.setBorderPainted(false);
         removeButton.setContentAreaFilled(false);
         removeButton.setFocusPainted(false);
+        removeButton.setPreferredSize(new Dimension(newWidth, newHeight));
       } catch (NullPointerException e) {
         e.printStackTrace();
       }
@@ -418,9 +420,22 @@ public class OrderPanel extends JPanel {
       //removeButton.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
       //removeButton.setBounds(120, 5, 20, 20); // 위치를 오른쪽 위로 설정
 
-      topPanel.add(quantityCircle);
-      topPanel.add(Box.createHorizontalStrut(35)); // 가운데 유동적 공간
-      topPanel.add(removeButton);
+//      topPanel.add(quantityCircle);
+//      topPanel.add(Box.createHorizontalStrut(30)); // 가운데 유동적 공간
+//      topPanel.add(removeButton);
+
+      JPanel quantityPanel = new JPanel();
+      quantityPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+      quantityPanel.setOpaque(false);
+      quantityPanel.add(quantityCircle);
+
+      JPanel removeButtonPanel = new JPanel();
+      removeButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+      removeButtonPanel.setOpaque(false);
+      removeButtonPanel.add(removeButton);
+
+      topPanel.add(quantityPanel);
+      topPanel.add(removeButtonPanel);
 
       removeButton.addActionListener(e -> {
         cartItems.remove(item); // 장바구니 항목 삭제
