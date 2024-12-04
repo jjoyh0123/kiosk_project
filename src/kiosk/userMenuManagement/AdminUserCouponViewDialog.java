@@ -3,6 +3,7 @@ package kiosk.userMenuManagement;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.CouponVO;
 import kiosk.client.MainFrame;
@@ -41,31 +43,40 @@ public class AdminUserCouponViewDialog extends JDialog {
     // setLocationRelativeTo(owner);//이거하면 가운데로 고정
 
     setUndecorated(true);// 위에 윈도우창없애기
+    
+    JPanel contentPanel = new JPanel(new BorderLayout());
+    contentPanel.setBorder(BorderFactory.createLineBorder(Color.gray, 1)); // 검정색 2픽셀 테두리
 
     JPanel topPanel = new JPanel(new BorderLayout());
 
     // 상단레이블설정
     JLabel titleLabel = new JLabel("쿠폰 보기", JLabel.CENTER);
-    titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 35));
+    titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 25));
     titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
+    topPanel.setPreferredSize(new Dimension(460,40));
     topPanel.add(titleLabel, BorderLayout.NORTH);
 
+    JPanel secondpanel = new JPanel(new BorderLayout());
     JLabel userInfoLabel = new JLabel("회원 번호: " + userContact + ", 등급: " + userGrade);
-    topPanel.add(userInfoLabel, BorderLayout.WEST);
+    secondpanel.add(userInfoLabel, BorderLayout.WEST);
 
     // 나가기 버튼
-    JButton closeButton = new JButton("나가기");
+    JButton closeButton = new RoundedButton("나가기");
     closeButton.addActionListener(e -> dispose());
-    topPanel.add(closeButton, BorderLayout.EAST);
+    secondpanel.add(closeButton, BorderLayout.EAST);
 
-    add(topPanel, BorderLayout.NORTH);
-
+    //add(topPanel, BorderLayout.NORTH);
+    contentPanel.add(topPanel,BorderLayout.NORTH);
+    contentPanel.add(secondpanel,BorderLayout.CENTER);
     JPanel couponListPanel = new JPanel();
     couponListPanel.setLayout(new BoxLayout(couponListPanel, BoxLayout.Y_AXIS));
     JScrollPane scrollPane = new JScrollPane(couponListPanel);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    add(scrollPane, BorderLayout.CENTER);
-
+    //add(scrollPane, BorderLayout.CENTER);
+    scrollPane.setPreferredSize(new Dimension(460,380));
+    contentPanel.add(scrollPane,BorderLayout.SOUTH);
+    add(contentPanel);
+    
     loadUserCoupons(couponListPanel);
 
     setVisible(true);

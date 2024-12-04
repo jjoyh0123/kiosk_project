@@ -3,23 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<environments default="">
-		<environment id="">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="com.mysql.cj.jdbc.Driver" />
-				<property name="url" value="jdbc:mysql://15.165.74.204:3306/kiosk" />
-				<property name="username" value="project1" />
-				<property name="password" value="1111" />
-			</dataSource>
-		</environment>
-	</environments>
-	<mappers>
-		<mapper resource="kiosk/mapper/adminLogin.xml" />
-		<mapper resource="kiosk/mapper/adminOrderList.xml" />
-		<mapper resource="kiosk/mapper/adminMenuManagement.xml" />
-		<mapper resource="kiosk/mapper/adminUserManagement.xml" />
-		<mapper resource="kiosk/mapper/adminCouponSetting.xml" />
-		<mapper resource="kiosk/mapper/adminUserLog.xml" />
-	</mappers>
+  <environments default="">
+    <environment id="">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://15.165.74.204:3306/kiosk"/>
+        <property name="username" value="project1"/>
+        <property name="password" value="1111"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="kiosk/mapper/client.xml"/>
+    <mapper resource="kiosk/mapper/adminLogin.xml"/>
+    <mapper resource="kiosk/mapper/adminOrderList.xml"/>
+    <mapper resource="kiosk/mapper/adminMenuManagement.xml"/>
+    <mapper resource="kiosk/mapper/adminUserManagement.xml"/>
+    <mapper resource="kiosk/mapper/adminCouponSetting.xml"/>
+    <mapper resource="kiosk/mapper/adminUserLog.xml"/>
+  </mappers>
 </configuration>

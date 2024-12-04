@@ -1,6 +1,7 @@
 package kiosk.adminCouponManagement;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,8 +18,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.ibatis.session.SqlSession;
@@ -37,6 +41,7 @@ public class AdminCouponSetting extends JPanel {
 
   // 컬럼명 정의
   String[] columnNames = {"이름", "품명", "등급", "할인율", "고정할인금액", "사용상태"};
+  
 
   // MainFrame 주입을 위해 생성자에서 받음
   private MainFrame mainFrame;
@@ -44,14 +49,15 @@ public class AdminCouponSetting extends JPanel {
   public AdminCouponSetting(MainFrame mainFrame) {
     this.mainFrame = mainFrame; // MainFrame 주입
     // this.setLayout(new BorderLayout()); // AdminCouponSetting의 레이아웃 설정
-
-    titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // FlowLayout으로 변경
+    JPanel jpanel = new JPanel(new BorderLayout());
+    titlePanel = new JPanel(new BorderLayout()); // FlowLayout으로 변경
     titleLabel = new JLabel("쿠폰관리");
-    titleLabel.setFont(new Font("맑은고딕", Font.BOLD, 25));
-    titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    titleLabel.setPreferredSize(new Dimension(180, 40));
-    titlePanel.add(titleLabel);
-    this.add(titlePanel, BorderLayout.NORTH);
+    titleLabel.setFont(new Font("맑은고딕", Font.BOLD, 18));
+    titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0)); // 여백 추가
+    titlePanel.setPreferredSize(new Dimension(500,35));
+    titlePanel.setBackground(new Color(190 ,190, 190)); // 상단 패널 배경색 설정 (밝은 회색)
+    titlePanel.add(titleLabel,BorderLayout.WEST);
+    jpanel.add(titlePanel,BorderLayout.NORTH);
 
     // 패널 초기화
     couponPanel = new JPanel();
@@ -65,9 +71,29 @@ public class AdminCouponSetting extends JPanel {
         return false;
       }
     };
-
+     
+    
     couponTable = new JTable(couponModel);
+    
+    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
+    // 각 열에 렌더러 적용
+    for (int i = 0; i < couponTable.getColumnModel().getColumnCount(); i++) {
+        couponTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+    }
+    
+ // 테이블 헤더의 현재 폰트를 가져옵니다.
+    JTableHeader header = couponTable.getTableHeader();
+    Font currentFont = header.getFont();
+
+    // 현재 폰트의 스타일과 크기를 유지하면서 굵게 만듭니다.
+    Font boldFont = new Font(currentFont.getName(), Font.BOLD, currentFont.getSize());
+
+    // 새로운 폰트를 테이블 헤더에 적용합니다.
+    header.setFont(boldFont);
+   
+    
     // TableRowSorter 초기화
     sorter = new TableRowSorter<>(couponModel);
     sorter.setComparator(2, new Comparator<String>() {
@@ -94,10 +120,11 @@ public class AdminCouponSetting extends JPanel {
 
     // 스크롤 추가
     scrollpane = new JScrollPane(couponTable);
-    couponPanel.add(scrollpane, BorderLayout.CENTER);
+    couponPanel.add(scrollpane);
+    add(jpanel);
 
     // 이 JPanel(AdminCouponSetting)에 couponPanel 추가
-    this.add(couponPanel, BorderLayout.CENTER);
+    jpanel.add(couponPanel,BorderLayout.CENTER);
 
     // DB에서 데이터 불러오기
     loadCouponData();

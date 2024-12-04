@@ -1,11 +1,10 @@
 package kiosk.client;
 
-import kiosk.clientVO.UserVO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class MemberDialog extends JDialog {
 
@@ -35,7 +34,7 @@ public class MemberDialog extends JDialog {
     // 상단 안내 텍스트와 텍스트 필드
     JPanel titlepanel = new JPanel(new BorderLayout());
     JLabel titleLabel = new JLabel("휴대폰 번호를 입력해주세요!", JLabel.CENTER);
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+    titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 30));
     titleLabel.setBorder(BorderFactory.createEmptyBorder(55, 0, 0, 0));
     titlepanel.setBackground(Color.WHITE);
     titlepanel.add(titleLabel, BorderLayout.CENTER);
@@ -43,7 +42,7 @@ public class MemberDialog extends JDialog {
     // 텍스트 필드 패널
     JPanel fieldPanel = new JPanel(new BorderLayout());
     displayField = new JTextField();
-    displayField.setFont(new Font("Arial", Font.PLAIN, 24));
+    displayField.setFont(new Font("맑은 고딕", Font.PLAIN, 24));
     displayField.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
     displayField.setBackground(Color.WHITE);
     displayField.setHorizontalAlignment(JTextField.CENTER);
@@ -68,28 +67,28 @@ public class MemberDialog extends JDialog {
 
     for (int i = 1; i <= 9; i++) {
       String number = String.valueOf(i);
-      JButton numberButton = new JButton(number);
-      numberButton.setFont(new Font("Arial", Font.BOLD, 24));
+      RoundedButton numberButton = new RoundedButton(number);
+      numberButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
       numberButton.setPreferredSize(buttonSize);
       numberButton.addActionListener(e -> appendToDisplay(number));
       buttonPanel.add(numberButton);
     }
 
-    JButton clearAllButton = new JButton("clear");
-    clearAllButton.setFont(new Font("Arial", Font.BOLD, 24));
+    RoundedButton clearAllButton = new RoundedButton("clear");
+    clearAllButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
     clearAllButton.addActionListener(e -> {
       rawPhoneNumber = ""; // 원본 데이터 초기화
       displayField.setText(""); // 텍스트 필드 초기화
     });
     buttonPanel.add(clearAllButton);
 
-    JButton zeroButton = new JButton("0");
-    zeroButton.setFont(new Font("Arial", Font.BOLD, 24));
+    RoundedButton zeroButton = new RoundedButton("0");
+    zeroButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
     zeroButton.addActionListener(e -> appendToDisplay("0"));
     buttonPanel.add(zeroButton);
 
-    JButton backspaceButton = new JButton("<");
-    backspaceButton.setFont(new Font("Arial", Font.BOLD, 24));
+    RoundedButton backspaceButton = new RoundedButton("<");
+    backspaceButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
     backspaceButton.addActionListener(e -> backspaceDisplay());
     buttonPanel.add(backspaceButton);
 
@@ -101,15 +100,15 @@ public class MemberDialog extends JDialog {
     // 하단 버튼
     JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
     southPanel.setBackground(Color.WHITE);
-    cancelBtn = new JButton("취소");
+    cancelBtn = new RoundedButton("취소");
     cancelBtn.setPreferredSize(new Dimension(140, 50));
-    loginBtn = new JButton("확인");
+    loginBtn = new RoundedButton("확인");
     loginBtn.setPreferredSize(new Dimension(140, 50));
 
-    cancelBtn.setFont(new Font("Arial", Font.BOLD, 18));
+    cancelBtn.setFont(new Font("맑은 고딕", Font.BOLD, 18));
     cancelBtn.addActionListener(e -> dispose()); // 다이얼로그 닫기
 
-    loginBtn.setFont(new Font("Arial", Font.BOLD, 18));
+    loginBtn.setFont(new Font("맑은 고딕", Font.BOLD, 18));
     loginBtn.addActionListener(e -> {
       if (validateAndSetPhoneNumber()) {
         getUserContact();
@@ -151,7 +150,6 @@ public class MemberDialog extends JDialog {
       this.phoneNumber = rawNumber; // 유효한 경우 전화번호 저장
       return true;
     } else {
-      JOptionPane.showMessageDialog(this, "유효하지 않은 휴대폰 번호입니다. 다시 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
       rawPhoneNumber = ""; // 원본 데이터도 초기화
       displayField.setText(""); // 텍스트 필드도 초기화
       return false;
@@ -180,14 +178,10 @@ public class MemberDialog extends JDialog {
       mainFrame.userVO = ss.selectOne("client.getMatchedUserInfo", phoneNumber);
       if (mainFrame.userVO != null) {
         String maskedNumber = maskPhoneNumber(mainFrame.userVO.getUserContact());
-        JOptionPane.showMessageDialog(this,
-            "로그인 성공! 주문 화면으로 이동합니다.\n휴대폰 번호: " + maskedNumber,
-            "성공",
-            JOptionPane.INFORMATION_MESSAGE);
+        MemberCustomDialog memberCustomDialog = new MemberCustomDialog(mainFrame, "로그인 성공! 휴대폰 번호: " + maskedNumber, 1);
         this.dispose();
-        mainFrame.switchToOrderScreen();
       } else {
-        JOptionPane.showMessageDialog(this, "존재하지 않는 휴대전화 번호입니다. 다시 입력해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
+        MemberCustomDialog memberCustomDialog = new MemberCustomDialog(mainFrame, "존재하지 않는 휴대전화 번호입니다.", 2);
         rawPhoneNumber = ""; // 번호 초기화
         displayField.setText("");
       }

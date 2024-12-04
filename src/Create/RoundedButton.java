@@ -2,6 +2,7 @@ package Create;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -38,12 +39,11 @@ public class RoundedButton extends JButton {
         addListeners();
     }
 
-    private void decorate() {
+    protected void decorate() {
         setBorderPainted(false);
         setContentAreaFilled(false);
         setFocusPainted(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 커서 변경
-        setOpaque(false); // 배경 투명 설정
     }
 
     private void addListeners() {
@@ -51,17 +51,20 @@ public class RoundedButton extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setForeground(new Color(50, 50, 250)); // Hover 상태 글자색
+                // 마우스가 버튼 위로 올라갔을 때 동작
+                setForeground(new Color(50, 50, 250)); // 글자색 변경 예제
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setForeground(Color.BLACK); // 기본 글자색 복구
+                // 마우스가 버튼에서 벗어났을 때 동작
+                setForeground(Color.BLACK); // 기본 글자색으로 복구
             }
         });
 
         // 클릭 이벤트 처리
         addActionListener(e -> {
+            // 클릭 시 실행할 동작
             System.out.println("RoundedButton clicked: " + getText());
         });
     }
@@ -80,11 +83,11 @@ public class RoundedButton extends JButton {
         Color borderColor;
 
         if (getModel().isPressed()) {
-            gradientStart = new Color(180, 180, 180); // 클릭 상태
+            gradientStart = new Color(180, 180, 180); // 클릭 시
             gradientEnd = new Color(150, 150, 150);
             borderColor = new Color(120, 120, 120);
         } else if (getModel().isRollover()) {
-            gradientStart = new Color(220, 220, 220); // Hover 상태
+            gradientStart = new Color(220, 220, 220); // Hover 시
             gradientEnd = new Color(200, 200, 200);
             borderColor = new Color(160, 160, 160);
         } else {
@@ -93,16 +96,16 @@ public class RoundedButton extends JButton {
             borderColor = new Color(180, 180, 180);
         }
 
-        // 배경 그리기
+        // 그라데이션 배경 그리기
         GradientPaint gradient = new GradientPaint(0, 0, gradientStart, 0, height, gradientEnd);
         graphics.setPaint(gradient);
-        graphics.fillRoundRect(1, 1, width - 2, height - 2, cornerRadius, cornerRadius);
+        graphics.fillRoundRect(0, 0, width, height, cornerRadius, cornerRadius);
 
         // 테두리 그리기
         graphics.setColor(borderColor);
-        graphics.drawRoundRect(1, 1, width - 3, height - 3, cornerRadius, cornerRadius);
+        graphics.drawRoundRect(0, 0, width - 1, height - 1, cornerRadius, cornerRadius);
 
-        // 텍스트 그리기
+        // 글자 그리기
         graphics.setColor(getForeground());
         graphics.setFont(getFont());
         FontMetrics fontMetrics = graphics.getFontMetrics();

@@ -2,6 +2,7 @@ package kiosk.userMenuManagement;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.ibatis.session.SqlSession;
 
+import Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.OrderVO;
 import kiosk.client.MainFrame;
@@ -50,17 +52,26 @@ public class AdminUserOrderListDialog extends JDialog {
 
     // 현재 날짜 초기화
     currentDate = LocalDate.now();
+    
+    //전체패널넣기 
+    JPanel contentPanel = new JPanel(new BorderLayout());
+    contentPanel.setBorder(BorderFactory.createLineBorder(Color.gray, 1)); // 검정색 2픽셀 테두리
 
     topPanel = new JPanel(new BorderLayout());
     JLabel titleLabel = new JLabel("주문내역", JLabel.CENTER);
-    titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 35));
+    titleLabel.setFont(new Font("맑은고딕", Font.PLAIN, 25));
     titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
+    titleLabel.setPreferredSize(new Dimension(460,40));
     topPanel.add(titleLabel, BorderLayout.NORTH);
+    JPanel secondpanle = new JPanel(new BorderLayout());
     JPanel navigationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    prevDayButton = new JButton("<");
+    navigationPanel.setBorder(BorderFactory.createEmptyBorder(0, 80, 0, 0)); // 원하는 여백 조정
+    prevDayButton = new RoundedButton("<");
     dateLabel = new JLabel(currentDate.toString());
-    nextDayButton = new JButton(">");
-    refreshBtn = new JButton("나가기");
+    dateLabel.setFont(new Font(getName(), useridx, useridx));
+    dateLabel.setFont(new Font("맑은고딕", Font.BOLD, 20));
+    nextDayButton = new RoundedButton(">");
+    refreshBtn = new RoundedButton("나가기");
 
     navigationPanel.add(prevDayButton);
     navigationPanel.add(dateLabel);
@@ -68,10 +79,11 @@ public class AdminUserOrderListDialog extends JDialog {
 
     refreshBtn.addActionListener(e -> dispose());
 
-    topPanel.add(navigationPanel, BorderLayout.CENTER); // 가운데 날짜 이동 버튼들
-    topPanel.add(refreshBtn, BorderLayout.EAST); // 오른쪽에 "나가기" 버튼
-    add(topPanel, BorderLayout.NORTH); // 최상단에 상단 패널 추가
-
+    secondpanle.add(navigationPanel, BorderLayout.CENTER); // 가운데 날짜 이동 버튼들
+    secondpanle.add(refreshBtn, BorderLayout.EAST); // 오른쪽에 "나가기" 버튼
+    //add(topPanel, BorderLayout.NORTH); // 최상단에 상단 패널 추가
+    contentPanel.add(topPanel,BorderLayout.NORTH);
+    contentPanel.add(secondpanle,BorderLayout.CENTER);
     prevDayButton.addActionListener(e -> changeDate(-1));
     nextDayButton.addActionListener(e -> changeDate(1));
     refreshBtn.addActionListener(e -> dispose());
@@ -83,10 +95,12 @@ public class AdminUserOrderListDialog extends JDialog {
     scrollPane = new JScrollPane(orderPanel);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
     scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    add(scrollPane, BorderLayout.CENTER);
-
+    //add(scrollPane, BorderLayout.CENTER);
+    scrollPane.setPreferredSize(new Dimension(460,380));
+    contentPanel.add(scrollPane,BorderLayout.SOUTH);
+    add(contentPanel);
     loadOrderData();
-  }
+  } 
 
   private void changeDate(int days) {
     LocalDate newDate = currentDate.plusDays(days);

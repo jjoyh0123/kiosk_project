@@ -15,7 +15,8 @@ public class PaymentPanel extends JPanel {
   private JLabel finalPriceLabel; // 할인 적용 후 주문 금액 표시
   private JLabel discountPriceLabel; // 할인 적용 금액 표시
   private JComboBox<String> couponBox; // 쿠폰 선택
-  private JButton payWithCardButton, payWithKakaoButton, payWithAppleButton, paymentCancelButton; // 결제 수단 버튼
+  private JButton payWithCardButton, payWithKakaoButton, payWithAppleButton;
+  private RoundedButton paymentCancelButton; // 결제 수단 버튼
   private int totalPrice; // 원래 총 금액
   private int finalPrice; // 할인 적용 후 금액
   private int discountPrice;
@@ -41,7 +42,7 @@ public class PaymentPanel extends JPanel {
     titlePanel.setBackground(Color.WHITE);
     titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10)); // 상단 여백
     JLabel titleLabel = new JLabel("결제하기", JLabel.CENTER);
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
+    titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 30));
     titlePanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0));
     titlePanel.add(titleLabel, BorderLayout.CENTER);
     add(titlePanel, BorderLayout.NORTH);
@@ -54,7 +55,7 @@ public class PaymentPanel extends JPanel {
     JPanel couponPanel = new JPanel(new BorderLayout());
     couponPanel.setBackground(Color.WHITE);
     JLabel couponLabel = new JLabel("쿠폰 적용: ");
-    couponLabel.setFont(new Font("Arial", Font.BOLD, 27));
+    couponLabel.setFont(new Font("맑은 고딕", Font.BOLD, 27));
     couponLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
     couponPanel.add(couponLabel, BorderLayout.WEST);
     couponBox = new JComboBox<>();
@@ -63,7 +64,7 @@ public class PaymentPanel extends JPanel {
     couponBox.setPreferredSize(size);
     couponBox.setMaximumSize(size);
     couponBox.setMinimumSize(size);
-    couponBox.setFont(new Font("Arial", Font.PLAIN, 20)); // 폰트 크기 조정
+    couponBox.setFont(new Font("맑은 고딕", Font.PLAIN, 20)); // 폰트 크기 조정
     couponBox.setBackground(Color.WHITE);
     couponBox.addItem("쿠폰을 선택하세요");
 
@@ -122,10 +123,33 @@ public class PaymentPanel extends JPanel {
     JPanel paymentPanel = new JPanel(new GridLayout(1, 3, 10, 10));
     paymentPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
     paymentPanel.setBackground(Color.WHITE);
-    payWithCardButton = new JButton("신용카드/삼성페이");
-    payWithKakaoButton = new JButton("카카오페이");
-    payWithAppleButton = new JButton("애플페이");
-    paymentCancelButton = new JButton("주문취소");
+
+    ImageIcon samsungPayIcon = new ImageIcon(getClass().getResource("/kiosk/static/samsungPay.png"));
+    Image sizeSamsungPayImage = samsungPayIcon.getImage().getScaledInstance(100, 70, Image.SCALE_SMOOTH);
+    ImageIcon sizeSamsungPayIcon = new ImageIcon(sizeSamsungPayImage);
+    payWithCardButton = new JButton("신용카드/삼성페이", sizeSamsungPayIcon);
+    payWithCardButton.setHorizontalTextPosition(SwingConstants.CENTER);
+    payWithCardButton.setVerticalTextPosition(SwingConstants.TOP);
+    payWithCardButton.setIconTextGap(30);
+    payWithCardButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+
+    ImageIcon kakaoPayIcon = new ImageIcon(getClass().getResource("/kiosk/static/kakaoPay.png"));
+    Image sizeKakaoPayImage = kakaoPayIcon.getImage().getScaledInstance(100, 70, Image.SCALE_SMOOTH);
+    ImageIcon sizeKakaoPayIcon = new ImageIcon(sizeKakaoPayImage);
+    payWithKakaoButton = new JButton("카카오페이", sizeKakaoPayIcon);
+    payWithKakaoButton.setHorizontalTextPosition(SwingConstants.CENTER);
+    payWithKakaoButton.setVerticalTextPosition(SwingConstants.TOP);
+    payWithKakaoButton.setIconTextGap(30);
+    payWithKakaoButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+
+    ImageIcon applePayIcon = new ImageIcon(getClass().getResource("/kiosk/static/applePay.png"));
+    Image sizeApplePayImage = applePayIcon.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH);
+    ImageIcon sizeApplePayIcon = new ImageIcon(sizeApplePayImage);
+    payWithAppleButton = new JButton("애플페이", sizeApplePayIcon);
+    payWithAppleButton.setHorizontalTextPosition(SwingConstants.CENTER);
+    payWithAppleButton.setVerticalTextPosition(SwingConstants.TOP);
+    payWithAppleButton.setIconTextGap(20);
+    payWithAppleButton.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 
     payWithCardButton.addActionListener(e -> processPayment("신용카드/삼성페이"));
     payWithKakaoButton.addActionListener(e -> processPayment("카카오페이"));
@@ -146,50 +170,50 @@ public class PaymentPanel extends JPanel {
 
     JPanel totalAndDiscountPanel = new JPanel(new BorderLayout(10, 10));
     totalAndDiscountPanel.setBackground(Color.WHITE);
-    totalPriceLabel = new JLabel("총 결제 금액: ₩" + finalPrice, JLabel.LEFT);
+    totalPriceLabel = new JLabel("총 결제 금액: ₩" + CurrencyFormatter.format(finalPrice), JLabel.LEFT);
     totalPriceLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-    totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 20));
-    discountPriceLabel = new JLabel("총 할인 금액: ₩" + discountPrice, JLabel.RIGHT);
+    totalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+    discountPriceLabel = new JLabel("총 할인 금액: ₩" + CurrencyFormatter.format(discountPrice), JLabel.RIGHT);
     discountPriceLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-    discountPriceLabel.setFont(new Font("Arial", Font.BOLD, 20));
+    discountPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
     totalAndDiscountPanel.add(totalPriceLabel, BorderLayout.WEST);
     totalAndDiscountPanel.add(discountPriceLabel, BorderLayout.EAST);
     bottomPanel.add(totalAndDiscountPanel);
 
     JPanel finalPricePanel = new JPanel(new BorderLayout(10, 10));
     finalPricePanel.setBackground(Color.WHITE);
-    finalPriceLabel = new JLabel("최종 결제 금액: ₩" + finalPrice, JLabel.CENTER);
+    finalPriceLabel = new JLabel("최종 결제 금액: ₩" + CurrencyFormatter.format(finalPrice), JLabel.CENTER);
     finalPricePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-    finalPriceLabel.setFont(new Font("Arial", Font.BOLD, 20));
+    finalPriceLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
     finalPricePanel.add(finalPriceLabel, BorderLayout.EAST);
     bottomPanel.add(finalPricePanel);
 
-    JPanel cancelButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    JPanel cancelButtonPanel = new JPanel();
     cancelButtonPanel.setBackground(Color.WHITE);
-    paymentCancelButton = new JButton("주문취소");
-    paymentCancelButton.setPreferredSize(new Dimension(500, 50));
-    paymentCancelButton.setFont(new Font("Arial", Font.BOLD, 18));
+    paymentCancelButton = new RoundedButton("주문취소");
+    paymentCancelButton.setPreferredSize(new Dimension(300, 50));
+    paymentCancelButton.setFont(new Font("맑은 고딕", Font.BOLD, 18));
     paymentCancelButton.addActionListener(e -> {
       // 커스텀 JDialog 생성
       JDialog dialog = new JDialog((Frame) null, "전체 취소 확인", true); // 모달 Dialog
       dialog.setUndecorated(true); // 창 테두리 제거
       dialog.setBackground(Color.WHITE);
       dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // 창 닫기 버튼 비활성화
-      dialog.setSize(400, 400);
+      dialog.setSize(400, 300);
       dialog.setLocationRelativeTo(null); // 화면 중앙에 표시
 
       // 메시지 패널
       JPanel messagePanel = new JPanel(new BorderLayout());
       messagePanel.setBackground(Color.WHITE);
       JLabel messageLabel = new JLabel("<html>입력하신 모든 내용이 취소됩니다.<br>전체 취소하시겠습니까?</html>", JLabel.CENTER);
-      messageLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+      messageLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
       messagePanel.add(messageLabel, BorderLayout.CENTER);
 
       // 버튼 패널
       JPanel buttonPanel = new JPanel(new FlowLayout());
       buttonPanel.setBackground(Color.WHITE);
-      JButton yesButton = new JButton("예");
-      JButton noButton = new JButton("아니요");
+      JButton yesButton = new RoundedButton("예");
+      JButton noButton = new RoundedButton("아니요");
 
       yesButton.setPreferredSize(new Dimension(190, 40)); // 버튼 크기 조정
       noButton.setPreferredSize(new Dimension(190, 40)); // 버튼 크기 조정
@@ -260,7 +284,6 @@ public class PaymentPanel extends JPanel {
           cartItem.setCouponIdx(selectedCoupon.getCouponIdx());
 
           // 쿠폰 상태를 true로 업데이트
-
         }
       }
       // 최종 금액 계산
@@ -268,11 +291,10 @@ public class PaymentPanel extends JPanel {
     }
 
     // 화면에 업데이트
-    totalPriceLabel.setText("총 결제 금액: ₩" + finalPrice);
-    discountPriceLabel.setText("총 할인 금액: ₩" + discountPrice);
-    finalPriceLabel.setText("최종결제금액: ₩" + finalPrice);
+    totalPriceLabel.setText("총 결제 금액: ₩" + CurrencyFormatter.format(finalPrice));
+    discountPriceLabel.setText("총 할인 금액: ₩" + CurrencyFormatter.format(discountPrice));
+    finalPriceLabel.setText("최종결제금액: ₩" + CurrencyFormatter.format(finalPrice));
   }
-
 
   // 결제 처리
   private void processPayment(String MethodOfPayment) {
@@ -284,7 +306,6 @@ public class PaymentPanel extends JPanel {
         System.out.println("쿠폰선택안됨");
       }
     }
-
     PaymentDialog dialog = new PaymentDialog(mainFrame, orderPanel, MethodOfPayment, orderPanel.cartItems, selectedCouponIdx, factory);
   }
 

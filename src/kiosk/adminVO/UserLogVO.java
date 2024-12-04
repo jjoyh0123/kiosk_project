@@ -171,6 +171,6 @@ public class UserLogVO {
   public void setLogDate(Date logDate) {
     this.logDate = logDate;
   }
+
+
 }
-
-

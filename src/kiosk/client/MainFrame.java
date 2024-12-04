@@ -1,40 +1,19 @@
 package kiosk.client;
 
-import kiosk.clientVO.CartItem;
-import kiosk.clientVO.OptionVO;
+import kiosk.admin.Admin;
+import kiosk.adminLogin.AdminLoginJDialog;
 import kiosk.clientVO.UserVO;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.io.Reader;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-
-import kiosk.admin.Admin;
-import kiosk.adminLogin.AdminLoginJDialog;
 
 public class MainFrame extends JFrame {
 
@@ -112,19 +91,20 @@ public class MainFrame extends JFrame {
     mainMenuPanel.setLayout(null);
 
     // 버튼 추가
-   RoundedButton userLoginBtn = new RoundedButton("회원 주문");
-    userLoginBtn.setBounds(80, 850, 140, 50);
+    RoundedButton userLoginBtn = new RoundedButton("회원 주문");
+    userLoginBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 24));
+    userLoginBtn.setBounds(50, 850, 200, 70);
     userLoginBtn.addActionListener(e -> new MemberDialog(this, factory)); // OrderDialog 호출
 
-    JButton nonMemberOrderBtn = new JButton("비회원 주문");
-    nonMemberOrderBtn.setBounds(320, 850, 140, 50);
+    RoundedButton nonMemberOrderBtn = new RoundedButton("비회원 주문");
+    nonMemberOrderBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 24));
+    nonMemberOrderBtn.setBounds(290, 850, 200, 70);
     nonMemberOrderBtn.addActionListener(e -> switchToOrderScreen());
 
     mainMenuPanel.add(userLoginBtn);
     mainMenuPanel.add(nonMemberOrderBtn);
 
     return mainMenuPanel;
-
   }
 
   private void dbConnect() {
@@ -162,13 +142,16 @@ public class MainFrame extends JFrame {
   }
 
   private void getMaxDateOrderNumber() {
-    int num = 0;
+    Integer num = 0;
     try (SqlSession ss = factory.openSession()) {
       num = ss.selectOne("client.getMaxOrderNumber");
     } catch (Exception e) {
       e.printStackTrace();
     }
-    orderNumber = num + 1;
+    if (num == null) {
+      orderNumber = 1;
+    }
+    orderNumber = 1;
   }
 
   public static void main(String[] args) {
