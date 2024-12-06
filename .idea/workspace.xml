@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c2ede84c-99fd-44a0-a94f-6a002d3c14f0" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/untitled.iml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,19 +76,6 @@
       <recent name="kiosk.admin" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="TeamProject1" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="TeamProject1" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -119,6 +109,9 @@
       <workItem from="1733305534181" duration="149000" />
       <workItem from="1733305689345" duration="112000" />
       <workItem from="1733305904355" duration="621000" />
+      <workItem from="1733306536599" duration="92000" />
+      <workItem from="1733355519077" duration="2362000" />
+      <workItem from="1733361869596" duration="2204000" />
     </task>
     <task id="LOCAL-00001" summary="add intellyJ style">
       <option name="closed" value="true" />
