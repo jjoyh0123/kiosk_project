@@ -185,7 +185,7 @@ public class AdminMenuManagementPanel extends JPanel {
 
         String categoryTest = categoryName + "(" + productCategory + ")";
 
-        adminMenuDetailJDialog detailsFrame = new adminMenuDetailJDialog(mainFrame, productIdx,
+        AdminMenuDetailJDialog detailsFrame = new AdminMenuDetailJDialog(mainFrame, productIdx,
             product.getProductName(), "/kiosk/static/product" + productIdx + ".jpg",
             SwingUtilities.getWindowAncestor(this), product.getProductPrice(), product.getProductCategory(),
             product.isProductRecommendStatus(), product.isProductSaleStatus(), productRegDate // 등록일 추가

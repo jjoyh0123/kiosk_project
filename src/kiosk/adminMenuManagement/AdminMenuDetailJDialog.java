@@ -24,7 +24,7 @@ import Create.RoundedButton;
 import kiosk.adminVO.productVO;
 import kiosk.client.MainFrame;
 
-public class adminMenuDetailJDialog extends JDialog {
+public class AdminMenuDetailJDialog extends JDialog {
   boolean productRecommendStatus;
   boolean productSaleStatus;
   JCheckBox recommendCheckBox;
@@ -34,7 +34,7 @@ public class adminMenuDetailJDialog extends JDialog {
   MainFrame mainFrame;
   Dimension buttonSize;
 
-  public adminMenuDetailJDialog(MainFrame mainFrame, int productIdx, String productName, String imagePath,
+  public AdminMenuDetailJDialog(MainFrame mainFrame, int productIdx, String productName, String imagePath,
                                 Window parent, int productPrice, int productCategory, boolean productRecommendStatus, boolean productSaleStatus,
                                 String productRegDate) {
     super(parent, "상품 상세", ModalityType.APPLICATION_MODAL);
@@ -108,7 +108,7 @@ public class adminMenuDetailJDialog extends JDialog {
 
     saveButton.addActionListener(e -> {
       updateProductStatus();
-      JOptionPane.showMessageDialog(adminMenuDetailJDialog.this, "저장되었습니다!");
+      JOptionPane.showMessageDialog(AdminMenuDetailJDialog.this, "저장되었습니다!");
       dispose();
     });
 
