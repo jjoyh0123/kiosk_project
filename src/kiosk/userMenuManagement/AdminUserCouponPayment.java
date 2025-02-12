@@ -18,11 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 
 import org.apache.ibatis.session.SqlSession;
 
-import Create.RoundedButton;
+import kiosk.Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.CouponSettingVO;
 import kiosk.adminVO.CouponVO;

@@ -5,14 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2ede84c-99fd-44a0-a94f-6a002d3c14f0" name="변경" comment="Edit README.md">
+      <change afterPath="$PROJECT_DIR$/src/kiosk/client/MainPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kiosk/preset/Preset.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi" beforeDir="false" afterPath="$PROJECT_DIR$/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/production/TeamProject1/kiosk/mapper/client.xml" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/TeamProject1/kiosk/mapper/client.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Create/RoundedButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/Create/RoundedButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/adminCouponManagement/AdminCouponDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminCouponManagement/AdminCouponDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/adminLogin/AdminLoginJDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminLogin/AdminLoginJDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/adminMenuManagement/AdminMenuDetailJDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminMenuManagement/AdminMenuDetailJDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/kiosk/adminMenuManagement/AdminMenuManagementPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminMenuManagement/AdminMenuManagementPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/kiosk/adminMenuManagement/adminMenuDetailJDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminMenuManagement/AdminMenuDetailJDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/adminOrderManagement/AdminOrderList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminOrderManagement/AdminOrderList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/adminUserLogManagement/AdminUserLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminUserLogManagement/AdminUserLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/adminUserLogManagement/AdminUserSeachDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/adminUserLogManagement/AdminUserSeachDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/client/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/client/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/client/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/client/MemberDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/client/RoundedButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/client/RoundedButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/mapper/client.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/mapper/client.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserContactSearchJdialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserContactSearchJdialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserCouponPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserCouponPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserCouponViewDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserCouponViewDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserManagementPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserManagementPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserOrderListDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserOrderListDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserSettlementDayDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserSettlementDayDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserSettlementPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/kiosk/userMenuManagement/AdminUserSettlementPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -53,7 +81,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;refactor&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Code/TeamProject1&quot;,
@@ -114,6 +142,9 @@
       <workItem from="1733461586092" duration="4561000" />
       <workItem from="1733467649691" duration="5000" />
       <workItem from="1733469011039" duration="106000" />
+      <workItem from="1733788926225" duration="4710000" />
+      <workItem from="1733793790678" duration="19624000" />
+      <workItem from="1733874483131" duration="41000" />
     </task>
     <task id="LOCAL-00001" summary="add intellyJ style">
       <option name="closed" value="true" />
@@ -157,5 +188,10 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/TeamProject1$MainFrame.ic" NAME="MainFrame 커버리지 결과" MODIFIED="1733826018846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>kiosk.client.*</FILTER>
+    </SUITE>
   </component>
 </project>

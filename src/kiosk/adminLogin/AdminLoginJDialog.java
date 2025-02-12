@@ -1,6 +1,6 @@
 package kiosk.adminLogin;
 
-import Create.RoundedButton;
+import kiosk.Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.AdminVO;
 import kiosk.client.MainFrame;

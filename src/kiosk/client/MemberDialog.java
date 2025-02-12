@@ -1,75 +1,62 @@
 package kiosk.client;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MemberDialog extends JDialog {
-
   private JTextField displayField;
-  private JButton cancelBtn, loginBtn;
-  private SqlSessionFactory factory;
 
   private String phoneNumber; // 입력된 전화번호 저장
   private String rawPhoneNumber = ""; // 원본 전화번호를 저장
 
   private MainFrame mainFrame;
 
-  public MemberDialog(MainFrame mainFrame, SqlSessionFactory factory) {
-    super(mainFrame, "휴대폰 번호 입력", true);
+  public MemberDialog(MainFrame mainFrame) {
+    super(mainFrame, "", true);
 
-    // 전달받은 factory 저장
-    this.factory = factory;
     this.mainFrame = mainFrame;
 
-    // 다이얼로그 기본 설정
-    this.setSize(400, 700);
-    this.setLocationRelativeTo(null);
-    this.setResizable(false);
-    this.setUndecorated(true);
-    setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    setSize(400, 700);
+    setLocationRelativeTo(mainFrame);
+    setUndecorated(true);
 
-    // 상단 안내 텍스트와 텍스트 필드
-    JPanel titlepanel = new JPanel(new BorderLayout());
-    JLabel titleLabel = new JLabel("휴대폰 번호를 입력해주세요!", JLabel.CENTER);
+
+    /* Title panel */
+    JLabel titleLabel = new JLabel("<html>휴대폰 번호를<br>입력해주세요!</html>", JLabel.CENTER);
     titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 30));
-    titleLabel.setBorder(BorderFactory.createEmptyBorder(55, 0, 0, 0));
-    titlepanel.setBackground(Color.WHITE);
-    titlepanel.add(titleLabel, BorderLayout.CENTER);
+    titleLabel.setBorder(BorderFactory.createEmptyBorder(40, 0, 10, 0));
 
-    // 텍스트 필드 패널
-    JPanel fieldPanel = new JPanel(new BorderLayout());
     displayField = new JTextField();
     displayField.setFont(new Font("맑은 고딕", Font.PLAIN, 24));
-    displayField.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+    displayField.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
     displayField.setBackground(Color.WHITE);
     displayField.setHorizontalAlignment(JTextField.CENTER);
     displayField.setEditable(false);
     displayField.setPreferredSize(new Dimension(400, 50));
-    fieldPanel.add(displayField, BorderLayout.CENTER);
 
-    JPanel northPanel = new JPanel(new BorderLayout());
-    northPanel.setPreferredSize(new Dimension(400, 200));
-    northPanel.setBackground(Color.WHITE);
-    northPanel.add(titlepanel, BorderLayout.NORTH);
-    northPanel.add(fieldPanel, BorderLayout.SOUTH);
+    JPanel titlePanel = new JPanel();
+    titlePanel.setLayout(new BorderLayout());
+    titlePanel.setBackground(Color.WHITE);
+    titlePanel.add(titleLabel, BorderLayout.NORTH);
+    titlePanel.add(Box.createVerticalStrut(10), BorderLayout.CENTER);
+    titlePanel.add(displayField, BorderLayout.SOUTH);
+
+
 
     // 키패드 버튼
     JPanel buttonPanel = new JPanel(new GridLayout(4, 3, 5, 5));
-    buttonPanel.setBorder(BorderFactory.createEmptyBorder(55, 0, 0, 0));
-    buttonPanel.setBackground(Color.WHITE);
-    buttonPanel.setPreferredSize(new Dimension(300, 400));
+    buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+    buttonPanel.setBackground(Color.BLUE);
+    // buttonPanel.setPreferredSize(new Dimension(300, 400));
 
-    // 버튼 크기 조정
-    Dimension buttonSize = new Dimension(80, 80);
 
     for (int i = 1; i <= 9; i++) {
       String number = String.valueOf(i);
       RoundedButton numberButton = new RoundedButton(number);
       numberButton.setFont(new Font("맑은 고딕", Font.BOLD, 24));
-      numberButton.setPreferredSize(buttonSize);
+      numberButton.setPreferredSize(new Dimension(80, 80));
       numberButton.addActionListener(e -> appendToDisplay(number));
       buttonPanel.add(numberButton);
     }
@@ -94,15 +81,15 @@ public class MemberDialog extends JDialog {
 
     // 키패드 패널을 담는 상위 패널
     JPanel buttonContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)); // 중앙 정렬
-    buttonContainer.setBackground(Color.WHITE);
+    buttonContainer.setBackground(Color.RED);
     buttonContainer.add(buttonPanel);
 
     // 하단 버튼
     JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
     southPanel.setBackground(Color.WHITE);
-    cancelBtn = new RoundedButton("취소");
+    JButton cancelBtn = new RoundedButton("취소");
     cancelBtn.setPreferredSize(new Dimension(140, 50));
-    loginBtn = new RoundedButton("확인");
+    JButton loginBtn = new RoundedButton("확인");
     loginBtn.setPreferredSize(new Dimension(140, 50));
 
     cancelBtn.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -118,11 +105,14 @@ public class MemberDialog extends JDialog {
     southPanel.add(cancelBtn);
     southPanel.add(loginBtn);
 
+
+
     // 패널 추가
     setLayout(new BorderLayout());
-    add(northPanel, BorderLayout.NORTH);
+    // add(northPanel, BorderLayout.NORTH);
     add(buttonContainer, BorderLayout.CENTER);
     add(southPanel, BorderLayout.SOUTH);
+    add(titlePanel, BorderLayout.NORTH);
 
     setVisible(true);
   }
@@ -174,7 +164,7 @@ public class MemberDialog extends JDialog {
 
   // DB에서 사용자 정보 조회
   private void getUserContact() {
-    try (SqlSession ss = factory.openSession()) {
+    try (SqlSession ss = mainFrame.factory.openSession()) {
       mainFrame.userVO = ss.selectOne("client.getMatchedUserInfo", phoneNumber);
       if (mainFrame.userVO != null) {
         String maskedNumber = maskPhoneNumber(mainFrame.userVO.getUserContact());

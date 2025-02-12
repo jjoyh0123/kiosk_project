@@ -2,9 +2,7 @@ package kiosk.adminUserLogManagement;
 
 import javax.swing.*;
 
-import Create.RoundedButton;
-import kiosk.admin.Admin;
-import kiosk.client.MainFrame;
+import kiosk.Create.RoundedButton;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;

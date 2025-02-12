@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 
 import org.apache.ibatis.session.SqlSession;
 
-import Create.RoundedButton;
+import kiosk.Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.CouponVO;
 import kiosk.client.MainFrame;

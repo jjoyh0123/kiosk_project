@@ -4,6 +4,14 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="client">
 
+  <select id="getMaxOrderNumber" resultType="Int">
+    SELECT distinct orderNumber
+    FROM `order`
+    WHERE DATE(orderDate) = CURRENT_DATE
+    ORDER BY orderNumber DESC
+    LIMIT 1
+  </select>
+
   <!-- 전화번호와 맞는 유저 한명의 정보 가져오기 -->
   <select id="getMatchedUserInfo" parameterType="String" resultType="kiosk.clientVO.UserVO">
     SELECT *
@@ -58,13 +66,5 @@
     WHERE couponIdx = #{couponIdx}
     AND couponStatus = 0;
   </update>
-
-  <select id="getMaxOrderNumber" resultType="Int">
-    SELECT distinct orderNumber
-    FROM `order`
-    WHERE DATE(orderDate) = CURRENT_DATE
-    ORDER BY orderNumber DESC
-    LIMIT 1
-  </select>
 
 </mapper>

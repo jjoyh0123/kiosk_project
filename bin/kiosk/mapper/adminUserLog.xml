@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="searchUserData">
+
+	<!-- 회원 데이터 조회 쿼리 -->
+	<select id="getUserData" parameterType="String"
+		resultType="kiosk.adminVO.UserLogVO">
+		SELECT
+		u.userIdx,
+		u.userContact,
+		l.logGrade,
+		l.logDate,
+		l.logTop1ProductIdx,
+		p1.productName AS top1ProductName,
+		l.logTop2ProductIdx,
+		p2.productName AS top2ProductName,
+		l.logTop3ProductIdx,
+		p3.productName AS top3ProductName
+		FROM
+		userLog l
+		INNER JOIN `user` u ON u.userIdx = l.userIdx
+		LEFT JOIN product p1 ON
+		l.logTop1ProductIdx = p1.productIdx
+		LEFT JOIN product p2 ON
+		l.logTop2ProductIdx = p2.productIdx
+		LEFT JOIN product p3 ON
+		l.logTop3ProductIdx = p3.productIdx;
+
+	</select>
+
+	<select id="getUserData2" parameterType="String"
+		resultType="kiosk.adminVO.UserLogVO">
+		SELECT
+		u.userIdx,
+		u.userContact,
+		l.logTop1ProductOrderCount,
+		l.logTop1ProductExpense,
+		l.logTop1CouponUsage,
+		l.logGrade,
+		l.logDate,
+		l.logTop1ProductIdx,
+		p1.productName AS top1ProductName,
+		l.logTop2ProductIdx,
+		p2.productName AS top2ProductName,
+		l.logTop3ProductIdx,
+		p3.productName AS top3ProductName
+		FROM
+		userLog l
+		INNER JOIN `user` u ON u.userIdx = l.userIdx
+		LEFT JOIN product p1 ON
+		l.logTop1ProductIdx = p1.productIdx
+		LEFT JOIN product p2 ON
+		l.logTop2ProductIdx = p2.productIdx
+		LEFT JOIN product p3 ON
+		l.logTop3ProductIdx = p3.productIdx
+		WHERE
+		l.logDate >= DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH) AND
+		l.logDate &lt; CONCAT(#{yearMonth}, '-01')
+	</select>
+
+
+	<select id="searchByNumber" parameterType="String"
+		resultType="kiosk.adminVO.UserLogVO">
+
+		SELECT
+		u.userIdx,
+		u.userContact,
+		l.logTop1ProductOrderCount,
+		l.logTop1ProductExpense,
+		l.logTop1CouponUsage,
+		l.logGrade,
+		l.logDate,
+		l.logTop1ProductIdx,
+		p1.productName AS top1ProductName,
+		l.logTop2ProductIdx,
+		p2.productName AS top2ProductName,
+		l.logTop3ProductIdx,
+		p3.productName AS top3ProductName
+		FROM
+		userLog l
+		INNER JOIN `user` u ON u.userIdx = l.userIdx
+		LEFT JOIN product p1 ON
+		l.logTop1ProductIdx = p1.productIdx
+		LEFT JOIN product p2 ON
+		l.logTop2ProductIdx = p2.productIdx
+		LEFT JOIN product p3 ON
+		l.logTop3ProductIdx = p3.productIdx
+		WHERE userContact LIKE CONCAT('%',#{number});
+	</select>
+
+</mapper>

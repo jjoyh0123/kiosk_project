@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.ibatis.session.SqlSession;
 
-import Create.RoundedButton;
+import kiosk.Create.RoundedButton;
 import kiosk.admin.Admin;
 import kiosk.adminVO.OrderVO;
 import kiosk.client.MainFrame;

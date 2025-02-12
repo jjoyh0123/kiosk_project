@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.ibatis.session.SqlSession;
 
-import Create.RoundedButton;
+import kiosk.Create.RoundedButton;
 import kiosk.adminVO.productVO;
 import kiosk.client.MainFrame;
 
