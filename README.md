@@ -34,4 +34,9 @@
 - `src/kiosk/*` → 관리자/클라이언트 기능별 Java 클래스 패키지  
 - `static/` → UI용 이미지 리소스  
 
+---
+
+## 🖼️ Architecture Diagram
+사용자와 관리자가 각각 웹 화면을 통해 요청을 보내면,  
+Controller → Service Layer → Mapper → Database 순으로 동작합니다.  
 
